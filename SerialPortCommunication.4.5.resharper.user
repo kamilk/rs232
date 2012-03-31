@@ -1,0 +1,209 @@
+<Configuration>
+  <SettingsComponent>
+    <string />
+    <integer />
+    <boolean>
+      <setting name="SolutionAnalysisEnabled">True</setting>
+    </boolean>
+  </SettingsComponent>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <RecentFiles>
+    <RecentFiles>
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/d:Properties/f:Settings.Designer.cs" caret="441" fromTop="11" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/d:Properties/f:AssemblyInfo.cs" caret="424" fromTop="9" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:app.config" caret="0" fromTop="0" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:Settings.cs" caret="0" fromTop="0" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:Program.cs" caret="13" fromTop="0" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:Main.Designer.cs" caret="16684" fromTop="367" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:Main.cs" caret="3305" fromTop="16" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="7102" fromTop="0" />
+    </RecentFiles>
+    <RecentEdits>
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:Main.cs" caret="3484" fromTop="16" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:Main.cs" caret="4021" fromTop="32" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="11994" fromTop="28" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="11770" fromTop="28" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="979" fromTop="22" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="3372" fromTop="27" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="3763" fromTop="30" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:Main.cs" caret="918" fromTop="28" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:Main.cs" caret="1600" fromTop="34" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:Main.cs" caret="1966" fromTop="31" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:Main.cs" caret="3014" fromTop="23" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="10016" fromTop="29" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="9742" fromTop="18" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="10165" fromTop="32" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="10805" fromTop="21" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="11994" fromTop="21" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="8516" fromTop="29" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="1361" fromTop="17" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="1636" fromTop="30" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="1765" fromTop="27" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="1900" fromTop="27" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="2035" fromTop="27" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="2170" fromTop="30" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="2330" fromTop="23" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="2989" fromTop="28" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="3521" fromTop="18" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="10468" fromTop="6" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="8423" fromTop="19" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:Main.cs" caret="70" fromTop="3" />
+      <File id="67D06A37-B2AC-4147-8108-8A5A0D9DCA19/f:CommunicationManager.cs" caret="4150" fromTop="100" />
+    </RecentEdits>
+  </RecentFiles>
+  <UnitTestRunner>
+    <Providers />
+  </UnitTestRunner>
+  <UnitTestRunnerMSTest>
+    <UseTestRunConfigFromMetadataFile>False</UseTestRunConfigFromMetadataFile>
+  </UnitTestRunnerMSTest>
+  <CompletionStatisticsManager>
+    <ItemStatistics item="Default">
+      <Item value="true" priority="5" />
+      <Item value="false" priority="8" />
+      <Item value="txtSend" priority="1" />
+      <Item value="Region" priority="0" />
+      <Item value="public" priority="3" />
+      <Item value="void" priority="4" />
+      <Item value="comPort" priority="15" />
+      <Item value="DisplayData" priority="0" />
+      <Item value="MessageType" priority="0" />
+      <Item value="DateTimePickerFormat" priority="5" />
+      <Item value="private" priority="5" />
+      <Item value="bool" priority="2" />
+      <Item value="cboPort" priority="1" />
+      <Item value="enable" priority="13" />
+      <Item value="cboBaud" priority="0" />
+      <Item value="cboData" priority="0" />
+      <Item value="cboStop" priority="1" />
+      <Item value="cboParity" priority="0" />
+      <Item value="msgTypeGroupBox" priority="0" />
+      <Item value="ParametersControlsState" priority="1" />
+      <Item value="ClosePort" priority="0" />
+      <Item value="null" priority="1" />
+      <Item value="throw" priority="1" />
+      <Item value="new" priority="11" />
+      <Item value="EventHandler" priority="7" />
+      <Item value="this" priority="2" />
+      <Item value="EventArgs" priority="3" />
+      <Item value="PCComm" priority="3" />
+      <Item value="frmMain" priority="3" />
+      <Item value="Test" priority="0" />
+      <Item value="cmdClose_Click" priority="0" />
+      <Item value="return" priority="3" />
+      <Item value="msg" priority="3" />
+      <Item value="_displayWindow" priority="0" />
+      <Item value="rtbDisplay" priority="0" />
+      <Item value="comm" priority="4" />
+      <Item value="SerialPort" priority="0" />
+      <Item value="if" priority="3" />
+      <Item value="str" priority="1" />
+      <Item value="break" priority="0" />
+      <Item value="WriteData" priority="0" />
+      <Item value="pingButton" priority="2" />
+      <Item value="else" priority="0" />
+      <Item value="isPing" priority="0" />
+      <Item value="TimeSpan" priority="1" />
+      <Item value="DateTime" priority="3" />
+      <Item value="future" priority="3" />
+      <Item value="while" priority="1" />
+      <Item value="threadStart" priority="0" />
+      <Item value="ThreadStart" priority="0" />
+      <Item value="Thread" priority="2" />
+      <Item value="thread" priority="0" />
+      <Item value="backgroundWorker" priority="1" />
+      <Item value="BackgroundWorker" priority="0" />
+      <Item value="received" priority="2" />
+      <Item value="TreeViewImageKeyConverter" priority="0" />
+      <Item value="futere" priority="0" />
+      <Item value="int" priority="4" />
+      <Item value="pingTimeoutValue" priority="1" />
+      <Item value="out" priority="0" />
+      <Item value="timeout" priority="2" />
+      <Item value="try" priority="0" />
+      <Item value="catch" priority="0" />
+      <Item value="pingLabel" priority="0" />
+      <Item value="cmdSend" priority="1" />
+      <Item value="Handshake" priority="3" />
+      <Item value="struct" priority="0" />
+      <Item value="string" priority="4" />
+      <Item value="_handshake" priority="4" />
+      <Item value="value" priority="0" />
+      <Item value="handshake" priority="0" />
+      <Item value="cboHandshake" priority="2" />
+      <Item value="Enum" priority="2" />
+      <Item value="typeof" priority="1" />
+      <Item value="DataBits" priority="0" />
+      <Item value="Environment" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.TextBox">
+      <Item value="Text" priority="1" />
+      <Item value="Enabled" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.IO.Ports.SerialPort">
+      <Item value="Close" priority="0" />
+      <Item value="Handshake" priority="4" />
+      <Item value="DataBits" priority="0" />
+      <Item value="NewLine" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@PCComm.CommunicationManager+MessageType">
+      <Item value="Normal" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.DateTime">
+      <Item value="Now" priority="6" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:PCComm.CommunicationManager">
+      <Item value="ClosePort" priority="0" />
+      <Item value="PortName" priority="0" />
+      <Item value="Handshake" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.ComboBox">
+      <Item value="Enabled" priority="5" />
+      <Item value="Text" priority="1" />
+      <Item value="SelectedIndex" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.GroupBox">
+      <Item value="Enabled" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.EventHandler">
+      <Item value="Invoke" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.EventArgs">
+      <Item value="Empty" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.String">
+      <Item value="ToUpper" priority="0" />
+      <Item value="StartsWith" priority="1" />
+      <Item value="Substring" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.RichTextBox">
+      <Item value="Enabled" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.Button">
+      <Item value="Enabled" priority="4" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.DateTime">
+      <Item value="AddSeconds" priority="1" />
+      <Item value="TimeOfDay" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.ComponentModel.BackgroundWorker">
+      <Item value="RunWorkerAsync" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Int32">
+      <Item value="TryParse" priority="1" />
+      <Item value="Parse" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.Label">
+      <Item value="Enabled" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.String">
+      <Item value="Empty" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Enum">
+      <Item value="Parse" priority="0" />
+      <Item value="GetNames" priority="0" />
+    </ItemStatistics>
+  </CompletionStatisticsManager>
+</Configuration>
