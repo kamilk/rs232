@@ -17,11 +17,11 @@ namespace SerialPortCommunicator.Communicator
 
     public class DataReceivedEventArgs : EventArgs
     {
-        public DataReceivedEventArgs(Message receivedMessage)
+        public DataReceivedEventArgs(ModbusMessage receivedMessage)
         {
             Message = receivedMessage;
         }
-        public Message Message { get; private set; }
+        public ModbusMessage Message { get; private set; }
     }
 
     class CommunicationManager
@@ -49,7 +49,7 @@ namespace SerialPortCommunicator.Communicator
         #region WriteData
         public void WriteData(string msg)
         {
-            Message message = new SerialPortCommunicator.Transceivers.Message(0, 0, msg.SerializedString());
+            ModbusMessage message = new SerialPortCommunicator.Transceivers.ModbusMessage(0, 0, msg.SerializedString());
             try
             {
                 Transceiver.TransmitData(comPort, message);
@@ -100,7 +100,7 @@ namespace SerialPortCommunicator.Communicator
         {
             try
             {
-                Message receivedMessage = Transceiver.DataReceived(comPort);
+                ModbusMessage receivedMessage = Transceiver.DataReceived(comPort);
                 DataReceivedEvent(this, new DataReceivedEventArgs(receivedMessage));
             }
             catch (MessageException ex)

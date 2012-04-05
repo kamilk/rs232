@@ -10,7 +10,7 @@ using SerialPortCommunicator.Properties;
 
 namespace SerialPortCommunicator.GUI
 {
-    class ProgramWindow
+    public class ProgramWindow
     {
         private RichTextBox TextBox { get; set; }
 

@@ -10,6 +10,7 @@ using SerialPortCommunicator.Helpers;
 using SerialPortCommunicator.GUI;
 using SerialPortCommunicator.Properties;
 using SerialPortCommunicator.Transceivers;
+using RS232.Transceivers;
 
 namespace SerialPortCommunicator.Communicator
 {
@@ -49,15 +50,7 @@ namespace SerialPortCommunicator.Communicator
         #region WriteData
         public void WriteData(string msg)
         {
-            Message message = new SerialPortCommunicator.Transceivers.Message(0, 0, msg.SerializedString());
-            try
-            {
-                Transceiver.TransmitData(comPort, message);
-            }
-            catch (MessageException ex)
-            {
-                ProgramWindow.displayMessage("B³¹d przy wysy³aniu wiadomoœci: " + ex.Message, MessageType.Error);
-            }
+            Transceiver.TransmitMessage(comPort, new Message(msg.SerializedString()));
         }
         #endregion
 
@@ -91,22 +84,10 @@ namespace SerialPortCommunicator.Communicator
             ProgramWindow.displayMessage("Port closed at " + DateTime.Now, MessageType.Normal);
         }
 
-        /// <summary>
-        /// method that will be called when theres data waiting in the buffer
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         void ComPortDataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            try
-            {
-                Message receivedMessage = Transceiver.DataReceived(comPort);
-                DataReceivedEvent(this, new DataReceivedEventArgs(receivedMessage));
-            }
-            catch (MessageException ex)
-            {
-                ProgramWindow.displayMessage("B³¹d przy odbieraniu wiadomoœci: " + ex.Message, MessageType.Error);
-            }
+            Message receivedMessage = Transceiver.ReceiveMessage(comPort);
+            DataReceivedEvent(this, new DataReceivedEventArgs(receivedMessage));
         }
 
         public void WaitForResponse(int timeout)

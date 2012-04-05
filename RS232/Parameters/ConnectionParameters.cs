@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO.Ports;
+using RS232.Parameters;
 
 namespace SerialPortCommunicator.Properties
 {
-    class ConnectionParameters
+    public class ConnectionParameters
     {
         public string PortName { get; private set; }
         public Parity Parity { get; private set; }
@@ -13,8 +14,10 @@ namespace SerialPortCommunicator.Properties
         public StopBits StopBits { get; private set; }
         public int BaudRate { get; private set; }
         public int DataBits { get; set; }
+        public EndMarker EndMarker { get; private set; }
+        public XONType XONType { get; private set; }
 
-        public ConnectionParameters(string portName, int baudRate, int dataBitsCount, Parity parity, Handshake handshakeType, StopBits stopBitsType)
+        public ConnectionParameters(string portName, int baudRate, int dataBitsCount, Parity parity, Handshake handshakeType, StopBits stopBitsType, XONType xonType, EndMarker endMarker)
         {
             PortName = portName;
             BaudRate = baudRate;
@@ -22,6 +25,8 @@ namespace SerialPortCommunicator.Properties
             Parity = parity;
             Handshake = handshakeType;
             StopBits = stopBitsType;
+            XONType = xonType;
+            EndMarker = endMarker;
         }
     }
 }

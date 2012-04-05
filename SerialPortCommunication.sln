@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialPortCommunication", "SerialPortCommunication\SerialPortCommunication.csproj", "{67D06A37-B2AC-4147-8108-8A5A0D9DCA19}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MODBUS", "SerialPortCommunication\MODBUS.csproj", "{67D06A37-B2AC-4147-8108-8A5A0D9DCA19}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RS232", "RS232\RS232.csproj", "{4A3250EE-3058-47C5-A82B-7E5084AA3EAF}"
 EndProject

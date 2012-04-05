@@ -8,8 +8,10 @@ using SerialPortCommunicator.GUI;
 using SerialPortCommunicator.Transceivers;
 using SerialPortCommunicator.Helpers;
 using System.Timers;
+using SerialPortCommunicator.Communicator;
+using RS232.Parameters;
 
-namespace SerialPortCommunicator.Communicator
+namespace SerialPortCommunicator.RS232
 {
     public partial class Main : Form
     {
@@ -30,7 +32,6 @@ namespace SerialPortCommunicator.Communicator
         {
             LoadValues();
             SetDefaults();
-            rdoRTU.Checked = true;
             ParametersControlsState(true);
         }
 
@@ -49,13 +50,15 @@ namespace SerialPortCommunicator.Communicator
 
         private void UpdateCommunicationManager()
         {
-            ConnectionParameters parameters = new ConnectionParameters(cboPort.Text, Int16.Parse(cboBaud.Text), Int16.Parse(cboData.Text), (Parity)cboParity.SelectedItem, (Handshake)cboHandshake.SelectedItem, (StopBits)cboStop.SelectedItem);
+            ConnectionParameters parameters = new ConnectionParameters(cboPort.Text, Int16.Parse(cboBaud.Text),
+                Int16.Parse(cboData.Text), (Parity)cboParity.SelectedItem, Handshake.None, (StopBits)cboStop.SelectedItem,
+                ((XONTypeMenuItem) cboXON.SelectedItem).type, ((EndMarkerMenuItem) cboEndMarker.SelectedItem).type);
             ITransceiver transceiver;
-            if (rdoASCII.Checked)
+            /*if (rdoASCII.Checked)
                 transceiver = new AsciiTransceiver();
             else
-                transceiver = new RTUTransceiver();
-            communicationManager = new CommunicationManager(parameters, new ProgramWindow(rtbDisplay), transceiver);
+                transceiver = new RTUTransceiver();*/
+            communicationManager = new CommunicationManager(parameters, new ProgramWindow(rtbDisplay), null);
             communicationManager.DataReceivedEvent += new DataReceivedEventHandler(OnDataReceived);
         }
 
@@ -94,7 +97,6 @@ namespace SerialPortCommunicator.Communicator
             cboParity.SelectedIndex = 0;
             cboStop.SelectedIndex = 1;
             cboData.SelectedIndex = 1;
-            cboHandshake.SelectedIndex = 0;
             pingTimeoutValue.Text = "100";
         }
 
@@ -116,9 +118,9 @@ namespace SerialPortCommunicator.Communicator
             {
                 cboParity.Items.Add(p);
             }
-            foreach (Handshake h in Enum.GetValues(typeof(Handshake)))
+            foreach (XONType x in Enum.GetValues(typeof(XONType)))
             {
-                cboHandshake.Items.Add(h);
+                cboXON.Items.Add(new XONTypeMenuItem(x));
             }
         }
 
@@ -142,9 +144,6 @@ namespace SerialPortCommunicator.Communicator
             cboData.Enabled = enable;
             cboStop.Enabled = enable;
             cboParity.Enabled = enable;
-            cboHandshake.Enabled = enable;
-            msgTypeGroupBox.Enabled = enable;
-            pingTimeoutValue.Enabled = !enable;
             pingLabel.Enabled = !enable;
             cmdOpen.Enabled = enable;
             cmdClose.Enabled = !enable;
@@ -159,7 +158,7 @@ namespace SerialPortCommunicator.Communicator
             cmdSend.Enabled = false;
             communicationManager.WriteData(pingTextQuery);
             pingTimer = new System.Timers.Timer();
-            pingTimer.Interval = int.Parse(pingTimeoutValue.Text);
+            pingTimer.Interval = (int) pingTimeoutValue.Value;
             pingTimer.Elapsed += new ElapsedEventHandler(OnPingTimeout);
             pingTimer.Start();
         }
@@ -190,6 +189,7 @@ namespace SerialPortCommunicator.Communicator
             }));
 
         }
+
 
     }
 }

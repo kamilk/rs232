@@ -7,11 +7,11 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SerialPortCommunicator.Transceivers
 {
-    class AsciiTransceiver : ITransceiver
+    public class AsciiTransceiver : ITransceiver
     {
         byte[] ASCIIChars = { 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70 };
         
-        public Message DataReceived(SerialPort port)
+        public ModbusMessage DataReceived(SerialPort port)
         {
             int bytes = port.BytesToRead;
             byte[] response = new byte[bytes];
@@ -27,12 +27,12 @@ namespace SerialPortCommunicator.Transceivers
 			{
 			     messageContent[i] = HexToByte(response, 5 + i*2);
 			}
-            Message message = new Message(address, function, messageContent);
+            ModbusMessage message = new ModbusMessage(address, function, messageContent);
             ValidateResponse(response, message);
             return message;
         }
 
-        private void ValidateResponse(byte[] response, Message message)
+        private void ValidateResponse(byte[] response, ModbusMessage message)
         {
             if (response[0] != (byte)':')
             {
@@ -49,7 +49,7 @@ namespace SerialPortCommunicator.Transceivers
             }
         }
 
-        public void TransmitData(SerialPort port, Message message)
+        public void TransmitData(SerialPort port, ModbusMessage message)
         {
             //Clear in/out buffers:
             port.DiscardOutBuffer();
@@ -59,7 +59,7 @@ namespace SerialPortCommunicator.Transceivers
             port.Write(ASCIImessage, 0, ASCIImessage.Length);
         }
 
-        private byte[] BuildMessage(Message message)
+        private byte[] BuildMessage(ModbusMessage message)
         {
             MemoryStream memoryStream = new MemoryStream();
             BinaryWriter writer = new BinaryWriter(memoryStream);

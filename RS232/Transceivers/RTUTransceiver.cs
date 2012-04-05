@@ -7,9 +7,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SerialPortCommunicator.Transceivers
 {
-    class RTUTransceiver : ITransceiver
+    public class RTUTransceiver : ITransceiver
     {
-        public Message DataReceived(SerialPort port)
+        public ModbusMessage DataReceived(SerialPort port)
         {
             MemoryStream memoryStream = new MemoryStream();
             BinaryWriter writer = new BinaryWriter(memoryStream);
@@ -29,12 +29,12 @@ namespace SerialPortCommunicator.Transceivers
             byte function = response[1];
             byte[] messageContent = new byte[response.Length - 4];
             Array.Copy(response, 2, messageContent, 0, messageContent.Length);
-            Message message = new Message(address, function, messageContent);
+            ModbusMessage message = new ModbusMessage(address, function, messageContent);
             ValidateResponse(response, message);
             return message;
         }
 
-        private void ValidateResponse(byte[] response, Message message)
+        private void ValidateResponse(byte[] response, ModbusMessage message)
         {
             byte[] CRC = new byte[2];
             CRC[0] = response[response.Length - 2];
@@ -46,7 +46,7 @@ namespace SerialPortCommunicator.Transceivers
             }
         }
 
-        public void TransmitData(SerialPort port, Message message)
+        public void TransmitData(SerialPort port, ModbusMessage message)
         {
             //Clear in/out buffers:
             port.DiscardOutBuffer();
@@ -56,7 +56,7 @@ namespace SerialPortCommunicator.Transceivers
             port.Write(RTUmessage, 0, RTUmessage.Length);
         }
 
-        private byte[] BuildMessage(Message message)
+        private byte[] BuildMessage(ModbusMessage message)
         {
             MemoryStream memoryStream = new MemoryStream();
             BinaryWriter writer = new BinaryWriter(memoryStream);
