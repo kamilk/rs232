@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using SerialPortCommunicator.Properties;
 using System.IO.Ports;
 using SerialPortCommunicator.GUI;
-using SerialPortCommunicator.Transceivers;
+using RS232.Transceivers;
 using SerialPortCommunicator.Helpers;
 using System.Timers;
 using SerialPortCommunicator.Communicator;
@@ -51,14 +51,11 @@ namespace SerialPortCommunicator.RS232
         private void UpdateCommunicationManager()
         {
             ConnectionParameters parameters = new ConnectionParameters(cboPort.Text, Int16.Parse(cboBaud.Text),
-                Int16.Parse(cboData.Text), (Parity)cboParity.SelectedItem, Handshake.None, (StopBits)cboStop.SelectedItem,
+                Int16.Parse(cboData.Text), (Parity)cboParity.SelectedItem, Handshake.RequestToSend, (StopBits)cboStop.SelectedItem,
                 ((XONTypeMenuItem) cboXON.SelectedItem).type, ((EndMarkerMenuItem) cboEndMarker.SelectedItem).type);
-            ITransceiver transceiver;
-            /*if (rdoASCII.Checked)
-                transceiver = new AsciiTransceiver();
-            else
-                transceiver = new RTUTransceiver();*/
-            communicationManager = new CommunicationManager(parameters, new ProgramWindow(rtbDisplay), null);
+
+            ITransceiver transceiver = new Transceiver(new Transmitter(parameters), new Receiver(parameters));
+            communicationManager = new CommunicationManager(parameters, new ProgramWindow(rtbDisplay), transceiver);
             communicationManager.DataReceivedEvent += new DataReceivedEventHandler(OnDataReceived);
         }
 
@@ -97,6 +94,8 @@ namespace SerialPortCommunicator.RS232
             cboParity.SelectedIndex = 0;
             cboStop.SelectedIndex = 1;
             cboData.SelectedIndex = 1;
+            cboXON.SelectedIndex = 0;
+            cboEndMarker.SelectedIndex = 1;
             pingTimeoutValue.Text = "100";
         }
 
@@ -122,6 +121,10 @@ namespace SerialPortCommunicator.RS232
             {
                 cboXON.Items.Add(new XONTypeMenuItem(x));
             }
+            foreach (EndMarker e in Enum.GetValues(typeof(EndMarker)))
+            {
+                cboEndMarker.Items.Add(new EndMarkerMenuItem(e));
+            }
         }
 
         private void cmdSend_Click(object sender, EventArgs e)
@@ -144,6 +147,8 @@ namespace SerialPortCommunicator.RS232
             cboData.Enabled = enable;
             cboStop.Enabled = enable;
             cboParity.Enabled = enable;
+            cboXON.Enabled = enable;
+            cboEndMarker.Enabled = enable;
             pingLabel.Enabled = !enable;
             cmdOpen.Enabled = enable;
             cmdClose.Enabled = !enable;

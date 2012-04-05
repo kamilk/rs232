@@ -30,14 +30,7 @@ namespace RS232.Transceivers
             {
                 if (isXON(port) && (port.BytesToWrite < port.WriteBufferSize))
                 {
-                    if (port.WriteBufferSize - port.BytesToWrite < message.Length)
-                    {
-                        port.Write(message, messageWriteOffset, port.WriteBufferSize - port.BytesToWrite);
-                    }
-                    else
-                    {
-                        port.Write(message, messageWriteOffset, message.Length);
-                    }
+                    port.Write(message, messageWriteOffset, port.WriteBufferSize - port.BytesToWrite);
                     messageWriteOffset += port.WriteBufferSize - port.BytesToWrite;
                 }
             }

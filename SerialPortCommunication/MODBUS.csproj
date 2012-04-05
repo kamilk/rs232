@@ -70,6 +70,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Transceivers\AsciiTransceiver.cs" />
+    <Compile Include="Transceivers\IReceiver.cs" />
+    <Compile Include="Transceivers\ITransceiver.cs" />
+    <Compile Include="Transceivers\ITransmitter.cs" />
+    <Compile Include="Transceivers\Message.cs" />
+    <Compile Include="Transceivers\MessageException.cs" />
+    <Compile Include="Transceivers\Receiver.cs" />
+    <Compile Include="Transceivers\RTUTransceiver.cs" />
+    <Compile Include="Transceivers\Transceiver.cs" />
+    <Compile Include="Transceivers\Transmitter.cs" />
+    <Compile Include="Transceivers\XOFFReceivedException.cs" />
+    <Compile Include="Transceivers\XONReceivedException.cs" />
     <EmbeddedResource Include="Main.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Main.cs</DependentUpon>

@@ -6,7 +6,7 @@ using System.IO.Ports;
 
 namespace RS232.Transceivers
 {
-    public interface ITransmitter
+    interface ITransmitter
     {
         void TransmitData(SerialPort port, byte[] message);
         void SetXOFF();
