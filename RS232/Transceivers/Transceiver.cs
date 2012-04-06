@@ -14,6 +14,7 @@ namespace RS232.Transceivers
         public Transceiver(ITransmitter transmitter, IReceiver receiver)
         {
             Transmitter = transmitter;
+            Receiver = receiver;
         }
 
         public Message ReceiveMessage(SerialPort port)

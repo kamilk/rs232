@@ -5,6 +5,7 @@ using System.Text;
 using System.IO.Ports;
 using SerialPortCommunicator.Properties;
 using RS232.Parameters;
+using System.Diagnostics;
 
 namespace RS232.Transceivers
 {
@@ -26,20 +27,34 @@ namespace RS232.Transceivers
             int messageWriteOffset = 0;
             message = appendEndMarker(message);
 
-            while (messageWriteOffset < message.Length)
+            int bytesLeft = message.Length;
+            Debug.Write(String.Format("> Do wysłania: {0} <\n", bytesLeft));
+
+            while (bytesLeft > 0)
             {
                 if (isXON(port) && (port.BytesToWrite < port.WriteBufferSize))
                 {
-                    if (port.WriteBufferSize - port.BytesToWrite < message.Length)
+                    if (port.WriteBufferSize - port.BytesToWrite < bytesLeft)
                     {
                         port.Write(message, messageWriteOffset, port.WriteBufferSize - port.BytesToWrite);
+                        bytesLeft -= port.WriteBufferSize - port.BytesToWrite;
+                        Debug.Write("> Wysył: ");
+                        Debug.Write(port.WriteBufferSize - port.BytesToWrite);
+                        Debug.Write(" <\n");
                     }
                     else
                     {
-                        port.Write(message, messageWriteOffset, message.Length);
+                        port.Write(message, messageWriteOffset, bytesLeft);
+                        Debug.Write("> wysył: ");
+                        Debug.Write(bytesLeft);
+                        Debug.Write(" <\n");
+                        bytesLeft = 0;
                     }
-                    messageWriteOffset += port.WriteBufferSize - port.BytesToWrite;
                 }
+                else
+                {
+                    Debug.Write("> XOFF <\n");
+                } 
             }
         }
 

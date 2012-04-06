@@ -51,7 +51,7 @@ namespace SerialPortCommunicator.RS232
         private void UpdateCommunicationManager()
         {
             ConnectionParameters parameters = new ConnectionParameters(cboPort.Text, Int16.Parse(cboBaud.Text),
-                Int16.Parse(cboData.Text), (Parity)cboParity.SelectedItem, Handshake.RequestToSend, (StopBits)cboStop.SelectedItem,
+                Int16.Parse(cboData.Text), (Parity)cboParity.SelectedItem, Handshake.None, (StopBits)cboStop.SelectedItem,
                 ((XONTypeMenuItem) cboXON.SelectedItem).type, ((EndMarkerMenuItem) cboEndMarker.SelectedItem).type);
 
             ITransceiver transceiver = new Transceiver(new Transmitter(parameters), new Receiver(parameters));
@@ -94,7 +94,7 @@ namespace SerialPortCommunicator.RS232
             cboParity.SelectedIndex = 0;
             cboStop.SelectedIndex = 1;
             cboData.SelectedIndex = 1;
-            cboXON.SelectedIndex = 0;
+            cboXON.SelectedIndex = 2;
             cboEndMarker.SelectedIndex = 1;
             pingTimeoutValue.Text = "100";
         }

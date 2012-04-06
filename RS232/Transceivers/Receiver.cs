@@ -7,6 +7,7 @@ using SerialPortCommunicator.Properties;
 using System.IO;
 using RS232.Parameters;
 using RS232.Helpers;
+using System.Diagnostics;
 
 namespace RS232.Transceivers
 {
@@ -21,32 +22,38 @@ namespace RS232.Transceivers
         public Receiver(ConnectionParameters parameters)
         {
             Parameters = parameters;
+            PreviousCanAcceptData = true;
+            foo = true;
         }
 
         public byte[] ReceiveData(SerialPort port)
         {
-            port.DiscardInBuffer();
-
+            Debug.WriteLine("hello");
             MemoryStream = new MemoryStream();
             ResponseWriter = new BinaryWriter(MemoryStream);
 
             TransmissionEnded = false;
-            PreviousCanAcceptData = true;
 
             while (!TransmissionEnded)
             {
                 if (canAcceptData(port))
                 {
                     sendXONIfNecessary(port);
-                    readData(port);
                 }
                 else
                 {
                     sendXOFFIfNecessary(port);
                 }
+                readData(port);
             }
 
             return MemoryStream.ToArray();
+        }
+
+        private bool canAcceptData(SerialPort port)
+        {
+            Debug.Write(String.Format("< Do odbioru: {0} >\n", port.BytesToRead));
+            return port.BytesToRead == 0;
         }
 
         private void readData(SerialPort port)
@@ -56,6 +63,7 @@ namespace RS232.Transceivers
                 int bytes = port.BytesToRead;
                 byte[] response = new byte[bytes];
                 port.Read(response, 0, bytes);
+                Debug.Write(String.Format("< Odbiór: {0} >\n", bytes));
                 ResponseWriter.Write(response);
                 if (hasEndMarker(response))
                     TransmissionEnded = true;
@@ -92,6 +100,7 @@ namespace RS232.Transceivers
 
         private void sendXON(SerialPort port)
         {
+            Debug.Write("< Włączam >\n");
             switch (Parameters.XONType)
             {
                 case (XONType.DTRDSR):
@@ -108,6 +117,7 @@ namespace RS232.Transceivers
 
         private void sendXOFF(SerialPort port)
         {
+            Debug.Write("< Wyłączam >\n");
             switch (Parameters.XONType)
             {
                 case (XONType.DTRDSR):
@@ -120,11 +130,6 @@ namespace RS232.Transceivers
                     port.Write(new byte[] { (byte)ControlChars.XOFF }, 0, 1);
                     break;
             }
-        }
-
-        private bool canAcceptData(SerialPort port)
-        {
-            return port.BytesToRead < port.ReadBufferSize;
         }
 
         private bool hasEndMarker(byte[] response)
@@ -141,5 +146,7 @@ namespace RS232.Transceivers
                     return true;
             }
         }
+
+        public bool foo { get; set; }
     }
 }
