@@ -8,6 +8,7 @@ using System.IO;
 using RS232.Parameters;
 using RS232.Helpers;
 using System.Diagnostics;
+using SerialPortCommunicator.Transceivers;
 
 namespace RS232.Transceivers
 {
@@ -15,45 +16,54 @@ namespace RS232.Transceivers
     {
         public ConnectionParameters Parameters { get; set; }
         protected bool TransmissionEnded { get; set; }
-        protected bool PreviousCanAcceptData { get; set; }
         protected MemoryStream MemoryStream { get; set; }
         protected BinaryWriter ResponseWriter { get; set; }
 
         public Receiver(ConnectionParameters parameters)
         {
             Parameters = parameters;
-            PreviousCanAcceptData = true;
-            foo = true;
         }
 
         public byte[] ReceiveData(SerialPort port)
         {
-            Debug.WriteLine("hello");
             MemoryStream = new MemoryStream();
             ResponseWriter = new BinaryWriter(MemoryStream);
 
             TransmissionEnded = false;
 
+            Debug.WriteLine("asdf");
+
             while (!TransmissionEnded)
             {
-                if (canAcceptData(port))
-                {
-                    sendXONIfNecessary(port);
-                }
-                else
-                {
-                    sendXOFFIfNecessary(port);
-                }
                 readData(port);
             }
 
-            return MemoryStream.ToArray();
+            Debug.WriteLine(MemoryStream.ToArray().Length);
+            try
+            {
+                return responseWithoutEndMarker(); ;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                throw new MessageException("Nie znaleziono znacznika końca");
+            }
         }
 
-        private bool canAcceptData(SerialPort port)
+        private byte[] responseWithoutEndMarker()
         {
-            Debug.Write(String.Format("< Do odbioru: {0} >\n", port.BytesToRead));
-            return port.BytesToRead == 0;
+            byte[] response = MemoryStream.ToArray();
+            List<byte> listResponse = response.ToList();
+            switch (Parameters.EndMarker)
+            {
+                case (EndMarker.CR):
+                    return listResponse.GetRange(0, listResponse.IndexOf((byte)ControlChars.CR)).ToArray();
+                case (EndMarker.LF):
+                    return listResponse.GetRange(0, listResponse.IndexOf((byte)ControlChars.LF)).ToArray();
+                case (EndMarker.CRLF):
+                    return listResponse.GetRange(0, listResponse.SubListIndex(0, (new byte[] { (byte)ControlChars.CR, (byte)ControlChars.LF }).ToList())).ToArray();
+                default:
+                    return response;
+            }
         }
 
         private void readData(SerialPort port)
@@ -61,74 +71,12 @@ namespace RS232.Transceivers
             if (port.BytesToRead > 0)
             {
                 int bytes = port.BytesToRead;
+                Debug.WriteLine(port.BytesToRead);
                 byte[] response = new byte[bytes];
                 port.Read(response, 0, bytes);
-                Debug.Write(String.Format("< Odbiór: {0} >\n", bytes));
                 ResponseWriter.Write(response);
                 if (hasEndMarker(response))
                     TransmissionEnded = true;
-                if (hasXOFFCharacter(response))
-                    throw new XOFFReceivedException();
-                if (hasXONCharacter(response))
-                    throw new XONReceivedException();
-            }
-        }
-
-        private bool hasXONCharacter(byte[] response)
-        {
-            return Parameters.XONType == XONType.PROGRAM && response.ToList().Contains((byte)ControlChars.XOFF);
-        }
-
-        private bool hasXOFFCharacter(byte[] response)
-        {
-            return Parameters.XONType == XONType.PROGRAM && response.ToList().Contains((byte)ControlChars.XON);
-        }
-
-        private void sendXOFFIfNecessary(SerialPort port)
-        {
-            if (PreviousCanAcceptData == true)
-                sendXOFF(port);
-            PreviousCanAcceptData = false;
-        }
-
-        private void sendXONIfNecessary(SerialPort port)
-        {
-            if (PreviousCanAcceptData == false)
-                sendXON(port);
-            PreviousCanAcceptData = true;
-        }
-
-        private void sendXON(SerialPort port)
-        {
-            Debug.Write("< Włączam >\n");
-            switch (Parameters.XONType)
-            {
-                case (XONType.DTRDSR):
-                    port.DtrEnable = true;
-                    break;
-                case (XONType.RTSCTS):
-                    port.RtsEnable = true;
-                    break;
-                case (XONType.PROGRAM):
-                    port.Write(new byte[] { (byte)ControlChars.XON }, 0, 1);
-                    break;
-            }
-        }
-
-        private void sendXOFF(SerialPort port)
-        {
-            Debug.Write("< Wyłączam >\n");
-            switch (Parameters.XONType)
-            {
-                case (XONType.DTRDSR):
-                    port.DtrEnable = false;
-                    break;
-                case (XONType.RTSCTS):
-                    port.RtsEnable = false;
-                    break;
-                case (XONType.PROGRAM):
-                    port.Write(new byte[] { (byte)ControlChars.XOFF }, 0, 1);
-                    break;
             }
         }
 
@@ -147,6 +95,5 @@ namespace RS232.Transceivers
             }
         }
 
-        public bool foo { get; set; }
     }
 }

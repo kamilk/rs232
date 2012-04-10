@@ -18,8 +18,9 @@ namespace SerialPortCommunicator.RS232
         private CommunicationManager communicationManager;
         private Boolean waitForPingAnswer { get; set; }
         private System.Timers.Timer pingTimer { get; set; }
-        private string pingTextQuery = "!#@$#%$^%&^*&(*)(_)+";
-        private string pingTextAnswer = "asdfghjk";
+        private string pingQueryPrefix = "!(*^^(&$%*)(!@#";
+        private string pingContent = "";
+        private string pingAnswerPrefix = "!#@$#%$^%&^*&(*)(_)+";
 
         string _transType = string.Empty;
         public Main()
@@ -51,35 +52,12 @@ namespace SerialPortCommunicator.RS232
         private void UpdateCommunicationManager()
         {
             ConnectionParameters parameters = new ConnectionParameters(cboPort.Text, Int16.Parse(cboBaud.Text),
-                Int16.Parse(cboData.Text), (Parity)cboParity.SelectedItem, Handshake.None, (StopBits)cboStop.SelectedItem,
-                ((XONTypeMenuItem) cboXON.SelectedItem).type, ((EndMarkerMenuItem) cboEndMarker.SelectedItem).type);
+                Int16.Parse(cboData.Text), (Parity)cboParity.SelectedItem, ((HandshakeMenuItem) cboHandshake.SelectedItem).type, (StopBits)cboStop.SelectedItem,
+                ((EndMarkerMenuItem) cboEndMarker.SelectedItem).type);
 
             ITransceiver transceiver = new Transceiver(new Transmitter(parameters), new Receiver(parameters));
             communicationManager = new CommunicationManager(parameters, new ProgramWindow(rtbDisplay), transceiver);
             communicationManager.DataReceivedEvent += new DataReceivedEventHandler(OnDataReceived);
-        }
-
-        private void OnDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            if (waitForPingAnswer && e.Message.Data.DeserializedString().Equals(pingTextAnswer))
-            {
-                new ProgramWindow(rtbDisplay).displayMessage("Otrzymano odpowiedü na ping", MessageType.Incoming);
-                cmdSend.Invoke(new EventHandler(delegate
-                {
-                    cmdSend.Enabled = true;
-                }));
-                waitForPingAnswer = false;
-                pingTimer.Stop();
-            }
-            else if (e.Message.Data.DeserializedString().Equals(pingTextQuery))
-            {
-                communicationManager.WriteData(pingTextAnswer);
-                new ProgramWindow(rtbDisplay).displayMessage("Wys≥ano odpowiedü na ping", MessageType.Outgoing);
-            }
-            else
-            {
-                new ProgramWindow(rtbDisplay).displayMessage(e.Message.Data.DeserializedString(), MessageType.Incoming);
-            }
         }
 
         /// <summary>
@@ -89,13 +67,13 @@ namespace SerialPortCommunicator.RS232
         private void SetDefaults()
         {
             if (cboPort.Items.Count > 0)
-                cboPort.SelectedIndex = 1;
+                cboPort.SelectedIndex = 2;
             cboBaud.SelectedIndex = 5;
             cboParity.SelectedIndex = 0;
             cboStop.SelectedIndex = 1;
             cboData.SelectedIndex = 1;
-            cboXON.SelectedIndex = 2;
-            cboEndMarker.SelectedIndex = 1;
+            cboHandshake.SelectedIndex = 2;
+            cboEndMarker.SelectedIndex = 2;
             pingTimeoutValue.Text = "100";
         }
 
@@ -117,9 +95,9 @@ namespace SerialPortCommunicator.RS232
             {
                 cboParity.Items.Add(p);
             }
-            foreach (XONType x in Enum.GetValues(typeof(XONType)))
+            foreach (Handshake h in Enum.GetValues(typeof(Handshake)))
             {
-                cboXON.Items.Add(new XONTypeMenuItem(x));
+                cboHandshake.Items.Add(new HandshakeMenuItem(h));
             }
             foreach (EndMarker e in Enum.GetValues(typeof(EndMarker)))
             {
@@ -147,7 +125,7 @@ namespace SerialPortCommunicator.RS232
             cboData.Enabled = enable;
             cboStop.Enabled = enable;
             cboParity.Enabled = enable;
-            cboXON.Enabled = enable;
+            cboHandshake.Enabled = enable;
             cboEndMarker.Enabled = enable;
             pingLabel.Enabled = !enable;
             cmdOpen.Enabled = enable;
@@ -161,7 +139,8 @@ namespace SerialPortCommunicator.RS232
         {
             waitForPingAnswer = true;
             cmdSend.Enabled = false;
-            communicationManager.WriteData(pingTextQuery);
+            pingContent = txtSend.Text;
+            communicationManager.WriteData(pingQueryPrefix + pingContent);
             pingTimer = new System.Timers.Timer();
             pingTimer.Interval = (int) pingTimeoutValue.Value;
             pingTimer.Elapsed += new ElapsedEventHandler(OnPingTimeout);
@@ -170,31 +149,38 @@ namespace SerialPortCommunicator.RS232
 
         private void OnPingTimeout(object sender, ElapsedEventArgs e)
         {
-            new ProgramWindow(rtbDisplay).displayMessage("Nie otrzymano odpowiedzi na ping", MessageType.Error);
             pingTimer.Stop();
+            new ProgramWindow(rtbDisplay).displayMessage("Nie otrzymano odpowiedzi na ping", MessageType.Error);
             cmdSend.Invoke(new EventHandler(delegate
             {
                 cmdSend.Enabled = true;
             }));
+            waitForPingAnswer = false;
         }
 
-        private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void OnDataReceived(object sender, DataReceivedEventArgs e)
         {
-            int timeout = 10;
-            try
+            if (waitForPingAnswer && e.Message.Data.DeserializedString().Equals(pingAnswerPrefix + pingContent))
             {
-                timeout = int.Parse(pingTimeoutValue.Text);
+                new ProgramWindow(rtbDisplay).displayMessage("Otrzymano odpowiedü na ping", MessageType.Incoming);
+                cmdSend.Invoke(new EventHandler(delegate
+                {
+                    cmdSend.Enabled = true;
+                }));
+                waitForPingAnswer = false;
+                pingTimer.Stop();
             }
-            catch (Exception)
-            { }
-            communicationManager.WaitForResponse(timeout);
-            cmdSend.Invoke(new EventHandler(delegate
+            else if (e.Message.Data.DeserializedString().StartsWith(pingQueryPrefix))
             {
-                Enabled = true;
-            }));
-
+                string query = e.Message.Data.DeserializedString().Substring(pingQueryPrefix.Length);
+                communicationManager.WriteData(pingAnswerPrefix + query);
+                new ProgramWindow(rtbDisplay).displayMessage("Wys≥ano odpowiedü na ping", MessageType.Outgoing);
+            }
+            else
+            {
+                new ProgramWindow(rtbDisplay).displayMessage(e.Message.Data.DeserializedString(), MessageType.Incoming);
+            }
         }
-
 
     }
 }

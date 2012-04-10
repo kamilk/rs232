@@ -48,11 +48,11 @@ namespace SerialPortCommunicator.RS232
             this.pingButton = new System.Windows.Forms.Button();
             this.pingLabel = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.pingTimeoutValue = new System.Windows.Forms.NumericUpDown();
-            this.cboXON = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.cboEndMarker = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cboHandshake = new System.Windows.Forms.ComboBox();
+            this.pingTimeoutValue = new System.Windows.Forms.NumericUpDown();
             this.GroupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -267,13 +267,49 @@ namespace SerialPortCommunicator.RS232
             this.groupBox3.Controls.Add(this.cboEndMarker);
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.label7);
-            this.groupBox3.Controls.Add(this.cboXON);
+            this.groupBox3.Controls.Add(this.cboHandshake);
             this.groupBox3.Location = new System.Drawing.Point(574, 245);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(188, 112);
             this.groupBox3.TabIndex = 12;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Parametry transmisji";
+            // 
+            // cboEndMarker
+            // 
+            this.cboEndMarker.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboEndMarker.FormattingEnabled = true;
+            this.cboEndMarker.Location = new System.Drawing.Point(7, 81);
+            this.cboEndMarker.Name = "cboEndMarker";
+            this.cboEndMarker.Size = new System.Drawing.Size(174, 21);
+            this.cboEndMarker.TabIndex = 6;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(7, 64);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(129, 13);
+            this.label8.TabIndex = 5;
+            this.label8.Text = "Koniec ³añcucha znaków";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(7, 20);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(62, 13);
+            this.label7.TabIndex = 4;
+            this.label7.Text = "XON/XOFF";
+            // 
+            // cboHandshake
+            // 
+            this.cboHandshake.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboHandshake.FormattingEnabled = true;
+            this.cboHandshake.Location = new System.Drawing.Point(6, 36);
+            this.cboHandshake.Name = "cboHandshake";
+            this.cboHandshake.Size = new System.Drawing.Size(175, 21);
+            this.cboHandshake.TabIndex = 3;
             // 
             // pingTimeoutValue
             // 
@@ -291,42 +327,6 @@ namespace SerialPortCommunicator.RS232
             this.pingTimeoutValue.Name = "pingTimeoutValue";
             this.pingTimeoutValue.Size = new System.Drawing.Size(63, 20);
             this.pingTimeoutValue.TabIndex = 13;
-            // 
-            // cboXON
-            // 
-            this.cboXON.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboXON.FormattingEnabled = true;
-            this.cboXON.Location = new System.Drawing.Point(6, 36);
-            this.cboXON.Name = "cboXON";
-            this.cboXON.Size = new System.Drawing.Size(175, 21);
-            this.cboXON.TabIndex = 3;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(7, 20);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(62, 13);
-            this.label7.TabIndex = 4;
-            this.label7.Text = "XON/XOFF";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(7, 64);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(129, 13);
-            this.label8.TabIndex = 5;
-            this.label8.Text = "Koniec ³añcucha znaków";
-            // 
-            // cboEndMarker
-            // 
-            this.cboEndMarker.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboEndMarker.FormattingEnabled = true;
-            this.cboEndMarker.Location = new System.Drawing.Point(7, 81);
-            this.cboEndMarker.Name = "cboEndMarker";
-            this.cboEndMarker.Size = new System.Drawing.Size(174, 21);
-            this.cboEndMarker.TabIndex = 6;
             // 
             // Main
             // 
@@ -382,7 +382,7 @@ namespace SerialPortCommunicator.RS232
         private System.Windows.Forms.ComboBox cboEndMarker;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ComboBox cboXON;
+        private System.Windows.Forms.ComboBox cboHandshake;
         private System.Windows.Forms.NumericUpDown pingTimeoutValue;
     }
 }

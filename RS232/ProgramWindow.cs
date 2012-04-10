@@ -37,6 +37,8 @@ namespace SerialPortCommunicator.GUI
                     TextBox.AppendText(String.Format("{0} <- ", DateTime.Now));
                 if (type == MessageType.Outgoing)
                     TextBox.AppendText(String.Format("{0} -> ", DateTime.Now));
+                if (type == MessageType.Error)
+                    TextBox.AppendText(String.Format("{0}    ", DateTime.Now));
                 TextBox.AppendText(message);
                 if (addNewline)
                     TextBox.AppendText("\n");

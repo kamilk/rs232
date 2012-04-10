@@ -19,20 +19,7 @@ namespace RS232.Transceivers
 
         public Message ReceiveMessage(SerialPort port)
         {
-            try
-            {
-                return new Message(Receiver.ReceiveData(port));
-            }
-            catch (XOFFReceivedException)
-            {
-                Transmitter.SetXOFF();
-                return null;
-            }
-            catch (XONReceivedException)
-            {
-                Transmitter.SetXON();
-                return null;
-            }
+            return new Message(Receiver.ReceiveData(port));
         }
 
         public void TransmitMessage(SerialPort port, Message message)

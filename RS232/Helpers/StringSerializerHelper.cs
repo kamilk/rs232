@@ -5,6 +5,7 @@ using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using SerialPortCommunicator.Transceivers;
+using System.Diagnostics;
 
 namespace SerialPortCommunicator.Helpers
 {
@@ -24,6 +25,7 @@ namespace SerialPortCommunicator.Helpers
         {
             BinaryFormatter bf = new BinaryFormatter();
             MemoryStream ms = new MemoryStream(data);
+            Debug.WriteLine(ms.ToArray().Length);
             try
             {
                 return (string) bf.Deserialize(ms);

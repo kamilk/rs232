@@ -15,9 +15,8 @@ namespace SerialPortCommunicator.Properties
         public int BaudRate { get; private set; }
         public int DataBits { get; set; }
         public EndMarker EndMarker { get; private set; }
-        public XONType XONType { get; private set; }
 
-        public ConnectionParameters(string portName, int baudRate, int dataBitsCount, Parity parity, Handshake handshakeType, StopBits stopBitsType, XONType xonType, EndMarker endMarker)
+        public ConnectionParameters(string portName, int baudRate, int dataBitsCount, Parity parity, Handshake handshakeType, StopBits stopBitsType, EndMarker endMarker)
         {
             PortName = portName;
             BaudRate = baudRate;
@@ -25,7 +24,6 @@ namespace SerialPortCommunicator.Properties
             Parity = parity;
             Handshake = handshakeType;
             StopBits = stopBitsType;
-            XONType = xonType;
             EndMarker = endMarker;
         }
     }

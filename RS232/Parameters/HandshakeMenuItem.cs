@@ -2,18 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO.Ports;
 
 namespace RS232.Parameters
 {
-    public enum XONType
+    public class HandshakeMenuItem
     {
-        PROGRAM, RTSCTS, DTRDSR
-    }
-
-    public class XONTypeMenuItem
-    {
-        public XONType type { get; private set; }
-        public XONTypeMenuItem(XONType type)
+        public Handshake type { get; private set; }
+        public HandshakeMenuItem(Handshake type)
         {
             this.type = type;
         }
@@ -22,12 +18,12 @@ namespace RS232.Parameters
         {
             switch (type)
             {
-                case XONType.PROGRAM:
-                    return "CTRL-S/CTRL-Q";
-                case XONType.DTRDSR:
-                    return "DTR/DSR";
-                case XONType.RTSCTS:
+                case Handshake.RequestToSend:
                     return "RTS/CTR";
+                case Handshake.XOnXOff:
+                    return "CTRL-S/CTRL-Q";
+                case Handshake.RequestToSendXOnXOff:
+                    return "RTS/CTR CTRL-S/CTRL-Q";
                 default:
                     return "Błędny typ";
             }

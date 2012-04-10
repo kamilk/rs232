@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="CommunicationManager.cs" />
     <Compile Include="Helpers\ControlChars.cs" />
+    <Compile Include="Helpers\ListHelper.cs" />
     <Compile Include="Parameters\ConnectionParameters.cs" />
     <Compile Include="Helpers\GUIHelpers.cs" />
     <Compile Include="Helpers\StringSerializerHelper.cs" />
@@ -59,7 +60,7 @@
     </Compile>
     <Compile Include="MessageTypes.cs" />
     <Compile Include="Parameters\EndMarker.cs" />
-    <Compile Include="Parameters\XONType.cs" />
+    <Compile Include="Parameters\HandshakeMenuItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,8 +72,6 @@
     <Compile Include="Transceivers\Receiver.cs" />
     <Compile Include="Transceivers\Transceiver.cs" />
     <Compile Include="Transceivers\Transmitter.cs" />
-    <Compile Include="Transceivers\XOFFReceivedException.cs" />
-    <Compile Include="Transceivers\XONReceivedException.cs" />
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
       <SubType>Designer</SubType>

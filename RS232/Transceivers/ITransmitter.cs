@@ -9,7 +9,5 @@ namespace RS232.Transceivers
     public interface ITransmitter
     {
         void TransmitData(SerialPort port, byte[] message);
-        void SetXOFF();
-        void SetXON();
     }
 }
