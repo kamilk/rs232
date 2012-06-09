@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO.Ports;
-using SerialPortCommunicator.Properties;
-using System.IO;
-using RS232.Parameters;
-using RS232.Helpers;
 using System.Diagnostics;
-using SerialPortCommunicator.Transceivers;
+using System.IO;
+using System.IO.Ports;
+using System.Linq;
+using SerialPortCommunicator.Generics.Transceivers;
+using SerialPortCommunicator.RS232.Helpers;
+using SerialPortCommunicator.RS232.Parameters;
+using SerialPortCommunicator.Generic.Properties;
+using SerialPortCommunicator.Generic.Parameters;
 
-namespace RS232.Transceivers
+namespace SerialPortCommunicator.RS232.Transceivers
 {
     public class Receiver : IReceiver
     {

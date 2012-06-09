@@ -3,21 +3,23 @@ using System.IO.Ports;
 using System.Timers;
 using System.Windows.Forms;
 using SerialPortCommunicator.Generics.Properties;
-using SerialPortCommunicator.Generics.Transceivers;
 using SerialPortCommunicator.GUI;
+using SerialPortCommunicator.Helpers;
+using SerialPortCommunicator.Properties;
 using SerialPortCommunicator.RS232.Communicator;
 using SerialPortCommunicator.RS232.Parameters;
 using SerialPortCommunicator.RS232.Transceivers;
 using SerialPortCommunicator.Generic.Properties;
 using SerialPortCommunicator.Generic.Parameters;
+using SerialPortCommunicator.MODBUS.Transceivers;
+using SerialPortCommunicator.Generics.Transceivers;
 using SerialPortCommunicator.Generic.Communicator;
-using SerialPortCommunicator.Helpers;
 
-namespace SerialPortCommunicator.RS232
+namespace SerialPortCommunicator.MODBUS
 {
     public partial class Main : Form
     {
-        private CommunicationManager communicationManager;
+        private SerialPortCommunicator.MODBUS.Communicator.CommunicationManager communicationManager;
         private Boolean waitForPingAnswer { get; set; }
         private System.Timers.Timer pingTimer { get; set; }
         private string pingQueryPrefix = "!(*^^(&$%*)(!@#";
@@ -57,9 +59,9 @@ namespace SerialPortCommunicator.RS232
                 Int16.Parse(cboData.Text), (Parity)cboParity.SelectedItem, ((HandshakeMenuItem) cboHandshake.SelectedItem).type, (StopBits)cboStop.SelectedItem,
                 ((EndMarkerMenuItem) cboEndMarker.SelectedItem).type);
 
-            ITransceiver<RS232Message> transceiver = new RS232Transceiver(new Transmitter(parameters), new Receiver(parameters));
-            communicationManager = new CommunicationManager(parameters, new ProgramWindow(rtbDisplay), transceiver);
-            communicationManager.DataReceivedEvent += new DataReceivedEventHandler<RS232Message>(OnDataReceived);
+            ITransceiver<RTUMessage> transceiver = new RTUTransceiver(new Transmitter(parameters), new Receiver(parameters));
+            communicationManager = new SerialPortCommunicator.MODBUS.Communicator.CommunicationManager(parameters, new ProgramWindow(rtbDisplay), transceiver);
+            communicationManager.DataReceivedEvent += new DataReceivedEventHandler<RTUMessage>(OnDataReceived);
         }
 
         /// <summary>
@@ -69,7 +71,7 @@ namespace SerialPortCommunicator.RS232
         private void SetDefaults()
         {
             if (cboPort.Items.Count > 0)
-                cboPort.SelectedIndex = 1;
+                cboPort.SelectedIndex = 2;
             cboBaud.SelectedIndex = 5;
             cboParity.SelectedIndex = 0;
             cboStop.SelectedIndex = 1;
@@ -160,7 +162,7 @@ namespace SerialPortCommunicator.RS232
             waitForPingAnswer = false;
         }
 
-        private void OnDataReceived(object sender, DataReceivedEventArgs<RS232Message> e)
+        private void OnDataReceived(object sender, DataReceivedEventArgs<RTUMessage> e)
         {
             if (waitForPingAnswer && e.Message.BinaryData.DeserializedString().Equals(pingAnswerPrefix + pingContent))
             {

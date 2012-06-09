@@ -1,0 +1,35 @@
+﻿using System.Diagnostics;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using SerialPortCommunicator.Generics.Transceivers;
+
+namespace SerialPortCommunicator.Helpers
+{
+    public static class StringSerializerHelper
+    {
+        public static byte[] SerializedString(this string text)
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            MemoryStream ms = new MemoryStream();
+            bf.Serialize(ms, text);
+            ms.Seek(0, 0);
+
+            return ms.ToArray();
+        }
+
+        public static string DeserializedString(this byte[] data)
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            MemoryStream ms = new MemoryStream(data);
+            Debug.WriteLine(ms.ToArray().Length);
+            try
+            {
+                return (string) bf.Deserialize(ms);
+            }
+            catch(System.Runtime.Serialization.SerializationException)
+            {
+                throw new MessageException("Nie udało się odczytać wiadomości");
+            }
+        }
+    }
+}
