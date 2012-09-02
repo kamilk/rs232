@@ -24,6 +24,8 @@ namespace SerialPortCommunicator.RS232.Parameters
                     return "CTRL-S/CTRL-Q";
                 case Handshake.RequestToSendXOnXOff:
                     return "RTS/CTR CTRL-S/CTRL-Q";
+                case Handshake.None:
+                    return "None";
                 default:
                     return "Błędny typ";
             }

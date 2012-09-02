@@ -84,7 +84,8 @@ namespace SerialPortCommunicator.Generic.Communicator
 
         protected void fireDataReceivedEvent(TMessage receivedMessage)
         {
-            DataReceivedEvent(this, new DataReceivedEventArgs<TMessage>(receivedMessage));
+            if (DataReceivedEvent != null)
+                DataReceivedEvent(this, new DataReceivedEventArgs<TMessage>(receivedMessage));
         }
 
     }

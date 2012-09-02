@@ -53,8 +53,13 @@ namespace SerialPortCommunicator.RS232
 
         private void UpdateCommunicationManager()
         {
-            ConnectionParameters parameters = new ConnectionParameters(cboPort.Text, Int16.Parse(cboBaud.Text),
-                Int16.Parse(cboData.Text), (Parity)cboParity.SelectedItem, ((HandshakeMenuItem) cboHandshake.SelectedItem).type, (StopBits)cboStop.SelectedItem,
+            ConnectionParameters parameters = new ConnectionParameters(
+                cboPort.Text, 
+                Int32.Parse(cboBaud.Text),
+                Int32.Parse(cboData.Text), 
+                (Parity)cboParity.SelectedItem, 
+                ((HandshakeMenuItem) cboHandshake.SelectedItem).type, 
+                (StopBits)cboStop.SelectedItem,
                 ((EndMarkerMenuItem) cboEndMarker.SelectedItem).type);
 
             ITransceiver<RS232Message> transceiver = new RS232Transceiver(new Transmitter(parameters), new Receiver(parameters));
@@ -180,9 +185,8 @@ namespace SerialPortCommunicator.RS232
             }
             else
             {
-                new ProgramWindow(rtbDisplay).displayMessage(e.Message.BinaryData.DeserializedString(), MessageType.Incoming);
+                new ProgramWindow(rtbDisplay).displayMessage(e.Message.MessageString, MessageType.Incoming);
             }
         }
-
     }
 }

@@ -17,7 +17,7 @@ namespace SerialPortCommunicator.RS232.Transceivers
         public RS232Message(byte[] data)
         {
             BinaryData = data;
-            MessageString = data.DeserializedString();
+            MessageString = data.DeserializedString().Replace("\n", "<LF>").Replace("\r", "<CR>");
         }
 
         public RS232Message(string messageString)
