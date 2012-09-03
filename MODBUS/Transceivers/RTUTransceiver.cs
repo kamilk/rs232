@@ -2,7 +2,7 @@
 using System.IO.Ports;
 using SerialPortCommunicator.Generics.Transceivers;
 
-namespace SerialPortCommunicator.MODBUS.Transceivers
+namespace SerialPortCommunicator.Modbus.Transceivers
 {
     public class RTUTransceiver : ITransceiver<RTUMessage>
     {

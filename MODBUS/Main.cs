@@ -5,21 +5,20 @@ using System.Windows.Forms;
 using SerialPortCommunicator.Generics.Properties;
 using SerialPortCommunicator.GUI;
 using SerialPortCommunicator.Helpers;
-using SerialPortCommunicator.Properties;
 using SerialPortCommunicator.RS232.Communicator;
 using SerialPortCommunicator.RS232.Parameters;
 using SerialPortCommunicator.RS232.Transceivers;
 using SerialPortCommunicator.Generic.Properties;
 using SerialPortCommunicator.Generic.Parameters;
-using SerialPortCommunicator.MODBUS.Transceivers;
+using SerialPortCommunicator.Modbus.Transceivers;
 using SerialPortCommunicator.Generics.Transceivers;
 using SerialPortCommunicator.Generic.Communicator;
 
-namespace SerialPortCommunicator.MODBUS
+namespace SerialPortCommunicator.Modbus
 {
     public partial class Main : Form
     {
-        private SerialPortCommunicator.MODBUS.Communicator.CommunicationManager communicationManager;
+        private SerialPortCommunicator.Modbus.Communicator.CommunicationManager communicationManager;
         private Boolean waitForPingAnswer { get; set; }
         private System.Timers.Timer pingTimer { get; set; }
         private string pingQueryPrefix = "!(*^^(&$%*)(!@#";
@@ -55,12 +54,37 @@ namespace SerialPortCommunicator.MODBUS
 
         private void UpdateCommunicationManager()
         {
-            ConnectionParameters parameters = new ConnectionParameters(cboPort.Text, Int16.Parse(cboBaud.Text),
-                Int16.Parse(cboData.Text), (Parity)cboParity.SelectedItem, ((HandshakeMenuItem) cboHandshake.SelectedItem).type, (StopBits)cboStop.SelectedItem,
-                ((EndMarkerMenuItem) cboEndMarker.SelectedItem).type);
+            bool isAsciiSelected = asciiRadioButton.Checked;
+            Parity parity;
+            StopBits stopBits;
+
+            if (e1RadioButton.Checked)
+            {
+                parity = Parity.Even;
+                stopBits = StopBits.One;
+            }
+            else if (o1RadioButton.Checked)
+            {
+                parity = Parity.Odd;
+                stopBits = StopBits.One;
+            }
+            else
+            {
+                parity = Parity.None;
+                stopBits = StopBits.Two;
+            }
+
+            ConnectionParameters parameters = new ConnectionParameters(
+                cboPort.Text, 
+                int.Parse(cboBaud.Text),
+                isAsciiSelected ? 7 : 8, 
+                parity, 
+                ((HandshakeMenuItem) cboHandshake.SelectedItem).type, 
+                stopBits,
+                isAsciiSelected ? EndMarker.CRLF : EndMarker.NONE);
 
             ITransceiver<RTUMessage> transceiver = new RTUTransceiver(new Transmitter(parameters), new Receiver(parameters));
-            communicationManager = new SerialPortCommunicator.MODBUS.Communicator.CommunicationManager(parameters, new ProgramWindow(rtbDisplay), transceiver);
+            communicationManager = new SerialPortCommunicator.Modbus.Communicator.CommunicationManager(parameters, new ProgramWindow(rtbDisplay), transceiver);
             communicationManager.DataReceivedEvent += new DataReceivedEventHandler<RTUMessage>(OnDataReceived);
         }
 
@@ -73,16 +97,14 @@ namespace SerialPortCommunicator.MODBUS
             if (cboPort.Items.Count > 0)
                 cboPort.SelectedIndex = 2;
             cboBaud.SelectedIndex = 5;
-            cboParity.SelectedIndex = 0;
-            cboStop.SelectedIndex = 1;
-            cboData.SelectedIndex = 1;
+            asciiRadioButton.Checked = true;
+            rtuRadioButton.Checked = false;
             cboHandshake.SelectedIndex = 2;
-            cboEndMarker.SelectedIndex = 2;
             pingTimeoutValue.Text = "100";
         }
 
         /// <summary>
-        /// methos to load our serial
+        /// methods to load our serial
         /// port option values
         /// </summary>
         private void LoadValues()
@@ -91,21 +113,9 @@ namespace SerialPortCommunicator.MODBUS
             {
                 cboPort.Items.Add(portName);
             }
-            foreach (StopBits sb in Enum.GetValues(typeof(StopBits)))
-            {
-                cboStop.Items.Add(sb);
-            }
-            foreach (Parity p in Enum.GetValues(typeof(Parity)))
-            {
-                cboParity.Items.Add(p);
-            }
             foreach (Handshake h in Enum.GetValues(typeof(Handshake)))
             {
                 cboHandshake.Items.Add(new HandshakeMenuItem(h));
-            }
-            foreach (EndMarker e in Enum.GetValues(typeof(EndMarker)))
-            {
-                cboEndMarker.Items.Add(new EndMarkerMenuItem(e));
             }
         }
 
@@ -126,13 +136,12 @@ namespace SerialPortCommunicator.MODBUS
         {
             cboPort.Enabled = enable;
             cboBaud.Enabled = enable;
-            cboData.Enabled = enable;
-            cboStop.Enabled = enable;
-            cboParity.Enabled = enable;
             cboHandshake.Enabled = enable;
-            cboEndMarker.Enabled = enable;
-            pingLabel.Enabled = !enable;
+            asciiRadioButton.Enabled = enable;
+            rtuRadioButton.Enabled = enable;
             cmdOpen.Enabled = enable;
+
+            pingLabel.Enabled = !enable;
             cmdClose.Enabled = !enable;
             cmdSend.Enabled = !enable;
             pingButton.Enabled = !enable;

@@ -1,10 +1,10 @@
 
-using SerialPortCommunicator.MODBUS.Transceivers;
+using SerialPortCommunicator.Modbus.Transceivers;
 using SerialPortCommunicator.Generic.Properties;
 using SerialPortCommunicator.GUI;
 using SerialPortCommunicator.Generics.Transceivers;
 
-namespace SerialPortCommunicator.MODBUS.Communicator
+namespace SerialPortCommunicator.Modbus.Communicator
 {
     public class CommunicationManager : SerialPortCommunicator.Generic.Communicator.CommunicationManager<RTUMessage>
     {

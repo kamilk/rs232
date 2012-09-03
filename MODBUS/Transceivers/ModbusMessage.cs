@@ -6,7 +6,7 @@ using SerialPortCommunicator.RS232.Transceivers;
 using SerialPortCommunicator.Generics.Transceivers;
 using SerialPortCommunicator.Helpers;
 
-namespace SerialPortCommunicator.MODBUS.Transceivers
+namespace SerialPortCommunicator.Modbus.Transceivers
 {
     public abstract class ModbusMessage: IMessage
     {

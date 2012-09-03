@@ -1,4 +1,4 @@
-namespace SerialPortCommunicator.MODBUS
+namespace SerialPortCommunicator.Modbus
 {
     partial class Main
     {
@@ -28,19 +28,13 @@ namespace SerialPortCommunicator.MODBUS
         /// </summary>
         private void InitializeComponent()
         {
-            this.cboData = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.cmdClose = new System.Windows.Forms.Button();
-            this.cboStop = new System.Windows.Forms.ComboBox();
             this.GroupBox1 = new System.Windows.Forms.GroupBox();
             this.cmdSend = new System.Windows.Forms.Button();
             this.txtSend = new System.Windows.Forms.TextBox();
             this.rtbDisplay = new System.Windows.Forms.RichTextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.cboParity = new System.Windows.Forms.ComboBox();
             this.Label1 = new System.Windows.Forms.Label();
             this.cboBaud = new System.Windows.Forms.ComboBox();
             this.cboPort = new System.Windows.Forms.ComboBox();
@@ -48,47 +42,23 @@ namespace SerialPortCommunicator.MODBUS
             this.pingButton = new System.Windows.Forms.Button();
             this.pingLabel = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.cboEndMarker = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.cboHandshake = new System.Windows.Forms.ComboBox();
             this.pingTimeoutValue = new System.Windows.Forms.NumericUpDown();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.asciiRadioButton = new System.Windows.Forms.RadioButton();
+            this.rtuRadioButton = new System.Windows.Forms.RadioButton();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.o1RadioButton = new System.Windows.Forms.RadioButton();
+            this.e1RadioButton = new System.Windows.Forms.RadioButton();
+            this.n2RadioButton1 = new System.Windows.Forms.RadioButton();
             this.GroupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pingTimeoutValue)).BeginInit();
+            this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // cboData
-            // 
-            this.cboData.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboData.FormattingEnabled = true;
-            this.cboData.Items.AddRange(new object[] {
-            "7",
-            "8",
-            "9"});
-            this.cboData.Location = new System.Drawing.Point(9, 195);
-            this.cboData.Name = "cboData";
-            this.cboData.Size = new System.Drawing.Size(173, 21);
-            this.cboData.TabIndex = 14;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 139);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(53, 13);
-            this.label4.TabIndex = 18;
-            this.label4.Text = "Bity stopu";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 179);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(71, 13);
-            this.label5.TabIndex = 19;
-            this.label5.Text = "Bitów danych";
             // 
             // cmdClose
             // 
@@ -99,15 +69,6 @@ namespace SerialPortCommunicator.MODBUS
             this.cmdClose.Text = "Close Port";
             this.cmdClose.UseVisualStyleBackColor = true;
             this.cmdClose.Click += new System.EventHandler(this.cmdClose_Click);
-            // 
-            // cboStop
-            // 
-            this.cboStop.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboStop.FormattingEnabled = true;
-            this.cboStop.Location = new System.Drawing.Point(9, 155);
-            this.cboStop.Name = "cboStop";
-            this.cboStop.Size = new System.Drawing.Size(173, 21);
-            this.cboStop.TabIndex = 13;
             // 
             // GroupBox1
             // 
@@ -147,31 +108,16 @@ namespace SerialPortCommunicator.MODBUS
             this.rtbDisplay.TabIndex = 3;
             this.rtbDisplay.Text = "";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 98);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 13);
-            this.label3.TabIndex = 17;
-            this.label3.Text = "Parzystoœæ";
-            // 
             // groupBox2
             // 
             this.groupBox2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.cboData);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.cboStop);
-            this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.cboParity);
             this.groupBox2.Controls.Add(this.Label1);
             this.groupBox2.Controls.Add(this.cboBaud);
             this.groupBox2.Controls.Add(this.cboPort);
             this.groupBox2.Location = new System.Drawing.Point(574, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(188, 227);
+            this.groupBox2.Size = new System.Drawing.Size(188, 107);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Parametry po³¹czenia";
@@ -184,15 +130,6 @@ namespace SerialPortCommunicator.MODBUS
             this.label2.Size = new System.Drawing.Size(52, 13);
             this.label2.TabIndex = 16;
             this.label2.Text = "Prêdkoœæ";
-            // 
-            // cboParity
-            // 
-            this.cboParity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboParity.FormattingEnabled = true;
-            this.cboParity.Location = new System.Drawing.Point(9, 114);
-            this.cboParity.Name = "cboParity";
-            this.cboParity.Size = new System.Drawing.Size(173, 21);
-            this.cboParity.TabIndex = 12;
             // 
             // Label1
             // 
@@ -264,34 +201,14 @@ namespace SerialPortCommunicator.MODBUS
             // groupBox3
             // 
             this.groupBox3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.groupBox3.Controls.Add(this.cboEndMarker);
-            this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.cboHandshake);
-            this.groupBox3.Location = new System.Drawing.Point(574, 245);
+            this.groupBox3.Location = new System.Drawing.Point(574, 285);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(188, 112);
+            this.groupBox3.Size = new System.Drawing.Size(188, 64);
             this.groupBox3.TabIndex = 12;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Parametry transmisji";
-            // 
-            // cboEndMarker
-            // 
-            this.cboEndMarker.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboEndMarker.FormattingEnabled = true;
-            this.cboEndMarker.Location = new System.Drawing.Point(7, 81);
-            this.cboEndMarker.Name = "cboEndMarker";
-            this.cboEndMarker.Size = new System.Drawing.Size(174, 21);
-            this.cboEndMarker.TabIndex = 6;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(7, 64);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(129, 13);
-            this.label8.TabIndex = 5;
-            this.label8.Text = "Koniec ³añcucha znaków";
             // 
             // label7
             // 
@@ -328,11 +245,94 @@ namespace SerialPortCommunicator.MODBUS
             this.pingTimeoutValue.Size = new System.Drawing.Size(63, 20);
             this.pingTimeoutValue.TabIndex = 13;
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.rtuRadioButton);
+            this.groupBox4.Controls.Add(this.asciiRadioButton);
+            this.groupBox4.Location = new System.Drawing.Point(574, 125);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(188, 48);
+            this.groupBox4.TabIndex = 14;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Format znaków";
+            // 
+            // asciiRadioButton
+            // 
+            this.asciiRadioButton.AutoSize = true;
+            this.asciiRadioButton.Checked = true;
+            this.asciiRadioButton.Location = new System.Drawing.Point(10, 19);
+            this.asciiRadioButton.Name = "asciiRadioButton";
+            this.asciiRadioButton.Size = new System.Drawing.Size(52, 17);
+            this.asciiRadioButton.TabIndex = 0;
+            this.asciiRadioButton.TabStop = true;
+            this.asciiRadioButton.Text = "ASCII";
+            this.asciiRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // rtuRadioButton2
+            // 
+            this.rtuRadioButton.AutoSize = true;
+            this.rtuRadioButton.Location = new System.Drawing.Point(68, 19);
+            this.rtuRadioButton.Name = "rtuRadioButton2";
+            this.rtuRadioButton.Size = new System.Drawing.Size(48, 17);
+            this.rtuRadioButton.TabIndex = 1;
+            this.rtuRadioButton.Text = "RTU";
+            this.rtuRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox5.Controls.Add(this.n2RadioButton1);
+            this.groupBox5.Controls.Add(this.o1RadioButton);
+            this.groupBox5.Controls.Add(this.e1RadioButton);
+            this.groupBox5.Location = new System.Drawing.Point(574, 179);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(188, 48);
+            this.groupBox5.TabIndex = 15;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Parzystoœæ i bity stopu";
+            // 
+            // o1RadioButton
+            // 
+            this.o1RadioButton.AutoSize = true;
+            this.o1RadioButton.Location = new System.Drawing.Point(54, 19);
+            this.o1RadioButton.Name = "o1RadioButton";
+            this.o1RadioButton.Size = new System.Drawing.Size(39, 17);
+            this.o1RadioButton.TabIndex = 1;
+            this.o1RadioButton.Text = "O1";
+            this.o1RadioButton.UseVisualStyleBackColor = true;
+            // 
+            // e1RadioButton
+            // 
+            this.e1RadioButton.AutoSize = true;
+            this.e1RadioButton.Checked = true;
+            this.e1RadioButton.Location = new System.Drawing.Point(10, 19);
+            this.e1RadioButton.Name = "e1RadioButton";
+            this.e1RadioButton.Size = new System.Drawing.Size(38, 17);
+            this.e1RadioButton.TabIndex = 0;
+            this.e1RadioButton.TabStop = true;
+            this.e1RadioButton.Text = "E1";
+            this.e1RadioButton.UseVisualStyleBackColor = true;
+            // 
+            // n2RadioButton1
+            // 
+            this.n2RadioButton1.AutoSize = true;
+            this.n2RadioButton1.Location = new System.Drawing.Point(97, 19);
+            this.n2RadioButton1.Name = "n2RadioButton1";
+            this.n2RadioButton1.Size = new System.Drawing.Size(39, 17);
+            this.n2RadioButton1.TabIndex = 2;
+            this.n2RadioButton1.Text = "N2";
+            this.n2RadioButton1.UseVisualStyleBackColor = true;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(768, 396);
+            this.Controls.Add(this.groupBox5);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.pingTimeoutValue);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.pingLabel);
@@ -352,6 +352,10 @@ namespace SerialPortCommunicator.MODBUS
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pingTimeoutValue)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -359,19 +363,13 @@ namespace SerialPortCommunicator.MODBUS
 
         #endregion
 
-        private System.Windows.Forms.ComboBox cboData;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button cmdClose;
-        private System.Windows.Forms.ComboBox cboStop;
         private System.Windows.Forms.GroupBox GroupBox1;
         private System.Windows.Forms.Button cmdSend;
         private System.Windows.Forms.TextBox txtSend;
         private System.Windows.Forms.RichTextBox rtbDisplay;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox cboParity;
         private System.Windows.Forms.Label Label1;
         private System.Windows.Forms.ComboBox cboBaud;
         private System.Windows.Forms.ComboBox cboPort;
@@ -379,10 +377,15 @@ namespace SerialPortCommunicator.MODBUS
         private System.Windows.Forms.Button pingButton;
         private System.Windows.Forms.Label pingLabel;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.ComboBox cboEndMarker;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox cboHandshake;
         private System.Windows.Forms.NumericUpDown pingTimeoutValue;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.RadioButton rtuRadioButton;
+        private System.Windows.Forms.RadioButton asciiRadioButton;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.RadioButton n2RadioButton1;
+        private System.Windows.Forms.RadioButton o1RadioButton;
+        private System.Windows.Forms.RadioButton e1RadioButton;
     }
 }

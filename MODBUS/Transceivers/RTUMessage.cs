@@ -3,7 +3,7 @@ using System.IO;
 
 using SerialPortCommunicator.Helpers;
 
-namespace SerialPortCommunicator.MODBUS.Transceivers
+namespace SerialPortCommunicator.Modbus.Transceivers
 {
     public class RTUMessage : ModbusMessage
     {
