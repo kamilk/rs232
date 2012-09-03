@@ -22,8 +22,7 @@ namespace SerialPortCommunicator.Modbus.Transceivers
 
         public ModbusTransceiverBase(ModbusConnectionParameters parameters)
         {
-            //TODO
-            throw new NotImplementedException();
+            rs232Manager = new Rs232CommunicationManager(parameters.GetConnectionParameters());
         }
     }
 }

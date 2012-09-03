@@ -1,5 +1,6 @@
 ﻿using System.IO.Ports;
 using SerialPortCommunicator.Generics.Transceivers;
+using SerialPortCommunicator.Generic.Properties;
 
 namespace SerialPortCommunicator.RS232.Transceivers
 {
@@ -8,10 +9,10 @@ namespace SerialPortCommunicator.RS232.Transceivers
         ITransmitter<RS232Message> Transmitter { get; set; }
         IReceiver<RS232Message> Receiver { get; set; }
 
-        public RS232Transceiver(ITransmitter<RS232Message> transmitter, IReceiver<RS232Message> receiver)
+        public RS232Transceiver(ConnectionParameters parameters)
         {
-            Transmitter = transmitter;
-            Receiver = receiver;
+            Transmitter = new Rs232Transmitter(parameters);
+            Receiver = new Rs232Receiver(parameters);
         }
 
         public RS232Message ReceiveMessage(SerialPort port)

@@ -62,8 +62,7 @@ namespace SerialPortCommunicator.RS232
                 (StopBits)cboStop.SelectedItem,
                 ((EndMarkerMenuItem) cboEndMarker.SelectedItem).type);
 
-            ITransceiver<RS232Message> transceiver = new RS232Transceiver(new Transmitter(parameters), new Receiver(parameters));
-            communicationManager = new Rs232CommunicationManager(parameters, transceiver);
+            communicationManager = new Rs232CommunicationManager(parameters);
             communicationManager.LoggableEventOccurred += new EventHandler<LogEventArgs>(communicationManager_LoggableEventOccurred);
             communicationManager.DataReceivedEvent += OnDataReceived;
         }

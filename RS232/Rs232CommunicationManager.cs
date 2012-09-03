@@ -7,8 +7,8 @@ namespace SerialPortCommunicator.RS232.Communicator
 {
     public class Rs232CommunicationManager : CommunicationManager<RS232Message>
     {
-        public Rs232CommunicationManager(ConnectionParameters connectionParameters, ITransceiver<RS232Message> transceiver)
-            : base(connectionParameters, transceiver)
+        public Rs232CommunicationManager(ConnectionParameters connectionParameters)
+            : base(connectionParameters, new RS232Transceiver(connectionParameters))
         {
         }
 

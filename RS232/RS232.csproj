@@ -58,8 +58,8 @@
     <Compile Include="HandshakeMenuItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Transceivers\Receiver.cs" />
-    <Compile Include="Transceivers\Transmitter.cs" />
+    <Compile Include="Transceivers\Rs232Receiver.cs" />
+    <Compile Include="Transceivers\Rs232Transmitter.cs" />
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
       <SubType>Designer</SubType>

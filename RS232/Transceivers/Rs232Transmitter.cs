@@ -7,11 +7,11 @@ using SerialPortCommunicator.Generics.Transceivers;
 
 namespace SerialPortCommunicator.RS232.Transceivers
 {
-    public class Transmitter : ITransmitter<RS232Message>
+    public class Rs232Transmitter : ITransmitter<RS232Message>
     {
         public ConnectionParameters Parameters { get; set; }
 
-        public Transmitter(ConnectionParameters parameters)
+        public Rs232Transmitter(ConnectionParameters parameters)
         {
             Parameters = parameters;
         }

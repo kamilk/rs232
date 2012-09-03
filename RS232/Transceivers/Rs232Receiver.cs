@@ -12,11 +12,11 @@ using SerialPortCommunicator.Generic.Parameters;
 
 namespace SerialPortCommunicator.RS232.Transceivers
 {
-    public class Receiver : IReceiver<RS232Message>
+    public class Rs232Receiver : IReceiver<RS232Message>
     {
         public ConnectionParameters Parameters { get; set; }
 
-        public Receiver(ConnectionParameters parameters)
+        public Rs232Receiver(ConnectionParameters parameters)
         {
             Parameters = parameters;
         }
