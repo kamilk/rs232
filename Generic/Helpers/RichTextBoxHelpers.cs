@@ -4,17 +4,10 @@ using System.Windows.Forms;
 using SerialPortCommunicator.Generics.Properties;
 using SerialPortCommunicator.Helpers;
 
-namespace SerialPortCommunicator.GUI
+namespace SerialPortCommunicator.Generic.Helpers
 {
-    public class ProgramWindow
+    public static class RichTextBoxHelpers
     {
-        private RichTextBox TextBox { get; set; }
-
-        public ProgramWindow(RichTextBox textBox)
-        {
-            TextBox = textBox;
-        }
-
         /// <summary>
         /// method to display the data to & from the port
         /// on the screen
@@ -22,7 +15,7 @@ namespace SerialPortCommunicator.GUI
         /// <param name="type">MessageType of the message</param>
         /// <param name="msg">Message to display</param>
         [STAThread]
-        public void displayMessage(string message, MessageType type, bool addNewline = true)
+        public static void InvokeDisplayMessage(this RichTextBox TextBox, string message, MessageType type, bool addNewline = true)
         {
             TextBox.Invoke(new EventHandler(delegate
             {

@@ -3,7 +3,6 @@ using System.IO.Ports;
 using System.Timers;
 using System.Windows.Forms;
 using SerialPortCommunicator.Generics.Properties;
-using SerialPortCommunicator.GUI;
 using SerialPortCommunicator.Helpers;
 using SerialPortCommunicator.RS232.Communicator;
 using SerialPortCommunicator.RS232.Parameters;
@@ -11,14 +10,15 @@ using SerialPortCommunicator.RS232.Transceivers;
 using SerialPortCommunicator.Generic.Properties;
 using SerialPortCommunicator.Generic.Parameters;
 using SerialPortCommunicator.Generics.Transceivers;
-using SerialPortCommunicator.Generic.Communicator;
 using SerialPortCommunicator.Modbus.Transceivers;
+using SerialPortCommunicator.Generic;
+using SerialPortCommunicator.Generic.Helpers;
 
 namespace SerialPortCommunicator.Modbus
 {
     public partial class Main : Form
     {
-        private SerialPortCommunicator.Modbus.Communicator.CommunicationManager communicationManager;
+        private ModbusCommunicationManager communicationManager;
         private Boolean waitForPingAnswer { get; set; }
         private System.Timers.Timer pingTimer { get; set; }
         private string pingQueryPrefix = "!(*^^(&$%*)(!@#";
@@ -43,50 +43,30 @@ namespace SerialPortCommunicator.Modbus
         {
             if (communicationManager != null)
                 communicationManager.ClosePort();
-            UpdateCommunicationManager();
-            if (!communicationManager.OpenPort())
-            {
-                cmdClose_Click(this, new EventArgs());
-                return;
-            }
+            OpenPort();
             ParametersControlsState(false);
         }
 
-        private void UpdateCommunicationManager()
+        private void OpenPort()
         {
-            bool isAsciiSelected = asciiRadioButton.Checked;
-            Parity parity;
-            StopBits stopBits;
-
+            ModbusParityAndStopBits parityAndStopBits;
             if (e1RadioButton.Checked)
-            {
-                parity = Parity.Even;
-                stopBits = StopBits.One;
-            }
+                parityAndStopBits = ModbusParityAndStopBits.E1;
             else if (o1RadioButton.Checked)
-            {
-                parity = Parity.Odd;
-                stopBits = StopBits.One;
-            }
+                parityAndStopBits = ModbusParityAndStopBits.O1;
             else
+                parityAndStopBits = ModbusParityAndStopBits.N2;
+
+            var parameters = new ModbusConnectionParameters()
             {
-                parity = Parity.None;
-                stopBits = StopBits.Two;
-            }
+                Mode = asciiRadioButton.Checked ? ModbusMode.Ascii : ModbusMode.Rtu,
+                PortName = cboPort.Text,
+                BaudRate = int.Parse(cboBaud.Text),
+                Handshake = ((HandshakeMenuItem)cboHandshake.SelectedItem).type,
+                ParityAndStopBits = parityAndStopBits,
+            };
 
-            ConnectionParameters parameters = new ConnectionParameters(
-                cboPort.Text, 
-                int.Parse(cboBaud.Text),
-                isAsciiSelected ? 7 : 8, 
-                parity, 
-                ((HandshakeMenuItem) cboHandshake.SelectedItem).type, 
-                stopBits,
-                isAsciiSelected ? EndMarker.CRLF : EndMarker.NONE);
-
-            //TODO: creating a transceiver
-            //ITransceiver<RTUMessage> transceiver = new RTUTransceiver(new Transmitter(parameters), new Receiver(parameters));
-            //communicationManager = new SerialPortCommunicator.Modbus.Communicator.CommunicationManager(parameters, new ProgramWindow(rtbDisplay), transceiver);
-            communicationManager.DataReceivedEvent += new DataReceivedEventHandler<RTUMessage>(OnDataReceived);
+            communicationManager.OpenPort(parameters);
         }
 
         /// <summary>
@@ -122,9 +102,7 @@ namespace SerialPortCommunicator.Modbus
 
         private void cmdSend_Click(object sender, EventArgs e)
         {
-            communicationManager.WriteData(txtSend.Text);
-            new ProgramWindow(rtbDisplay).displayMessage(txtSend.Text, MessageType.Outgoing);
-            txtSend.Text = "";
+            //TODO zaimplementowaæ wysy³anie wiadomoœci
         }
 
         private void cmdClose_Click(object sender, EventArgs e)
@@ -151,20 +129,13 @@ namespace SerialPortCommunicator.Modbus
 
         private void pingButton_Click(object sender, EventArgs e)
         {
-            waitForPingAnswer = true;
-            cmdSend.Enabled = false;
-            pingContent = txtSend.Text;
-            communicationManager.WriteData(pingQueryPrefix + pingContent);
-            pingTimer = new System.Timers.Timer();
-            pingTimer.Interval = (int) pingTimeoutValue.Value;
-            pingTimer.Elapsed += new ElapsedEventHandler(OnPingTimeout);
-            pingTimer.Start();
+            //TODO zaimplementowaæ ping (albo wyrzuciæ przycisk)
         }
 
         private void OnPingTimeout(object sender, ElapsedEventArgs e)
         {
             pingTimer.Stop();
-            new ProgramWindow(rtbDisplay).displayMessage("Nie otrzymano odpowiedzi na ping", MessageType.Error);
+            rtbDisplay.InvokeDisplayMessage("Nie otrzymano odpowiedzi na ping", MessageType.Error);
             cmdSend.Invoke(new EventHandler(delegate
             {
                 cmdSend.Enabled = true;
@@ -172,28 +143,9 @@ namespace SerialPortCommunicator.Modbus
             waitForPingAnswer = false;
         }
 
-        private void OnDataReceived(object sender, DataReceivedEventArgs<RTUMessage> e)
+        private void OnDataReceived(object sender, DataReceivedEventArgs<ModbusMessage> e)
         {
-            if (waitForPingAnswer && e.Message.BinaryData.DeserializedString().Equals(pingAnswerPrefix + pingContent))
-            {
-                new ProgramWindow(rtbDisplay).displayMessage("Otrzymano odpowiedŸ na ping", MessageType.Incoming);
-                cmdSend.Invoke(new EventHandler(delegate
-                {
-                    cmdSend.Enabled = true;
-                }));
-                waitForPingAnswer = false;
-                pingTimer.Stop();
-            }
-            else if (e.Message.BinaryData.DeserializedString().StartsWith(pingQueryPrefix))
-            {
-                string query = e.Message.BinaryData.DeserializedString().Substring(pingQueryPrefix.Length);
-                communicationManager.WriteData(pingAnswerPrefix + query);
-                new ProgramWindow(rtbDisplay).displayMessage("Wys³ano odpowiedŸ na ping", MessageType.Outgoing);
-            }
-            else
-            {
-                new ProgramWindow(rtbDisplay).displayMessage(e.Message.BinaryData.DeserializedString(), MessageType.Incoming);
-            }
+            //TODO zaimplementowaæ odbieranie wiadomoœci
         }
 
     }

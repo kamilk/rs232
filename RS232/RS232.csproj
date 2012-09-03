@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommunicationManager.cs" />
+    <Compile Include="Rs232CommunicationManager.cs" />
     <Compile Include="Transceivers\RS232Transceiver.cs" />
     <Compile Include="Transceivers\RS232Message.cs" />
     <Compile Include="Main.cs">

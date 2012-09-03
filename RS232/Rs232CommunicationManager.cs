@@ -1,15 +1,14 @@
-
 using SerialPortCommunicator.RS232.Transceivers;
 using SerialPortCommunicator.Generic.Properties;
-using SerialPortCommunicator.GUI;
 using SerialPortCommunicator.Generics.Transceivers;
+using SerialPortCommunicator.Generic;
 
 namespace SerialPortCommunicator.RS232.Communicator
 {
-    public class CommunicationManager : SerialPortCommunicator.Generic.Communicator.CommunicationManager<RS232Message>
+    public class Rs232CommunicationManager : CommunicationManager<RS232Message>
     {
-        public CommunicationManager(ConnectionParameters connectionParameters, ProgramWindow programWindow, ITransceiver<RS232Message> transceiver)
-            : base(connectionParameters, programWindow, transceiver)
+        public Rs232CommunicationManager(ConnectionParameters connectionParameters, ITransceiver<RS232Message> transceiver)
+            : base(connectionParameters, transceiver)
         {
         }
 

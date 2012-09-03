@@ -4,20 +4,20 @@ using System.Timers;
 using System.Windows.Forms;
 using SerialPortCommunicator.Generics.Properties;
 using SerialPortCommunicator.Generics.Transceivers;
-using SerialPortCommunicator.GUI;
 using SerialPortCommunicator.RS232.Communicator;
 using SerialPortCommunicator.RS232.Parameters;
 using SerialPortCommunicator.RS232.Transceivers;
 using SerialPortCommunicator.Generic.Properties;
 using SerialPortCommunicator.Generic.Parameters;
-using SerialPortCommunicator.Generic.Communicator;
 using SerialPortCommunicator.Helpers;
+using SerialPortCommunicator.Generic;
+using SerialPortCommunicator.Generic.Helpers;
 
 namespace SerialPortCommunicator.RS232
 {
     public partial class Main : Form
     {
-        private CommunicationManager communicationManager;
+        private Rs232CommunicationManager communicationManager;
         private Boolean waitForPingAnswer { get; set; }
         private System.Timers.Timer pingTimer { get; set; }
         private string pingQueryPrefix = "!(*^^(&$%*)(!@#";
@@ -63,8 +63,9 @@ namespace SerialPortCommunicator.RS232
                 ((EndMarkerMenuItem) cboEndMarker.SelectedItem).type);
 
             ITransceiver<RS232Message> transceiver = new RS232Transceiver(new Transmitter(parameters), new Receiver(parameters));
-            communicationManager = new CommunicationManager(parameters, new ProgramWindow(rtbDisplay), transceiver);
-            communicationManager.DataReceivedEvent += new DataReceivedEventHandler<RS232Message>(OnDataReceived);
+            communicationManager = new Rs232CommunicationManager(parameters, transceiver);
+            communicationManager.LoggableEventOccurred += new EventHandler<LogEventArgs>(communicationManager_LoggableEventOccurred);
+            communicationManager.DataReceivedEvent += OnDataReceived;
         }
 
         /// <summary>
@@ -115,7 +116,7 @@ namespace SerialPortCommunicator.RS232
         private void cmdSend_Click(object sender, EventArgs e)
         {
             communicationManager.WriteData(txtSend.Text);
-            new ProgramWindow(rtbDisplay).displayMessage(txtSend.Text, MessageType.Outgoing);
+            rtbDisplay.InvokeDisplayMessage(txtSend.Text, MessageType.Outgoing);
             txtSend.Text = "";
         }
 
@@ -157,7 +158,7 @@ namespace SerialPortCommunicator.RS232
         private void OnPingTimeout(object sender, ElapsedEventArgs e)
         {
             pingTimer.Stop();
-            new ProgramWindow(rtbDisplay).displayMessage("Nie otrzymano odpowiedzi na ping", MessageType.Error);
+            rtbDisplay.InvokeDisplayMessage("Nie otrzymano odpowiedzi na ping", MessageType.Error);
             cmdSend.Invoke(new EventHandler(delegate
             {
                 cmdSend.Enabled = true;
@@ -169,7 +170,7 @@ namespace SerialPortCommunicator.RS232
         {
             if (waitForPingAnswer && e.Message.BinaryData.DeserializedString().Equals(pingAnswerPrefix + pingContent))
             {
-                new ProgramWindow(rtbDisplay).displayMessage("Otrzymano odpowiedü na ping", MessageType.Incoming);
+                rtbDisplay.InvokeDisplayMessage("Otrzymano odpowiedü na ping", MessageType.Incoming);
                 cmdSend.Invoke(new EventHandler(delegate
                 {
                     cmdSend.Enabled = true;
@@ -181,12 +182,17 @@ namespace SerialPortCommunicator.RS232
             {
                 string query = e.Message.BinaryData.DeserializedString().Substring(pingQueryPrefix.Length);
                 communicationManager.WriteData(pingAnswerPrefix + query);
-                new ProgramWindow(rtbDisplay).displayMessage("Wys≥ano odpowiedü na ping", MessageType.Outgoing);
+                rtbDisplay.InvokeDisplayMessage("Wys≥ano odpowiedü na ping", MessageType.Outgoing);
             }
             else
             {
-                new ProgramWindow(rtbDisplay).displayMessage(e.Message.MessageString, MessageType.Incoming);
+                rtbDisplay.InvokeDisplayMessage(e.Message.MessageString, MessageType.Incoming);
             }
+        }
+
+        private void communicationManager_LoggableEventOccurred(object sender, LogEventArgs e)
+        {
+            rtbDisplay.InvokeDisplayMessage(e.Message, e.MessageType);
         }
     }
 }

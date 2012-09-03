@@ -6,20 +6,17 @@ using SerialPortCommunicator.RS232.Transceivers;
 using SerialPortCommunicator.Generics.Transceivers;
 using SerialPortCommunicator.Helpers;
 
-namespace SerialPortCommunicator.Modbus.Transceivers
+namespace SerialPortCommunicator.Modbus
 {
     public abstract class ModbusMessage
     {
-        public byte[] BinaryData { get; set; }
         public string MessageString { get; set; }
-        public byte Address { get; protected set; }
-        public byte Function { get; protected set; }
+        public byte Address { get; set; }
+        public byte Function { get; set; }
 
         public ModbusMessage(string messageString, byte address, byte function)
         {
-            BinaryData = messageString.SerializedString();
             MessageString = messageString;
-
             Address = address;
             Function = function;
         }

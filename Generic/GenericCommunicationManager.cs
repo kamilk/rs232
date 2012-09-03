@@ -3,21 +3,9 @@ using System.IO.Ports;
 using SerialPortCommunicator.Generic.Properties;
 using SerialPortCommunicator.Generics.Properties;
 using SerialPortCommunicator.Generics.Transceivers;
-using SerialPortCommunicator.GUI;
 
-namespace SerialPortCommunicator.Generic.Communicator
+namespace SerialPortCommunicator.Generic
 {
-    public delegate void DataReceivedEventHandler<TMessage>(object sender, DataReceivedEventArgs<TMessage> e);
-
-    public class DataReceivedEventArgs<TMessage> : EventArgs
-    {
-        public DataReceivedEventArgs(TMessage receivedMessage)
-        {
-            Message = receivedMessage;
-        }
-        public TMessage Message { get; private set; }
-    }
-
     public abstract class CommunicationManager<TMessage>
     {
         #region Manager Variables
@@ -26,16 +14,20 @@ namespace SerialPortCommunicator.Generic.Communicator
         //global manager variables
         protected SerialPort comPort = new SerialPort();
 
-        protected ProgramWindow ProgramWindow { set; get; }
         protected ITransceiver<TMessage> Transceiver { set; get; }
 
-        public event DataReceivedEventHandler<TMessage> DataReceivedEvent;
         #endregion
 
-        public CommunicationManager(ConnectionParameters connectionParameters, ProgramWindow programWindow, ITransceiver<TMessage> transceiver)
+        #region Events
+
+        public event EventHandler<DataReceivedEventArgs<TMessage>> DataReceivedEvent;
+        public event EventHandler<LogEventArgs> LoggableEventOccurred;
+
+        #endregion
+
+        public CommunicationManager(ConnectionParameters connectionParameters, ITransceiver<TMessage> transceiver)
         {
             ConnectionParameters = connectionParameters;
-            ProgramWindow = programWindow;
             Transceiver = transceiver;
             comPort.DataReceived += new SerialDataReceivedEventHandler(ComPortDataReceived);
         }
@@ -60,12 +52,12 @@ namespace SerialPortCommunicator.Generic.Communicator
                 comPort.WriteBufferSize = 1024;
                 comPort.ReadBufferSize = 2048;
                 comPort.Open();
-                ProgramWindow.displayMessage("Port opened at " + DateTime.Now, MessageType.Normal);
+                NotifyLoggableMessageOccurred("Port opened at " + DateTime.Now, MessageType.Normal);
                 return true;
             }
             catch (Exception ex)
             {
-                ProgramWindow.displayMessage(ex.Message, MessageType.Error);
+                NotifyLoggableMessageOccurred(ex.Message, MessageType.Error);
                 return false;
             }
         }
@@ -73,7 +65,7 @@ namespace SerialPortCommunicator.Generic.Communicator
         public void ClosePort()
         {
             comPort.Close();
-            ProgramWindow.displayMessage("Port closed at " + DateTime.Now, MessageType.Normal);
+            NotifyLoggableMessageOccurred("Port closed at " + DateTime.Now, MessageType.Normal);
         }
 
         protected virtual void ComPortDataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -88,5 +80,10 @@ namespace SerialPortCommunicator.Generic.Communicator
                 DataReceivedEvent(this, new DataReceivedEventArgs<TMessage>(receivedMessage));
         }
 
+        protected void NotifyLoggableMessageOccurred(string message, MessageType type = MessageType.Normal)
+        {
+            if (LoggableEventOccurred != null)
+                LoggableEventOccurred(this, new LogEventArgs(message, type));
+        }
     }
 }
