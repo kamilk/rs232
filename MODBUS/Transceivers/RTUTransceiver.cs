@@ -6,10 +6,10 @@ namespace SerialPortCommunicator.Modbus.Transceivers
 {
     public class RTUTransceiver : ITransceiver<RTUMessage>
     {
-        ITransmitter Transmitter { get; set; }
-        IReceiver Receiver { get; set; }
+        ITransmitter<RTUMessage> Transmitter { get; set; }
+        IReceiver<RTUMessage> Receiver { get; set; }
 
-        public RTUTransceiver(ITransmitter transmitter, IReceiver receiver)
+        public RTUTransceiver(ITransmitter<RTUMessage> transmitter, IReceiver<RTUMessage> receiver)
         {
             Transmitter = transmitter;
             Receiver = receiver;
@@ -22,7 +22,7 @@ namespace SerialPortCommunicator.Modbus.Transceivers
 
         public void TransmitMessage(SerialPort port, RTUMessage message)
         {
-            Transmitter.TransmitData(port, message.BinaryData);
+            Transmitter.TransmitData(port, message);
         }
     }
 }

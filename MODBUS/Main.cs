@@ -10,9 +10,9 @@ using SerialPortCommunicator.RS232.Parameters;
 using SerialPortCommunicator.RS232.Transceivers;
 using SerialPortCommunicator.Generic.Properties;
 using SerialPortCommunicator.Generic.Parameters;
-using SerialPortCommunicator.Modbus.Transceivers;
 using SerialPortCommunicator.Generics.Transceivers;
 using SerialPortCommunicator.Generic.Communicator;
+using SerialPortCommunicator.Modbus.Transceivers;
 
 namespace SerialPortCommunicator.Modbus
 {
@@ -83,8 +83,9 @@ namespace SerialPortCommunicator.Modbus
                 stopBits,
                 isAsciiSelected ? EndMarker.CRLF : EndMarker.NONE);
 
-            ITransceiver<RTUMessage> transceiver = new RTUTransceiver(new Transmitter(parameters), new Receiver(parameters));
-            communicationManager = new SerialPortCommunicator.Modbus.Communicator.CommunicationManager(parameters, new ProgramWindow(rtbDisplay), transceiver);
+            //TODO: creating a transceiver
+            //ITransceiver<RTUMessage> transceiver = new RTUTransceiver(new Transmitter(parameters), new Receiver(parameters));
+            //communicationManager = new SerialPortCommunicator.Modbus.Communicator.CommunicationManager(parameters, new ProgramWindow(rtbDisplay), transceiver);
             communicationManager.DataReceivedEvent += new DataReceivedEventHandler<RTUMessage>(OnDataReceived);
         }
 

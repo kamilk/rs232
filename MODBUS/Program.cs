@@ -1,6 +1,5 @@
 using System;
 using System.Windows.Forms;
-using SerialPortCommunicator.Modbus.Communicator;
 using SerialPortCommunicator.Modbus;
 
 namespace SerialPortCommunicator

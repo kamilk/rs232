@@ -12,7 +12,7 @@ using SerialPortCommunicator.Generic.Parameters;
 
 namespace SerialPortCommunicator.RS232.Transceivers
 {
-    public class Receiver : IReceiver
+    public class Receiver : IReceiver<RS232Message>
     {
         public ConnectionParameters Parameters { get; set; }
 
@@ -21,7 +21,7 @@ namespace SerialPortCommunicator.RS232.Transceivers
             Parameters = parameters;
         }
 
-        public byte[] ReceiveData(SerialPort port)
+        public RS232Message ReceiveData(SerialPort port)
         {
             Debug.WriteLine("asdf");
 
@@ -30,7 +30,7 @@ namespace SerialPortCommunicator.RS232.Transceivers
             Debug.WriteLine(dataRead.Length);
             try
             {
-                return dataRead;
+                return new RS232Message(dataRead);
             }
             catch (ArgumentOutOfRangeException)
             {

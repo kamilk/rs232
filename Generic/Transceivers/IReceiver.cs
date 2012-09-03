@@ -6,8 +6,8 @@ using System.IO.Ports;
 
 namespace SerialPortCommunicator.Generics.Transceivers
 {
-    public interface IReceiver
+    public interface IReceiver<T>
     {
-        byte[] ReceiveData(SerialPort port);
+        T ReceiveData(SerialPort port);
     }
 }

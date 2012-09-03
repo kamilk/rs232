@@ -18,7 +18,7 @@ namespace SerialPortCommunicator.Generic.Communicator
         public TMessage Message { get; private set; }
     }
 
-    public abstract class CommunicationManager<TMessage> where TMessage : IMessage
+    public abstract class CommunicationManager<TMessage>
     {
         #region Manager Variables
         //property variables

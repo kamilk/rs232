@@ -6,7 +6,7 @@ using SerialPortCommunicator.Generics.Transceivers;
 
 namespace SerialPortCommunicator.Generics.Transceivers
 {
-    public interface ITransceiver<TMessage> where TMessage : IMessage
+    public interface ITransceiver<TMessage>
     {
         TMessage ReceiveMessage(SerialPort port);
         void TransmitMessage(SerialPort port, TMessage message);

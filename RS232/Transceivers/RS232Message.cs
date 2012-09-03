@@ -9,7 +9,7 @@ using SerialPortCommunicator.Generics.Transceivers;
 
 namespace SerialPortCommunicator.RS232.Transceivers
 {
-    public class RS232Message : IMessage
+    public class RS232Message
     {
         public byte[] BinaryData { get; set; }
         public string MessageString { get; set; }

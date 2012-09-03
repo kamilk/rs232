@@ -7,7 +7,7 @@ using SerialPortCommunicator.Generics.Transceivers;
 
 namespace SerialPortCommunicator.RS232.Transceivers
 {
-    public class Transmitter : ITransmitter
+    public class Transmitter : ITransmitter<RS232Message>
     {
         public ConnectionParameters Parameters { get; set; }
 
@@ -16,16 +16,18 @@ namespace SerialPortCommunicator.RS232.Transceivers
             Parameters = parameters;
         }
 
-        public void TransmitData(SerialPort port, byte[] message)
+        public void TransmitData(SerialPort port, RS232Message message)
         {
-            Debug.WriteLine(message.Length);
+            byte[] data = message.BinaryData;
+
+            Debug.WriteLine(data.Length);
 
             port.DiscardOutBuffer();
 
             int messageWriteOffset = 0;
-            message = appendEndMarker(message);
+            data = appendEndMarker(data);
 
-            int bytesLeft = message.Length;
+            int bytesLeft = data.Length;
 
             while (bytesLeft > 0)
             {
@@ -33,12 +35,12 @@ namespace SerialPortCommunicator.RS232.Transceivers
                 {
                     if (port.WriteBufferSize - port.BytesToWrite < bytesLeft)
                     {
-                        port.Write(message, messageWriteOffset, port.WriteBufferSize - port.BytesToWrite);
+                        port.Write(data, messageWriteOffset, port.WriteBufferSize - port.BytesToWrite);
                         bytesLeft -= port.WriteBufferSize - port.BytesToWrite;
                     }
                     else
                     {
-                        port.Write(message, messageWriteOffset, bytesLeft);
+                        port.Write(data, messageWriteOffset, bytesLeft);
                         bytesLeft = 0;
                     }
                 }

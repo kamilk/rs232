@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SerialPortCommunicator.Generics.Transceivers
 {
-    public class MessageException : System.ApplicationException
+    public class MessageException : ApplicationException
     {
         public MessageException() { }
         public MessageException(string message) : base(message) { }
