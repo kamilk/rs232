@@ -2,6 +2,8 @@ using SerialPortCommunicator.RS232.Transceivers;
 using SerialPortCommunicator.Generics.Transceivers;
 using SerialPortCommunicator.Generics;
 using SerialPortCommunicator.Generics.Transceivers.Parameters;
+using System.IO;
+using System;
 
 namespace SerialPortCommunicator.RS232.Communicator
 {
@@ -21,6 +23,36 @@ namespace SerialPortCommunicator.RS232.Communicator
         public void SendMessage(RS232Message message)
         {
             Transceiver.TransmitMessage(comPort, message);
+        }
+
+        public RS232Message ReadUntilTimeGap(int milliseconds)
+        {
+            if (comPort == null)
+                return new RS232Message("");
+
+            int originalTimeout = comPort.ReadTimeout;
+            try
+            {
+                comPort.ReadTimeout = milliseconds;
+                using (var stream = new MemoryStream())
+                using (var writer = new BinaryWriter(stream))
+                {
+                    try
+                    {
+                        while (true)
+                            writer.Write(comPort.ReadByte());
+                    }
+                    catch (TimeoutException)
+                    {
+                        writer.Flush();
+                        return new RS232Message(stream.ToArray());
+                    }
+                }
+            }
+            finally
+            {
+                comPort.ReadTimeout = originalTimeout;
+            }
         }
     }
 }
