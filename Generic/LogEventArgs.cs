@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SerialPortCommunicator.Generics.Properties;
+using SerialPortCommunicator.Generics;
 
-namespace SerialPortCommunicator.Generic
+namespace SerialPortCommunicator.Generics
 {
     public class LogEventArgs : EventArgs
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO.Ports;
 
-namespace SerialPortCommunicator.Generic.Helpers
+namespace SerialPortCommunicator.Generics.Helpers
 {
     public static class SerialPortHelper
     {

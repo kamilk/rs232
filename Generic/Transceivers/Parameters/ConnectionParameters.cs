@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO.Ports;
-using SerialPortCommunicator.Generic.Parameters;
+using SerialPortCommunicator.Generics.Transceivers.Parameters;
 
-namespace SerialPortCommunicator.Generic.Properties
+namespace SerialPortCommunicator.Generics.Transceivers.Parameters
 {
     public class ConnectionParameters
     {

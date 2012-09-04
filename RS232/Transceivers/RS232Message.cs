@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
-
-using SerialPortCommunicator.Helpers;
+using SerialPortCommunicator.Generics.Helpers;
 using SerialPortCommunicator.Generics.Transceivers;
 
 namespace SerialPortCommunicator.RS232.Transceivers

@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
-using SerialPortCommunicator.Generics.Properties;
 
-namespace SerialPortCommunicator.Helpers
+namespace SerialPortCommunicator.Generics.Helpers
 {
     public static class GUIHelpers
     {

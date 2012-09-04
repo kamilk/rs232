@@ -1,6 +1,6 @@
 ﻿using System.IO.Ports;
 using SerialPortCommunicator.Generics.Transceivers;
-using SerialPortCommunicator.Generic.Properties;
+using SerialPortCommunicator.Generics.Transceivers.Parameters;
 
 namespace SerialPortCommunicator.RS232.Transceivers
 {

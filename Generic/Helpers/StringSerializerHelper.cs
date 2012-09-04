@@ -4,7 +4,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using SerialPortCommunicator.Generics.Transceivers;
 using System.Text;
 
-namespace SerialPortCommunicator.Helpers
+namespace SerialPortCommunicator.Generics.Helpers
 {
     public static class StringSerializerHelper
     {

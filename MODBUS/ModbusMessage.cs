@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using SerialPortCommunicator.RS232.Transceivers;
 using SerialPortCommunicator.Generics.Transceivers;
-using SerialPortCommunicator.Helpers;
+using SerialPortCommunicator.Generics.Helpers;
 
 namespace SerialPortCommunicator.Modbus
 {

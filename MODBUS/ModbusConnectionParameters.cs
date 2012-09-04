@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO.Ports;
-using SerialPortCommunicator.Generic.Properties;
-using SerialPortCommunicator.Generic.Parameters;
 using SerialPortCommunicator.Modbus.MessageProcessors;
+using SerialPortCommunicator.Generics.Transceivers.Parameters;
 
 namespace SerialPortCommunicator.Modbus
 {

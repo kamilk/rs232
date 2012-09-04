@@ -1,4 +1,4 @@
-﻿namespace SerialPortCommunicator.Generics.Properties
+﻿namespace SerialPortCommunicator.Generics
 {
     /// <summary>
     /// enumeration to hold our message types

@@ -2,10 +2,9 @@
 using System.Diagnostics;
 using System.IO.Ports;
 using System.Text;
-using SerialPortCommunicator.Generic.Helpers;
-using SerialPortCommunicator.Generic.Parameters;
-using SerialPortCommunicator.Generic.Properties;
+using SerialPortCommunicator.Generics.Helpers;
 using SerialPortCommunicator.Generics.Transceivers;
+using SerialPortCommunicator.Generics.Transceivers.Parameters;
 
 namespace SerialPortCommunicator.RS232.Transceivers
 {

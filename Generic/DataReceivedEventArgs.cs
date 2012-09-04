@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SerialPortCommunicator.Generic
+namespace SerialPortCommunicator.Generics
 {
     public class DataReceivedEventArgs<TMessage> : EventArgs
     {

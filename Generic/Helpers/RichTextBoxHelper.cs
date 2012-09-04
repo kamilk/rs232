@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using SerialPortCommunicator.Generics.Properties;
-using SerialPortCommunicator.Helpers;
+using SerialPortCommunicator.Generics;
+using SerialPortCommunicator.Generics.Helpers;
 
-namespace SerialPortCommunicator.Generic.Helpers
+namespace SerialPortCommunicator.Generics.Helpers
 {
-    public static class RichTextBoxHelpers
+    public static class RichTextBoxHelper
     {
         /// <summary>
         /// method to display the data to & from the port

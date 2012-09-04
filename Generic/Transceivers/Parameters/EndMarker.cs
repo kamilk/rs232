@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SerialPortCommunicator.Generic.Parameters
+namespace SerialPortCommunicator.Generics.Transceivers.Parameters
 {
     public enum EndMarker
     {

@@ -1,10 +1,10 @@
 using System;
 using System.IO.Ports;
-using SerialPortCommunicator.Generic.Properties;
-using SerialPortCommunicator.Generics.Properties;
+using SerialPortCommunicator.Generics.Helpers;
 using SerialPortCommunicator.Generics.Transceivers;
+using SerialPortCommunicator.Generics.Transceivers.Parameters;
 
-namespace SerialPortCommunicator.Generic
+namespace SerialPortCommunicator.Generics
 {
     public abstract class CommunicationManager<TMessage>
     {

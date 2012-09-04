@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SerialPortCommunicator.RS232.Helpers
+namespace SerialPortCommunicator.Generics.Helpers
 {
     public static class ListHelper
     {

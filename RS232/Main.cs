@@ -2,16 +2,13 @@ using System;
 using System.IO.Ports;
 using System.Timers;
 using System.Windows.Forms;
-using SerialPortCommunicator.Generics.Properties;
 using SerialPortCommunicator.Generics.Transceivers;
 using SerialPortCommunicator.RS232.Communicator;
 using SerialPortCommunicator.RS232.Parameters;
 using SerialPortCommunicator.RS232.Transceivers;
-using SerialPortCommunicator.Generic.Properties;
-using SerialPortCommunicator.Generic.Parameters;
-using SerialPortCommunicator.Helpers;
-using SerialPortCommunicator.Generic;
-using SerialPortCommunicator.Generic.Helpers;
+using SerialPortCommunicator.Generics.Helpers;
+using SerialPortCommunicator.Generics;
+using SerialPortCommunicator.Generics.Transceivers.Parameters;
 
 namespace SerialPortCommunicator.RS232
 {
