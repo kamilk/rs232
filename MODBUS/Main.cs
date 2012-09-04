@@ -10,7 +10,6 @@ using SerialPortCommunicator.RS232.Transceivers;
 using SerialPortCommunicator.Generic.Properties;
 using SerialPortCommunicator.Generic.Parameters;
 using SerialPortCommunicator.Generics.Transceivers;
-using SerialPortCommunicator.Modbus.Transceivers;
 using SerialPortCommunicator.Generic;
 using SerialPortCommunicator.Generic.Helpers;
 
@@ -18,7 +17,7 @@ namespace SerialPortCommunicator.Modbus
 {
     public partial class Main : Form
     {
-        private ModbusCommunicationManager communicationManager;
+        private ModbusCommunicationManager communicationManager = new ModbusCommunicationManager();
         private Boolean waitForPingAnswer { get; set; }
         private System.Timers.Timer pingTimer { get; set; }
         private string pingQueryPrefix = "!(*^^(&$%*)(!@#";
@@ -102,7 +101,12 @@ namespace SerialPortCommunicator.Modbus
 
         private void cmdSend_Click(object sender, EventArgs e)
         {
-            //TODO zaimplementowaæ wysy³anie wiadomoœci
+            var message = new ModbusMessage(
+                txtMessageText.Text,
+                Convert.ToByte(txtAddress.Text, 16),
+                Convert.ToByte(txtFunction.Text, 16));
+
+            communicationManager.SendMessage(message);
         }
 
         private void cmdClose_Click(object sender, EventArgs e)
@@ -124,7 +128,7 @@ namespace SerialPortCommunicator.Modbus
             cmdClose.Enabled = !enable;
             cmdSend.Enabled = !enable;
             pingButton.Enabled = !enable;
-            txtSend.Enabled = !enable;
+            txtMessageText.Enabled = !enable;
         }
 
         private void pingButton_Click(object sender, EventArgs e)

@@ -8,7 +8,7 @@ using SerialPortCommunicator.Helpers;
 
 namespace SerialPortCommunicator.Modbus
 {
-    public abstract class ModbusMessage
+    public class ModbusMessage
     {
         public string MessageString { get; set; }
         public byte Address { get; set; }

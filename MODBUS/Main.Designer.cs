@@ -30,8 +30,12 @@ namespace SerialPortCommunicator.Modbus
         {
             this.cmdClose = new System.Windows.Forms.Button();
             this.GroupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtFunction = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtAddress = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.cmdSend = new System.Windows.Forms.Button();
-            this.txtSend = new System.Windows.Forms.TextBox();
+            this.txtMessageText = new System.Windows.Forms.TextBox();
             this.rtbDisplay = new System.Windows.Forms.RichTextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -46,12 +50,12 @@ namespace SerialPortCommunicator.Modbus
             this.cboHandshake = new System.Windows.Forms.ComboBox();
             this.pingTimeoutValue = new System.Windows.Forms.NumericUpDown();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.asciiRadioButton = new System.Windows.Forms.RadioButton();
             this.rtuRadioButton = new System.Windows.Forms.RadioButton();
+            this.asciiRadioButton = new System.Windows.Forms.RadioButton();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.n2RadioButton1 = new System.Windows.Forms.RadioButton();
             this.o1RadioButton = new System.Windows.Forms.RadioButton();
             this.e1RadioButton = new System.Windows.Forms.RadioButton();
-            this.n2RadioButton1 = new System.Windows.Forms.RadioButton();
             this.GroupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -72,8 +76,12 @@ namespace SerialPortCommunicator.Modbus
             // 
             // GroupBox1
             // 
+            this.GroupBox1.Controls.Add(this.txtFunction);
+            this.GroupBox1.Controls.Add(this.label4);
+            this.GroupBox1.Controls.Add(this.txtAddress);
+            this.GroupBox1.Controls.Add(this.label3);
             this.GroupBox1.Controls.Add(this.cmdSend);
-            this.GroupBox1.Controls.Add(this.txtSend);
+            this.GroupBox1.Controls.Add(this.txtMessageText);
             this.GroupBox1.Controls.Add(this.rtbDisplay);
             this.GroupBox1.Location = new System.Drawing.Point(12, 12);
             this.GroupBox1.Name = "GroupBox1";
@@ -81,6 +89,44 @@ namespace SerialPortCommunicator.Modbus
             this.GroupBox1.TabIndex = 4;
             this.GroupBox1.TabStop = false;
             this.GroupBox1.Text = "Serial Port Communication";
+            // 
+            // txtFunction
+            // 
+            this.txtFunction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtFunction.Location = new System.Drawing.Point(63, 317);
+            this.txtFunction.Name = "txtFunction";
+            this.txtFunction.Size = new System.Drawing.Size(51, 20);
+            this.txtFunction.TabIndex = 9;
+            this.txtFunction.Text = "06";
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(60, 301);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(48, 13);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Funkcja:";
+            // 
+            // txtAddress
+            // 
+            this.txtAddress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtAddress.Location = new System.Drawing.Point(6, 317);
+            this.txtAddress.Name = "txtAddress";
+            this.txtAddress.Size = new System.Drawing.Size(51, 20);
+            this.txtAddress.TabIndex = 7;
+            this.txtAddress.Text = "11";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 301);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(37, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Adres:";
             // 
             // cmdSend
             // 
@@ -92,19 +138,25 @@ namespace SerialPortCommunicator.Modbus
             this.cmdSend.UseVisualStyleBackColor = true;
             this.cmdSend.Click += new System.EventHandler(this.cmdSend_Click);
             // 
-            // txtSend
+            // txtMessageText
             // 
-            this.txtSend.Location = new System.Drawing.Point(6, 317);
-            this.txtSend.Name = "txtSend";
-            this.txtSend.Size = new System.Drawing.Size(454, 20);
-            this.txtSend.TabIndex = 4;
+            this.txtMessageText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtMessageText.Location = new System.Drawing.Point(120, 317);
+            this.txtMessageText.Name = "txtMessageText";
+            this.txtMessageText.Size = new System.Drawing.Size(340, 20);
+            this.txtMessageText.TabIndex = 4;
+            this.txtMessageText.Text = "00010003";
             // 
             // rtbDisplay
             // 
+            this.rtbDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbDisplay.Location = new System.Drawing.Point(7, 19);
             this.rtbDisplay.Name = "rtbDisplay";
             this.rtbDisplay.ReadOnly = true;
-            this.rtbDisplay.Size = new System.Drawing.Size(543, 289);
+            this.rtbDisplay.Size = new System.Drawing.Size(543, 279);
             this.rtbDisplay.TabIndex = 3;
             this.rtbDisplay.Text = "";
             // 
@@ -258,6 +310,16 @@ namespace SerialPortCommunicator.Modbus
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Format znaków";
             // 
+            // rtuRadioButton
+            // 
+            this.rtuRadioButton.AutoSize = true;
+            this.rtuRadioButton.Location = new System.Drawing.Point(68, 19);
+            this.rtuRadioButton.Name = "rtuRadioButton";
+            this.rtuRadioButton.Size = new System.Drawing.Size(48, 17);
+            this.rtuRadioButton.TabIndex = 1;
+            this.rtuRadioButton.Text = "RTU";
+            this.rtuRadioButton.UseVisualStyleBackColor = true;
+            // 
             // asciiRadioButton
             // 
             this.asciiRadioButton.AutoSize = true;
@@ -269,16 +331,6 @@ namespace SerialPortCommunicator.Modbus
             this.asciiRadioButton.TabStop = true;
             this.asciiRadioButton.Text = "ASCII";
             this.asciiRadioButton.UseVisualStyleBackColor = true;
-            // 
-            // rtuRadioButton2
-            // 
-            this.rtuRadioButton.AutoSize = true;
-            this.rtuRadioButton.Location = new System.Drawing.Point(68, 19);
-            this.rtuRadioButton.Name = "rtuRadioButton2";
-            this.rtuRadioButton.Size = new System.Drawing.Size(48, 17);
-            this.rtuRadioButton.TabIndex = 1;
-            this.rtuRadioButton.Text = "RTU";
-            this.rtuRadioButton.UseVisualStyleBackColor = true;
             // 
             // groupBox5
             // 
@@ -293,6 +345,16 @@ namespace SerialPortCommunicator.Modbus
             this.groupBox5.TabIndex = 15;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Parzystoœæ i bity stopu";
+            // 
+            // n2RadioButton1
+            // 
+            this.n2RadioButton1.AutoSize = true;
+            this.n2RadioButton1.Location = new System.Drawing.Point(97, 19);
+            this.n2RadioButton1.Name = "n2RadioButton1";
+            this.n2RadioButton1.Size = new System.Drawing.Size(39, 17);
+            this.n2RadioButton1.TabIndex = 2;
+            this.n2RadioButton1.Text = "N2";
+            this.n2RadioButton1.UseVisualStyleBackColor = true;
             // 
             // o1RadioButton
             // 
@@ -315,16 +377,6 @@ namespace SerialPortCommunicator.Modbus
             this.e1RadioButton.TabStop = true;
             this.e1RadioButton.Text = "E1";
             this.e1RadioButton.UseVisualStyleBackColor = true;
-            // 
-            // n2RadioButton1
-            // 
-            this.n2RadioButton1.AutoSize = true;
-            this.n2RadioButton1.Location = new System.Drawing.Point(97, 19);
-            this.n2RadioButton1.Name = "n2RadioButton1";
-            this.n2RadioButton1.Size = new System.Drawing.Size(39, 17);
-            this.n2RadioButton1.TabIndex = 2;
-            this.n2RadioButton1.Text = "N2";
-            this.n2RadioButton1.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
@@ -366,7 +418,7 @@ namespace SerialPortCommunicator.Modbus
         private System.Windows.Forms.Button cmdClose;
         private System.Windows.Forms.GroupBox GroupBox1;
         private System.Windows.Forms.Button cmdSend;
-        private System.Windows.Forms.TextBox txtSend;
+        private System.Windows.Forms.TextBox txtMessageText;
         private System.Windows.Forms.RichTextBox rtbDisplay;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label2;
@@ -387,5 +439,9 @@ namespace SerialPortCommunicator.Modbus
         private System.Windows.Forms.RadioButton n2RadioButton1;
         private System.Windows.Forms.RadioButton o1RadioButton;
         private System.Windows.Forms.RadioButton e1RadioButton;
+        private System.Windows.Forms.TextBox txtFunction;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtAddress;
+        private System.Windows.Forms.Label label3;
     }
 }

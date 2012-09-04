@@ -5,6 +5,7 @@ using System.Text;
 using System.IO.Ports;
 using SerialPortCommunicator.Generic.Properties;
 using SerialPortCommunicator.Generic.Parameters;
+using SerialPortCommunicator.Modbus.MessageProcessors;
 
 namespace SerialPortCommunicator.Modbus
 {
@@ -63,6 +64,19 @@ namespace SerialPortCommunicator.Modbus
                 Handshake,
                 stopBits,
                 endMarker);
+        }
+
+        internal IModbusMessageProcessor GetMessageProcessor()
+        {
+            switch (Mode)
+            {
+                case ModbusMode.Ascii:
+                    return new AsciiMessageProcessor();
+                case ModbusMode.Rtu:
+                    return new RtuMessageProcessor();
+                default:
+                    throw new Exception("Unsupported value of Mode");
+            }
         }
     }
 }

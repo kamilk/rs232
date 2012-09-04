@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO.Ports;
+using System.Text;
+using SerialPortCommunicator.Generic.Helpers;
 using SerialPortCommunicator.Generic.Parameters;
 using SerialPortCommunicator.Generic.Properties;
 using SerialPortCommunicator.Generics.Transceivers;
@@ -19,6 +21,7 @@ namespace SerialPortCommunicator.RS232.Transceivers
         public void TransmitData(SerialPort port, RS232Message message)
         {
             byte[] data = message.BinaryData;
+            string debug = new ASCIIEncoding().GetString(data);
 
             Debug.WriteLine(data.Length);
 
@@ -35,12 +38,14 @@ namespace SerialPortCommunicator.RS232.Transceivers
                 {
                     if (port.WriteBufferSize - port.BytesToWrite < bytesLeft)
                     {
-                        port.Write(data, messageWriteOffset, port.WriteBufferSize - port.BytesToWrite);
+                        // Ignore timeout. This exception is thrown even when the write has clearly succeeded.
+                        port.WriteIgnoringTimeout(data, messageWriteOffset, port.WriteBufferSize - port.BytesToWrite);
                         bytesLeft -= port.WriteBufferSize - port.BytesToWrite;
                     }
                     else
                     {
-                        port.Write(data, messageWriteOffset, bytesLeft);
+                        // Ignore timeout. This exception is thrown even when the write has clearly succeeded.
+                        port.WriteIgnoringTimeout(data, messageWriteOffset, bytesLeft);
                         bytesLeft = 0;
                     }
                 }
