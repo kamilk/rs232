@@ -38,13 +38,13 @@ namespace SerialPortCommunicator.RS232.Transceivers
                 {
                     if (port.WriteBufferSize - port.BytesToWrite < bytesLeft)
                     {
-                        // Ignore timeout. This exception is thrown even when the write has clearly succeeded.
+                        // Ignore timeout. This exception may be thrown even when the write has clearly succeeded.
                         port.WriteIgnoringTimeout(data, messageWriteOffset, port.WriteBufferSize - port.BytesToWrite);
                         bytesLeft -= port.WriteBufferSize - port.BytesToWrite;
                     }
                     else
                     {
-                        // Ignore timeout. This exception is thrown even when the write has clearly succeeded.
+                        // Ignore timeout. This exception may be thrown even when the write has clearly succeeded.
                         port.WriteIgnoringTimeout(data, messageWriteOffset, bytesLeft);
                         bytesLeft = 0;
                     }

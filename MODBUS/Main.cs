@@ -103,10 +103,11 @@ namespace SerialPortCommunicator.Modbus
         {
             var message = new ModbusMessage(
                 txtMessageText.Text,
-                Convert.ToByte(txtAddress.Text, 16),
+                Convert.ToByte(txtAddress.Text),
                 Convert.ToByte(txtFunction.Text, 16));
 
             communicationManager.SendMessage(message);
+            InvokeDisplayModbusMessage(message, MessageType.Outgoing);
         }
 
         private void cmdClose_Click(object sender, EventArgs e)
@@ -152,5 +153,14 @@ namespace SerialPortCommunicator.Modbus
             //TODO zaimplementowaæ odbieranie wiadomoœci
         }
 
+        private void InvokeDisplayModbusMessage(ModbusMessage message, MessageType type)
+        {
+            string stringToDisplay = string.Format(
+                "Address: {0} Function: {1:X} Message: {2}",
+                message.Address,
+                message.Function,
+                message.MessageHexString);
+            rtbDisplay.InvokeDisplayMessage(stringToDisplay, type);
+        }
     }
 }

@@ -14,10 +14,9 @@ namespace SerialPortCommunicator.Generic.Helpers
         /// </summary>
         /// <param name="type">MessageType of the message</param>
         /// <param name="msg">Message to display</param>
-        [STAThread]
         public static void InvokeDisplayMessage(this RichTextBox TextBox, string message, MessageType type, bool addNewline = true)
         {
-            TextBox.Invoke(new EventHandler(delegate
+            TextBox.Invoke(new Action(() =>
             {
                 TextBox.SelectedText = string.Empty;
                 TextBox.SelectionFont = new Font(TextBox.SelectionFont, FontStyle.Bold);

@@ -11,7 +11,7 @@ namespace SerialPortCommunicator.Modbus.MessageProcessors
     {
         public void SendMessage(Rs232CommunicationManager rs232Manager, ModbusMessage message)
         {
-            int messageLength = message.MessageString.Length;
+            int messageLength = message.MessageHexString.Length;
             var data = new byte[messageLength + 7];
 
             data[0] = (byte)':';
@@ -24,7 +24,7 @@ namespace SerialPortCommunicator.Modbus.MessageProcessors
             data[3] = function[0];
             data[4] = function[1];
 
-            byte[] messageBytes = new ASCIIEncoding().GetBytes(message.MessageString);
+            byte[] messageBytes = new ASCIIEncoding().GetBytes(message.MessageHexString);
             for (int i = 0; i < messageLength; i++)
                 data[5 + i] = messageBytes[i];
 

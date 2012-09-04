@@ -10,13 +10,13 @@ namespace SerialPortCommunicator.Modbus
 {
     public class ModbusMessage
     {
-        public string MessageString { get; set; }
+        public string MessageHexString { get; set; }
         public byte Address { get; set; }
         public byte Function { get; set; }
 
         public ModbusMessage(string messageString, byte address, byte function)
         {
-            MessageString = messageString;
+            MessageHexString = messageString.Replace(" ", "");
             Address = address;
             Function = function;
         }
