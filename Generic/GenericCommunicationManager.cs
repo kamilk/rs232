@@ -3,6 +3,7 @@ using System.IO.Ports;
 using SerialPortCommunicator.Generics.Helpers;
 using SerialPortCommunicator.Generics.Transceivers;
 using SerialPortCommunicator.Generics.Transceivers.Parameters;
+using System.Collections.Generic;
 
 namespace SerialPortCommunicator.Generics
 {
@@ -70,8 +71,12 @@ namespace SerialPortCommunicator.Generics
 
         protected virtual void ComPortDataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            TMessage receivedMessage = Transceiver.ReceiveMessage(comPort);
-            fireDataReceivedEvent(receivedMessage);
+            while (comPort.BytesToRead > 0)
+            {
+                IEnumerable<TMessage> receivedMessages = Transceiver.ReceiveMessages(comPort);
+                foreach (TMessage message in receivedMessages)
+                    fireDataReceivedEvent(message);
+            }
         }
 
         protected void fireDataReceivedEvent(TMessage receivedMessage)

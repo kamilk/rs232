@@ -8,7 +8,7 @@ namespace SerialPortCommunicator.Generics.Transceivers
 {
     public interface ITransceiver<TMessage>
     {
-        TMessage ReceiveMessage(SerialPort port);
+        IEnumerable<TMessage> ReceiveMessages(SerialPort port);
         void TransmitMessage(SerialPort port, TMessage message);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.IO.Ports;
 using SerialPortCommunicator.Generics.Transceivers;
 using SerialPortCommunicator.Generics.Transceivers.Parameters;
+using System.Collections.Generic;
 
 namespace SerialPortCommunicator.RS232.Transceivers
 {
@@ -15,9 +16,9 @@ namespace SerialPortCommunicator.RS232.Transceivers
             Receiver = new Rs232Receiver(parameters);
         }
 
-        public RS232Message ReceiveMessage(SerialPort port)
+        public IEnumerable<RS232Message> ReceiveMessages(SerialPort port)
         {
-            return Receiver.ReceiveData(port);
+            return Receiver.ReceiveMessages(port);
         }
 
         public void TransmitMessage(SerialPort port, RS232Message message)

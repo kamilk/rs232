@@ -8,6 +8,6 @@ namespace SerialPortCommunicator.Generics.Transceivers
 {
     public interface IReceiver<T>
     {
-        T ReceiveData(SerialPort port);
+        IEnumerable<T> ReceiveMessages(SerialPort port);
     }
 }
