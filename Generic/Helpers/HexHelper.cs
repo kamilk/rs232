@@ -7,13 +7,18 @@ namespace SerialPortCommunicator.Generic.Helpers
 {
     public static class HexHelper
     {
-        public static byte[] GetByteAsHex(byte value)
+        public static byte[] EncodeByteAsHex(byte value)
         {
-            string valueString = string.Format(
+            string valueString = EncodeByteAsHexString(value);
+            return new ASCIIEncoding().GetBytes(valueString);
+        }
+
+        public static string EncodeByteAsHexString(byte value)
+        {
+            return string.Format(
                             "{0}{1:X}",
                             value < 16 ? "0" : "",
                             value);
-            return new ASCIIEncoding().GetBytes(valueString);
         }
 
         public static byte[] DecodeHexArray(byte[] hexArray)
@@ -39,6 +44,24 @@ namespace SerialPortCommunicator.Generic.Helpers
             var hexBytes = new byte[] { sixteensDigitCharacter, unitsDigitCharacter };
             string hex = new ASCIIEncoding().GetString(hexBytes);
             return Convert.ToByte(hex, 16);
+        }
+
+        public static byte[] DecodeHexString(string messageHexString)
+        {
+            return HexHelper.DecodeHexArray(new ASCIIEncoding().GetBytes(messageHexString.Replace(" ", "")));
+        }
+
+        public static string EncodeAsHexString(byte[] data)
+        {
+            var builder = new StringBuilder();
+            for (int i = 0; i < data.Length; i++)
+                builder.Append(EncodeByteAsHexString(data[i]));
+            return builder.ToString();
+        }
+
+        public static byte[] EncodeAsHexArray(byte[] data)
+        {
+            return new ASCIIEncoding().GetBytes(EncodeAsHexString(data));
         }
     }
 }

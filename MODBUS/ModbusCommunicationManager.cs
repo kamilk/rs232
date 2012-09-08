@@ -49,6 +49,8 @@ namespace SerialPortCommunicator.Modbus
         private void OnDataReceived(object sender, DataReceivedEventArgs<RS232Message> e)
         {
             ModbusMessage message = messageProcessor.ProcessMessage(e.Message);
+            if (MessageReceived != null)
+                MessageReceived(this, new DataReceivedEventArgs<ModbusMessage>(message));
         }
     }
 }

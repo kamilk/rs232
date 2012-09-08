@@ -8,6 +8,7 @@ using SerialPortCommunicator.RS232.Parameters;
 using SerialPortCommunicator.RS232.Transceivers;
 using SerialPortCommunicator.Generics.Transceivers;
 using SerialPortCommunicator.Generics;
+using SerialPortCommunicator.Generic.Helpers;
 
 namespace SerialPortCommunicator.Modbus
 {
@@ -24,6 +25,7 @@ namespace SerialPortCommunicator.Modbus
         public Main()
         {
             waitForPingAnswer = false;
+            communicationManager.MessageReceived += OnDataReceived;
             InitializeComponent();
         }
 
@@ -146,7 +148,10 @@ namespace SerialPortCommunicator.Modbus
 
         private void OnDataReceived(object sender, DataReceivedEventArgs<ModbusMessage> e)
         {
-            //TODO zaimplementowaæ odbieranie wiadomoœci
+            if (e.Message == null)
+                rtbDisplay.InvokeDisplayMessage("Odebrano nieprawid³ow¹ wiadomoœæ", MessageType.Error);
+            else
+                InvokeDisplayModbusMessage(e.Message, MessageType.Incoming);
         }
 
         private void InvokeDisplayModbusMessage(ModbusMessage message, MessageType type)
@@ -155,7 +160,7 @@ namespace SerialPortCommunicator.Modbus
                 "Address: {0} Function: {1:X} Message: {2}",
                 message.Address,
                 message.Function,
-                message.MessageHexString);
+                HexHelper.EncodeAsHexString(message.Data));
             rtbDisplay.InvokeDisplayMessage(stringToDisplay, type);
         }
     }
