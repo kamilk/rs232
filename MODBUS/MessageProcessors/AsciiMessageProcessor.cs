@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
+using SerialPortCommunicator.Generic.Helpers;
 using SerialPortCommunicator.RS232.Communicator;
 using SerialPortCommunicator.RS232.Transceivers;
 
@@ -9,6 +7,11 @@ namespace SerialPortCommunicator.Modbus.MessageProcessors
 {
     class AsciiMessageProcessor : IModbusMessageProcessor
     {
+        /// <summary>
+        /// start + address + command + LRC + 1 byte of data as 2-byte hex
+        /// </summary>
+        private const int MINIMUM_MESSAGE_LENGTH = 9;
+
         public void SendMessage(Rs232CommunicationManager rs232Manager, ModbusMessage message)
         {
             int messageLength = message.MessageHexString.Length;
@@ -16,8 +19,8 @@ namespace SerialPortCommunicator.Modbus.MessageProcessors
 
             data[0] = (byte)':';
 
-            byte[] address = GetByteAsHex(message.Address);
-            byte[] function = GetByteAsHex(message.Function);
+            byte[] address = HexHelper.GetByteAsHex(message.Address);
+            byte[] function = HexHelper.GetByteAsHex(message.Function);
 
             data[1] = address[0];
             data[2] = address[1];
@@ -28,8 +31,8 @@ namespace SerialPortCommunicator.Modbus.MessageProcessors
             for (int i = 0; i < messageLength; i++)
                 data[5 + i] = messageBytes[i];
 
-            byte[] numericMessage = DecodeHexArray(data, 1, 4 + messageLength);
-            byte[] lrc = GetByteAsHex(CalculateLRC(numericMessage));
+            byte[] numericMessage = HexHelper.DecodeHexArray(data, 1, 4 + messageLength);
+            byte[] lrc = HexHelper.GetByteAsHex(CalculateLRC(numericMessage));
             data[data.Length - 2] = lrc[0];
             data[data.Length - 1] = lrc[1];
 
@@ -38,18 +41,29 @@ namespace SerialPortCommunicator.Modbus.MessageProcessors
             rs232Manager.SendMessage(new RS232Message(data));
         }
 
-        public ModbusMessage ReceiveMessage(Rs232CommunicationManager rs232Manager)
+        public ModbusMessage ProcessMessage(RS232Message message)
         {
-            return new ModbusMessage("", 0, 0);
-        }
+            byte[] data = message.BinaryData;
 
-        private byte[] GetByteAsHex(byte value)
-        {
-            string valueString = string.Format(
-                            "{0}{1:X}",
-                            value < 16 ? "0" : "",
-                            value);
-            return new ASCIIEncoding().GetBytes(valueString);
+            int messageStart;
+            for (messageStart = 0; messageStart < data.Length; messageStart++)
+                if (data[messageStart] == (byte)':')
+                    break;
+
+            int messageLength = data.Length - messageStart;
+            if (messageLength < MINIMUM_MESSAGE_LENGTH)
+                return null;
+
+            int lrc = HexHelper.DecodeHex(data[data.Length - 2], data[data.Length - 1]);
+            int expectedLrc = CalculateLRC(HexHelper.DecodeHexArray(data, messageStart + 1, data.Length - messageStart - 3));
+            if (lrc != expectedLrc)
+                return null;
+
+            byte address = HexHelper.DecodeHex(data[messageStart + 1], data[messageStart + 2]);
+            byte function = HexHelper.DecodeHex(data[messageStart + 3], data[messageStart + 4]);
+            byte[] messageContent = HexHelper.DecodeHexArray(data, messageStart + 5, messageLength - 7);
+
+            return new ModbusMessage(messageContent, address, function);
         }
 
         /// <summary>
@@ -68,21 +82,6 @@ namespace SerialPortCommunicator.Modbus.MessageProcessors
                 LRC = (byte)((LRC + bytes[i]) & 0xFF);
             }
             return (byte)(((LRC ^ 0xFF) + 1) & 0xFF);
-        }
-
-        private byte[] DecodeHexArray(byte[] hexArray, int offset, int count)
-        {
-            var result = new byte[count / 2];
-            var ascii = new ASCIIEncoding();
-
-            for (int i = 0; i < count / 2; i++)
-            {
-                var hexBytes = new byte[] { hexArray[offset + i * 2], hexArray[offset + i * 2 + 1] };
-                string hex = ascii.GetString(hexBytes);
-                result[i] = Convert.ToByte(hex, 16);
-            }
-
-            return result;
         }
     }
 }

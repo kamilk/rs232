@@ -71,9 +71,8 @@ namespace SerialPortCommunicator.RS232.Transceivers
 
                     messages.Add(CreateMessageFromSegmentOfArray(data, messageStart, i - messageStart));
 
-                    messageStart = i + delimiterLength;
-
                     i += delimiterLength;
+                    messageStart = i;
                 }
                 else
                     i++;
