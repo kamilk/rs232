@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
-namespace SerialPortCommunicator.Modbus.Master.ViewModel.Helpers
+namespace SerialPortCommunicator.WpfHelpers
 {
     /// <summary>
     /// From http://www.wpftutorial.net/delegatecommand.html

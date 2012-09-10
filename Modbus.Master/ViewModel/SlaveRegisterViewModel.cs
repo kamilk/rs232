@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SerialPortCommunicator.Modbus.Master.ViewModel.Helpers;
 using System.Windows.Input;
 using SerialPortCommunicator.Modbus.Master.Model;
+using SerialPortCommunicator.WpfHelpers;
 
 namespace SerialPortCommunicator.Modbus.Master.ViewModel
 {

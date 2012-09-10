@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Windows.Input;
-using SerialPortCommunicator.Modbus.Master.ViewModel.Helpers;
 using System.IO.Ports;
 using SerialPortCommunicator.Modbus.Master.Model;
+using SerialPortCommunicator.WpfHelpers;
 
 namespace SerialPortCommunicator.Modbus.Master.ViewModel
 {

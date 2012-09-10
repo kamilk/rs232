@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{29DA4AF0-1ADF-46FD-B970-E3E5C72E28A5}</ProjectGuid>
+    <ProjectGuid>{08C097D7-87B1-4596-843A-CF6FDA7CF09D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SerialPortCommunicator.Modbus.Master</RootNamespace>
-    <AssemblyName>Modbus.Master</AssemblyName>
+    <RootNamespace>SerialPortCommunicator.Modbus.Slave</RootNamespace>
+    <AssemblyName>Modbus.Slave</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -55,17 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\MasterManager.cs" />
-    <Compile Include="Model\ReadRequestData.cs" />
-    <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\SlaveControlViewModel.cs" />
-    <Compile Include="ViewModel\SlaveRegisterViewModel.cs" />
-    <Compile Include="View\SlaveControlView.xaml.cs">
-      <DependentUpon>SlaveControlView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\SlaveRegisterView.xaml.cs">
-      <DependentUpon>SlaveRegisterView.xaml</DependentUpon>
-    </Compile>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -74,18 +63,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\SlaveControlView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\SlaveRegisterView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -111,7 +93,6 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Generic\Generics.csproj">
       <Project>{6A8E3E78-86C7-42C9-B7B4-74895789B5BF}</Project>
@@ -129,6 +110,9 @@
       <Project>{4D516F77-B766-4485-A9A5-505FC19AC283}</Project>
       <Name>WpfHelpers</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
