@@ -14,6 +14,7 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
 
         private short _value;
         private DelegateCommand _writeToSlaveCommand;
+        private DelegateCommand _readFromSlaveCommand;
         private byte _slaveAddress;
 
         #endregion
@@ -42,6 +43,16 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
             }
         }
 
+        public ICommand ReadFromSlaveCommand
+        {
+            get
+            {
+                if (_readFromSlaveCommand == null)
+                    _readFromSlaveCommand = new DelegateCommand(ReadFromSlave);
+                return _readFromSlaveCommand;
+            }
+        }
+
         #endregion
 
         #region Constructors
@@ -51,6 +62,11 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
             _slaveAddress = slaveAddress;
             Number = number;
             Value = 0;
+        }
+
+        public void ReadFromSlave()
+        {
+            MasterManager.Instance.BeginReadFromSlave(_slaveAddress, Number, result => Value = result);
         }
 
         #endregion
