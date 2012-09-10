@@ -69,7 +69,7 @@ namespace SerialPortCommunicator.Modbus.Slave.Model
             if (e.Message.Address != Address)
                 return;
 
-            if (e.Message.Function == ReadFunctionCode)
+            if (e.Message.Function == ReadFunctionCode && e.Message.Data.Length >= 4)
             {
                 short register = ArrayHelper.ReadShortFromByteArray(e.Message.Data, 0);
 
@@ -77,6 +77,13 @@ namespace SerialPortCommunicator.Modbus.Slave.Model
                 responseData[0] = 2;
                 ArrayHelper.WriteShortToByteArray(responseData, registers[register], 1);
                 modbusManager.SendMessage(new ModbusMessage(responseData, Address, ReadFunctionCode));
+            }
+            else if (e.Message.Function == WriteFunctionCode && e.Message.Data.Length >= 4)
+            {
+                short register = ArrayHelper.ReadShortFromByteArray(e.Message.Data, 0);
+                short value = ArrayHelper.ReadShortFromByteArray(e.Message.Data, 2);
+                registers[register] = value;
+                modbusManager.SendMessage(e.Message);
             }
         }
 
