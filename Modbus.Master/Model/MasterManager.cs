@@ -5,6 +5,7 @@ using System.Text;
 using SerialPortCommunicator.Generics;
 using System.Diagnostics;
 using System.IO;
+using SerialPortCommunicator.Generic.Helpers;
 
 namespace SerialPortCommunicator.Modbus.Master.Model
 {
@@ -46,8 +47,8 @@ namespace SerialPortCommunicator.Modbus.Master.Model
         {
             var data = new byte[4];
 
-            WriteShortToByteArray(data, register, 0);
-            WriteShortToByteArray(data, value, 2);
+            ArrayHelper.WriteShortToByteArray(data, register, 0);
+            ArrayHelper.WriteShortToByteArray(data, value, 2);
 
             modbusManager.SendMessage(new ModbusMessage(data, slaveAddress, WriteFunctionCode));
         }
@@ -65,8 +66,8 @@ namespace SerialPortCommunicator.Modbus.Master.Model
             });
 
             var data = new byte[4];
-            WriteShortToByteArray(data, register, 0);
-            WriteShortToByteArray(data, 1, 2);
+            ArrayHelper.WriteShortToByteArray(data, register, 0);
+            ArrayHelper.WriteShortToByteArray(data, 1, 2);
             modbusManager.SendMessage(new ModbusMessage(data, slaveAddress, ReadFunctionCode));
         }
 
@@ -78,7 +79,7 @@ namespace SerialPortCommunicator.Modbus.Master.Model
                 ReadRequestData? readRequest = GetReadRequestData(message.Address);
                 if (readRequest != null)
                 {
-                    short readValue = (short)((short)((short)message.Data[1] << 8) | (short)message.Data[2]);
+                    short readValue = ArrayHelper.ReadShortFromByteArray(message.Data, 1);
                     readRequest.Value.OnSuccessCallback(readValue);
                     readRequests.Remove(readRequest.Value);
                 }
@@ -89,12 +90,6 @@ namespace SerialPortCommunicator.Modbus.Master.Model
         {
             return readRequests.Where(request => request.Address == slaveAddress).Cast<ReadRequestData?>()
                 .FirstOrDefault();
-        }
-
-        private void WriteShortToByteArray(byte[] array, short value, int offset)
-        {
-            array[offset]     = (byte)((value << 8) & 0xFF);
-            array[offset + 1] = (byte)(value & 0xFF);
         }
 
         private static MasterManager _instance;

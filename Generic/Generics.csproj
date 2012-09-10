@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="DataReceivedEventArgs.cs" />
     <Compile Include="GenericCommunicationManager.cs" />
+    <Compile Include="Helpers\ArrayHelper.cs" />
     <Compile Include="Helpers\GUIHelpers.cs" />
     <Compile Include="Helpers\HexHelper.cs" />
     <Compile Include="Helpers\ListHelper.cs" />

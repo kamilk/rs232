@@ -5,8 +5,8 @@
     <Grid>
         <TextBox Text="{Binding Path=Address}" Height="23" HorizontalAlignment="Left" Margin="61,46,0,0" Name="textBox1" VerticalAlignment="Top" Width="59" />
         <Label Content="Adres:" Height="28" HorizontalAlignment="Left" Margin="12,44,0,0" Name="label1" VerticalAlignment="Top" />
-        <Button Content="Otwórz" Height="23" HorizontalAlignment="Left" Margin="26,78,0,0" Name="button1" VerticalAlignment="Top" Width="75" />
-        <ComboBox Height="23" ItemsSource="{Binding Path=PortNames}" HorizontalAlignment="Left" Margin="61,12,0,0" Name="comboBox1" VerticalAlignment="Top" Width="82" />
+        <Button Content="Otwórz" Command="{Binding Path=OpenPortCommand}" Height="23" HorizontalAlignment="Left" Margin="26,78,0,0" Name="button1" VerticalAlignment="Top" Width="75" />
+        <ComboBox Height="23" ItemsSource="{Binding Path=PortNames}" IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Margin="61,12,0,0" Name="comboBox1" VerticalAlignment="Top" Width="82" />
         <Label Content="Port:" Height="28" HorizontalAlignment="Left" Margin="17,11,0,0" Name="label2" VerticalAlignment="Top" />
     </Grid>
 </Window>
