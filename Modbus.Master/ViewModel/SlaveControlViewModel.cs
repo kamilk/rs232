@@ -11,7 +11,7 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
     {
         #region Properites for data binding
 
-        public byte Address { get; set; }
+        public byte Address { get; private set; }
         public IEnumerable<SlaveRegisterViewModel> Registers { get; private set; }
 
         #endregion
