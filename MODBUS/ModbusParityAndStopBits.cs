@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SerialPortCommunicator.Modbus
 {
-    enum ModbusParityAndStopBits
+    public enum ModbusParityAndStopBits
     {
         E1,
         O1,

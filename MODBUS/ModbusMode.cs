@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SerialPortCommunicator.Modbus
 {
-    enum ModbusMode
+    public enum ModbusMode
     {
         Ascii,
         Rtu

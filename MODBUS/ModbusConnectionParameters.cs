@@ -8,7 +8,7 @@ using SerialPortCommunicator.Generics.Transceivers.Parameters;
 
 namespace SerialPortCommunicator.Modbus
 {
-    struct ModbusConnectionParameters
+    public struct ModbusConnectionParameters
     {
         public ModbusMode Mode;
         public ModbusParityAndStopBits ParityAndStopBits;

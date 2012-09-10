@@ -10,12 +10,37 @@ using SerialPortCommunicator.RS232.Transceivers;
 
 namespace SerialPortCommunicator.Modbus
 {
-    class ModbusCommunicationManager
+    public class ModbusCommunicationManager
     {
+        #region Fields
+
         Rs232CommunicationManager rs232Manager;
         IModbusMessageProcessor messageProcessor;
 
+        #endregion
+
+        #region Properties
+
+        public bool IsPortOpen { get; private set; }
+
+        #endregion
+
+        #region Events
+
         public event EventHandler<DataReceivedEventArgs<ModbusMessage>> MessageReceived;
+
+        #endregion
+
+        #region Constructors
+
+        public ModbusCommunicationManager()
+        {
+            IsPortOpen = false;
+        }
+
+        #endregion
+
+        #region Methods
 
         public void OpenPort(ModbusConnectionParameters parameters)
         {
@@ -30,6 +55,8 @@ namespace SerialPortCommunicator.Modbus
             rs232Manager.OpenPort();
 
             messageProcessor = parameters.GetMessageProcessor();
+
+            IsPortOpen = true;
         }
 
         public void ClosePort()
@@ -39,6 +66,8 @@ namespace SerialPortCommunicator.Modbus
                 rs232Manager.ClosePort();
                 rs232Manager = null;
             }
+
+            IsPortOpen = false;
         }
 
         public void SendMessage(ModbusMessage message)
@@ -52,5 +81,7 @@ namespace SerialPortCommunicator.Modbus
             if (MessageReceived != null)
                 MessageReceived(this, new DataReceivedEventArgs<ModbusMessage>(message));
         }
+
+        #endregion
     }
 }

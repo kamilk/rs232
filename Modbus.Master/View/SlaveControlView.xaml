@@ -7,10 +7,10 @@
              d:DesignHeight="300" d:DesignWidth="300" xmlns:my="clr-namespace:SerialPortCommunicator.Modbus.Master.View">
     <Grid>
         <StackPanel Name="stackPanel1">
-            <my:SlaveRegisterView x:Name="slaveRegisterView1" />
-            <my:SlaveRegisterView x:Name="slaveRegisterView2" />
-            <my:SlaveRegisterView x:Name="slaveRegisterView3" />
-            <my:SlaveRegisterView x:Name="slaveRegisterView4" />
+            <my:SlaveRegisterView x:Name="slaveRegisterView1" DataContext="{Binding Path=Registers[0]}" />
+            <my:SlaveRegisterView x:Name="slaveRegisterView2" DataContext="{Binding Path=Registers[1]}" />
+            <my:SlaveRegisterView x:Name="slaveRegisterView3" DataContext="{Binding Path=Registers[2]}" />
+            <my:SlaveRegisterView x:Name="slaveRegisterView4" DataContext="{Binding Path=Registers[3]}" />
         </StackPanel>
     </Grid>
 </UserControl>

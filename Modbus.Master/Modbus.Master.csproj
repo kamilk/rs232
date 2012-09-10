@@ -55,6 +55,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\MasterManager.cs" />
+    <Compile Include="ViewModel\Helpers\DelegateCommand.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\NotifyPropertyChangedBase.cs" />
+    <Compile Include="ViewModel\SlaveControlViewModel.cs" />
+    <Compile Include="ViewModel\SlaveRegisterViewModel.cs" />
     <Compile Include="View\SlaveControlView.xaml.cs">
       <DependentUpon>SlaveControlView.xaml</DependentUpon>
     </Compile>
@@ -106,9 +112,20 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Model\" />
-    <Folder Include="ViewModel\" />
+    <ProjectReference Include="..\Generic\Generics.csproj">
+      <Project>{6A8E3E78-86C7-42C9-B7B4-74895789B5BF}</Project>
+      <Name>Generics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MODBUS\MODBUS.csproj">
+      <Project>{67D06A37-B2AC-4147-8108-8A5A0D9DCA19}</Project>
+      <Name>MODBUS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RS232\RS232.csproj">
+      <Project>{4A3250EE-3058-47C5-A82B-7E5084AA3EAF}</Project>
+      <Name>RS232</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
