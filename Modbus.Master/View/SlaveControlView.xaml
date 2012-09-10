@@ -4,13 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" xmlns:my="clr-namespace:SerialPortCommunicator.Modbus.Master.View">
+             d:DesignHeight="300" d:DesignWidth="300" xmlns:my="clr-namespace:SerialPortCommunicator.Modbus.Master.View" BorderThickness="1">
     <Grid>
-        <StackPanel Name="stackPanel1">
-            <my:SlaveRegisterView x:Name="slaveRegisterView1" DataContext="{Binding Path=Registers[0]}" />
-            <my:SlaveRegisterView x:Name="slaveRegisterView2" DataContext="{Binding Path=Registers[1]}" />
-            <my:SlaveRegisterView x:Name="slaveRegisterView3" DataContext="{Binding Path=Registers[2]}" />
-            <my:SlaveRegisterView x:Name="slaveRegisterView4" DataContext="{Binding Path=Registers[3]}" />
-        </StackPanel>
+        <ItemsControl ItemsSource="{Binding Path=Registers}" Margin="0,53,0,0">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <my:SlaveRegisterView />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Label Content="{Binding Path=Address}" ContentStringFormat="Slave {0}" Height="35" Margin="12,12,12,0" Name="label1" VerticalAlignment="Top" FontSize="18" />
     </Grid>
 </UserControl>

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SerialPortCommunicator.Modbus.Master.ViewModel.Helpers;
+using System.Windows.Input;
+using SerialPortCommunicator.Modbus.Master.Model;
 
 namespace SerialPortCommunicator.Modbus.Master.ViewModel
 {
@@ -10,6 +13,8 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
         #region Fields
 
         private short _value;
+        private DelegateCommand _writeToSlaveCommand;
+        private byte _slaveAddress;
 
         #endregion
 
@@ -26,12 +31,24 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
             }
         }
 
+        public ICommand WriteToSlaveCommand
+        {
+            get
+            {
+                if (_writeToSlaveCommand == null)
+                    _writeToSlaveCommand = new DelegateCommand(() => 
+                        MasterManager.Instance.WriteToSlave(_slaveAddress, Number, Value));
+                return _writeToSlaveCommand;
+            }
+        }
+
         #endregion
 
         #region Constructors
 
-        public SlaveRegisterViewModel(short number)
+        public SlaveRegisterViewModel(byte slaveAddress, short number)
         {
+            _slaveAddress = slaveAddress;
             Number = number;
             Value = 0;
         }

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Windows.Input;
 using SerialPortCommunicator.Modbus.Master.ViewModel.Helpers;
 using System.IO.Ports;
+using SerialPortCommunicator.Modbus.Master.Model;
 
 namespace SerialPortCommunicator.Modbus.Master.ViewModel
 {
@@ -13,7 +14,6 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
     {
         #region Fields
 
-        private ModbusCommunicationManager modbusManager;
         private int? newSlaveAddress;
 
         #endregion
@@ -40,7 +40,6 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
 
         public MainWindowViewModel()
         {
-            modbusManager = new ModbusCommunicationManager();
             AddSlaveCommand = new DelegateCommand(AddSlave);
             Slave = new SlaveControlViewModel(1);
         }
@@ -51,9 +50,9 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
 
         private void AddSlave()
         {
-            if (!modbusManager.IsPortOpen)
+            if (!MasterManager.Instance.IsPortOpen)
             {
-                modbusManager.OpenPort(new ModbusConnectionParameters()
+                MasterManager.Instance.OpenPort(new ModbusConnectionParameters()
                 {
                     PortName = "COM7",
                     BaudRate = 9600,
