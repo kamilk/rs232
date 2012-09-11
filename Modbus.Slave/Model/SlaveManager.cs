@@ -78,6 +78,7 @@ namespace SerialPortCommunicator.Modbus.Slave.Model
         public void SetRegisterValue(short registerNumber, short registerValue)
         {
             registers[registerNumber] = registerValue;
+            NotifyRegisterValueChanged(registerNumber, registerValue);
         }
 
         private void OnMessageReceived(object sender, DataReceivedEventArgs<ModbusMessage> e)
@@ -101,9 +102,14 @@ namespace SerialPortCommunicator.Modbus.Slave.Model
                 registers[register] = value;
                 modbusManager.SendMessage(e.Message);
 
-                if (RegisterValueChanged != null)
-                    RegisterValueChanged(this, new RegisterValueChangedEventArgs(register, value));
+                NotifyRegisterValueChanged(register, value);
             }
+        }
+
+        private void NotifyRegisterValueChanged(short register, short value)
+        {
+            if (RegisterValueChanged != null)
+                RegisterValueChanged(this, new RegisterValueChangedEventArgs(register, value));
         }
 
         #endregion

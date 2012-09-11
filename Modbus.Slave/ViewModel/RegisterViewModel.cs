@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SerialPortCommunicator.WpfHelpers;
 using SerialPortCommunicator.Modbus.Slave.Model;
+using System.Windows.Input;
 
 namespace SerialPortCommunicator.Modbus.Slave.ViewModel
 {
@@ -11,8 +12,9 @@ namespace SerialPortCommunicator.Modbus.Slave.ViewModel
     {
         #region Fields
 
-        public short _currentValue;
-        public short _requestedValue;
+        private short _currentValue;
+        private short _requestedValue;
+        private DelegateCommand _overrideValueCommand;
 
         #endregion
 
@@ -37,6 +39,22 @@ namespace SerialPortCommunicator.Modbus.Slave.ViewModel
             {
                 _requestedValue = value;
                 NotifyPropertyChanged("RequestedValue");
+            }
+        }
+
+        public ICommand OverrideValueCommand
+        {
+            get
+            {
+                if (_overrideValueCommand == null)
+                {
+                    _overrideValueCommand = new DelegateCommand(() =>
+                        {
+                            SlaveManager.Instance.SetRegisterValue(RegisterNumber, RequestedValue);
+                        });
+                }
+
+                return _overrideValueCommand;
             }
         }
 
