@@ -42,6 +42,8 @@ namespace SerialPortCommunicator.Modbus.Slave.ViewModel
             }
         }
 
+        public IEnumerable<RegisterViewModel> Registers { get; private set; }
+
         public ICommand OpenPortCommand { get; private set; }
 
         #endregion
@@ -52,6 +54,11 @@ namespace SerialPortCommunicator.Modbus.Slave.ViewModel
         {
             Address = 1;
             OpenPortCommand = new DelegateCommand(OpenPort);
+
+            var registers = new List<RegisterViewModel>();
+            for (short i = 0; i < SlaveManager.NumberOfRegisters; i++)
+                registers.Add(new RegisterViewModel(i));
+            Registers = registers;
         }
 
         #endregion

@@ -11,7 +11,7 @@ namespace SerialPortCommunicator.Modbus.Slave.Model
     {
         #region Constants
 
-        private const int NumberOfRegisters = 5;
+        public const int NumberOfRegisters = 5;
         private const int WriteFunctionCode = 0x06;
         private const int ReadFunctionCode = 0x03;
 
@@ -20,6 +20,12 @@ namespace SerialPortCommunicator.Modbus.Slave.Model
         #region Properties
 
         public byte Address { get; set; }
+
+        #endregion
+
+        #region Events
+
+        public event EventHandler<RegisterValueChangedEventArgs> RegisterValueChanged;
 
         #endregion
 
@@ -64,6 +70,16 @@ namespace SerialPortCommunicator.Modbus.Slave.Model
             ClosePort();
         }
 
+        public short GetRegisterValue(short registerNumber)
+        {
+            return registers[registerNumber];
+        }
+
+        public void SetRegisterValue(short registerNumber, short registerValue)
+        {
+            registers[registerNumber] = registerValue;
+        }
+
         private void OnMessageReceived(object sender, DataReceivedEventArgs<ModbusMessage> e)
         {
             if (e.Message.Address != Address)
@@ -84,6 +100,9 @@ namespace SerialPortCommunicator.Modbus.Slave.Model
                 short value = ArrayHelper.ReadShortFromByteArray(e.Message.Data, 2);
                 registers[register] = value;
                 modbusManager.SendMessage(e.Message);
+
+                if (RegisterValueChanged != null)
+                    RegisterValueChanged(this, new RegisterValueChangedEventArgs(register, value));
             }
         }
 
