@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modbus.Master", "Modbus.Mas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modbus.Slave", "Modbus.Slave\Modbus.Slave.csproj", "{08C097D7-87B1-4596-843A-CF6FDA7CF09D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfHelpers", "WpfHelpers\WpfHelpers.csproj", "{4D516F77-B766-4485-A9A5-505FC19AC283}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modbus.CommonView", "WpfHelpers\Modbus.CommonView.csproj", "{4D516F77-B766-4485-A9A5-505FC19AC283}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

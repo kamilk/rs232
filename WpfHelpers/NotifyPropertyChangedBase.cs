@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace SerialPortCommunicator.WpfHelpers
+namespace SerialPortCommunicator.Modbus.CommonView
 {
     public abstract class NotifyPropertyChangedBase : INotifyPropertyChanged
     {

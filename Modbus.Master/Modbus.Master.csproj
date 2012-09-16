@@ -125,9 +125,9 @@
       <Project>{4A3250EE-3058-47C5-A82B-7E5084AA3EAF}</Project>
       <Name>RS232</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WpfHelpers\WpfHelpers.csproj">
+    <ProjectReference Include="..\WpfHelpers\Modbus.CommonView.csproj">
       <Project>{4D516F77-B766-4485-A9A5-505FC19AC283}</Project>
-      <Name>WpfHelpers</Name>
+      <Name>Modbus.CommonView</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

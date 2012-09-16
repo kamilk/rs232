@@ -34,8 +34,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,7 +50,26 @@
   <ItemGroup>
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="NotifyPropertyChangedBase.cs" />
+    <Compile Include="ParityAndStopBitsControl.xaml.cs">
+      <DependentUpon>ParityAndStopBitsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="ParityAndStopBitsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Generic\Generics.csproj">
+      <Project>{6A8E3E78-86C7-42C9-B7B4-74895789B5BF}</Project>
+      <Name>Generics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MODBUS\MODBUS.csproj">
+      <Project>{67D06A37-B2AC-4147-8108-8A5A0D9DCA19}</Project>
+      <Name>MODBUS</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

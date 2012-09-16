@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Windows.Input;
 using System.IO.Ports;
 using SerialPortCommunicator.Modbus.Master.Model;
-using SerialPortCommunicator.WpfHelpers;
+using SerialPortCommunicator.Modbus.CommonView;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 
@@ -39,6 +39,8 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
 
         public ICollectionView PortNames { get; private set; }
 
+        public ModbusParityAndStopBits ParityAndStopBits { get; set; }
+
         #endregion
 
         #region Constructors
@@ -52,6 +54,8 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
 
             PortNames = CollectionViewSource.GetDefaultView(SerialPort.GetPortNames());
             PortNames.MoveCurrentToFirst();
+
+            ParityAndStopBits = ModbusParityAndStopBits.E1;
         }
 
         #endregion
@@ -79,7 +83,7 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
                     BaudRate = 9600,
                     Handshake = Handshake.RequestToSend,
                     Mode = ModbusMode.Ascii,
-                    ParityAndStopBits = ModbusParityAndStopBits.E1
+                    ParityAndStopBits = ParityAndStopBits
                 });
             }
         }

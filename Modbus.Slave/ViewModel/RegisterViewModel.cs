@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SerialPortCommunicator.WpfHelpers;
+using SerialPortCommunicator.Modbus.CommonView;
 using SerialPortCommunicator.Modbus.Slave.Model;
 using System.Windows.Input;
 
