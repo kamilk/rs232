@@ -43,17 +43,20 @@ namespace SerialPortCommunicator.Modbus.Master.Model
             ClosePort();
         }
 
-        public void WriteToSlave(byte slaveAddress, short register, short value)
+        public void WriteToSlave(byte slaveAddress, short register, string value)
         {
-            var data = new byte[4];
-
-            ArrayHelper.WriteShortToByteArray(data, register, 0);
-            ArrayHelper.WriteShortToByteArray(data, value, 2);
-
-            modbusManager.SendMessage(new ModbusMessage(data, slaveAddress, WriteFunctionCode));
+            using (var stream = new MemoryStream())
+            using (var writer = new BinaryWriter(stream))
+            {
+                writer.Write(register);
+                writer.Write(new UTF8Encoding().GetBytes(value));
+                writer.Flush();
+                byte[] data = stream.ToArray();
+                modbusManager.SendMessage(new ModbusMessage(data, slaveAddress, WriteFunctionCode));
+            }
         }
 
-        public void BeginReadFromSlave(byte slaveAddress, short register, Action<short> onSuccessCallback)
+        public void BeginReadFromSlave(byte slaveAddress, short register, Action<string> onSuccessCallback)
         {
             if (GetReadRequestData(slaveAddress) != null)
                 return;
@@ -65,9 +68,8 @@ namespace SerialPortCommunicator.Modbus.Master.Model
                 OnSuccessCallback = onSuccessCallback 
             });
 
-            var data = new byte[4];
+            var data = new byte[2];
             ArrayHelper.WriteShortToByteArray(data, register, 0);
-            ArrayHelper.WriteShortToByteArray(data, 1, 2);
             modbusManager.SendMessage(new ModbusMessage(data, slaveAddress, ReadFunctionCode));
         }
 
@@ -79,7 +81,7 @@ namespace SerialPortCommunicator.Modbus.Master.Model
                 ReadRequestData? readRequest = GetReadRequestData(message.Address);
                 if (readRequest != null)
                 {
-                    short readValue = ArrayHelper.ReadShortFromByteArray(message.Data, 1);
+                    string readValue = new UTF8Encoding().GetString(message.Data);
                     readRequest.Value.OnSuccessCallback(readValue);
                     readRequests.Remove(readRequest.Value);
                 }

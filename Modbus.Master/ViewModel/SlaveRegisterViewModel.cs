@@ -12,7 +12,7 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
     {
         #region Fields
 
-        private short _value;
+        private string _value;
         private DelegateCommand _writeToSlaveCommand;
         private DelegateCommand _readFromSlaveCommand;
         private byte _slaveAddress;
@@ -22,7 +22,7 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
         #region Properties
 
         public short Number { get; private set; }
-        public short Value
+        public string Value
         {
             get { return _value; }
             set
@@ -61,7 +61,7 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
         {
             _slaveAddress = slaveAddress;
             Number = number;
-            Value = 0;
+            Value = string.Empty;
         }
 
         public void ReadFromSlave()

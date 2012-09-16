@@ -7,7 +7,7 @@ namespace SerialPortCommunicator.Modbus.Master.Model
 {
     struct ReadRequestData
     {
-        public Action<short> OnSuccessCallback;
+        public Action<string> OnSuccessCallback;
         public byte Address;
         public short Register;
     }

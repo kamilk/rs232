@@ -12,8 +12,8 @@ namespace SerialPortCommunicator.Modbus.Slave.ViewModel
     {
         #region Fields
 
-        private short _currentValue;
-        private short _requestedValue;
+        private string _currentValue;
+        private string _requestedValue;
         private DelegateCommand _overrideValueCommand;
 
         #endregion
@@ -22,7 +22,7 @@ namespace SerialPortCommunicator.Modbus.Slave.ViewModel
 
         public short RegisterNumber { get; private set; }
 
-        public short CurrentValue
+        public string CurrentValue
         {
             get { return _currentValue; }
             set
@@ -32,7 +32,7 @@ namespace SerialPortCommunicator.Modbus.Slave.ViewModel
             }
         }
 
-        public short RequestedValue
+        public string RequestedValue
         {
             get { return _requestedValue; }
             set
@@ -66,7 +66,7 @@ namespace SerialPortCommunicator.Modbus.Slave.ViewModel
         {
             RegisterNumber = register;
 
-            short currentValue = SlaveManager.Instance.GetRegisterValue(register);
+            string currentValue = SlaveManager.Instance.GetRegisterValue(register);
             CurrentValue = currentValue;
             RequestedValue = currentValue;
 

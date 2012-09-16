@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SerialPortCommunicator.Generics;
 using SerialPortCommunicator.Generic.Helpers;
+using System.IO;
 
 namespace SerialPortCommunicator.Modbus.Slave.Model
 {
@@ -34,7 +35,7 @@ namespace SerialPortCommunicator.Modbus.Slave.Model
         private ModbusCommunicationManager modbusManager 
             = new ModbusCommunicationManager();
 
-        private short[] registers;
+        private string[] registers;
 
         #endregion
 
@@ -44,9 +45,9 @@ namespace SerialPortCommunicator.Modbus.Slave.Model
         {
             modbusManager.MessageReceived += OnMessageReceived;
 
-            registers = new short[NumberOfRegisters];
+            registers = new string[NumberOfRegisters];
             for (int i = 0; i < registers.Length; i++)
-                registers[i] = 0;
+                registers[i] = string.Empty;
 
             Address = 1;
         }
@@ -70,12 +71,12 @@ namespace SerialPortCommunicator.Modbus.Slave.Model
             ClosePort();
         }
 
-        public short GetRegisterValue(short registerNumber)
+        public string GetRegisterValue(short registerNumber)
         {
             return registers[registerNumber];
         }
 
-        public void SetRegisterValue(short registerNumber, short registerValue)
+        public void SetRegisterValue(short registerNumber, string registerValue)
         {
             registers[registerNumber] = registerValue;
             NotifyRegisterValueChanged(registerNumber, registerValue);
@@ -83,30 +84,52 @@ namespace SerialPortCommunicator.Modbus.Slave.Model
 
         private void OnMessageReceived(object sender, DataReceivedEventArgs<ModbusMessage> e)
         {
-            if (e.Message.Address != Address)
+            ModbusMessage message = e.Message;
+            if (message.Address != Address)
                 return;
 
-            if (e.Message.Function == ReadFunctionCode && e.Message.Data.Length >= 4)
-            {
-                short register = ArrayHelper.ReadShortFromByteArray(e.Message.Data, 0);
+            if (message.Function == ReadFunctionCode)
+                OnReadRequestReceived(message);
+            else if (message.Function == WriteFunctionCode)
+                OnWriteRequestReceived(message);
+        }
 
-                var responseData = new byte[3];
-                responseData[0] = 2;
-                ArrayHelper.WriteShortToByteArray(responseData, registers[register], 1);
-                modbusManager.SendMessage(new ModbusMessage(responseData, Address, ReadFunctionCode));
-            }
-            else if (e.Message.Function == WriteFunctionCode && e.Message.Data.Length >= 4)
-            {
-                short register = ArrayHelper.ReadShortFromByteArray(e.Message.Data, 0);
-                short value = ArrayHelper.ReadShortFromByteArray(e.Message.Data, 2);
-                registers[register] = value;
-                modbusManager.SendMessage(e.Message);
+        private void OnReadRequestReceived(ModbusMessage message)
+        {
+            if (message.Data.Length < 2)
+                return;
 
-                NotifyRegisterValueChanged(register, value);
+            short register = ArrayHelper.ReadShortFromByteArray(message.Data, 0);
+
+            using (var stream = new MemoryStream())
+            using (var writer = new BinaryWriter(stream))
+            {
+                writer.Write(new UTF8Encoding().GetBytes(GetRegisterValue(register)));
+                writer.Flush();
+                modbusManager.SendMessage(new ModbusMessage(stream.ToArray(), Address, ReadFunctionCode));
             }
         }
 
-        private void NotifyRegisterValueChanged(short register, short value)
+
+        private void OnWriteRequestReceived(ModbusMessage message)
+        {
+            if (message.Data.Length < 4)
+                return;
+
+            using (var stream = new MemoryStream(message.Data))
+            using (var reader = new BinaryReader(stream))
+            {
+                var register = reader.ReadInt16();
+                var data = new byte[message.Data.Length - 2];
+                reader.Read(data, 0, message.Data.Length - 2);
+                string newValue = new UTF8Encoding().GetString(data);
+                SetRegisterValue(register, newValue);
+            }
+
+            modbusManager.SendMessage(message);
+        }
+
+        private void NotifyRegisterValueChanged(short register, string value)
         {
             if (RegisterValueChanged != null)
                 RegisterValueChanged(this, new RegisterValueChangedEventArgs(register, value));

@@ -28,5 +28,12 @@ namespace SerialPortCommunicator.Modbus
             Address = address;
             Function = function;
         }
+
+        public ModbusMessage(byte address, byte function)
+        {
+            Data = new byte[0];
+            Address = address;
+            Function = function;
+        }
     }
 }
