@@ -15,12 +15,8 @@ namespace SerialPortCommunicator.Modbus
         public byte Address { get; set; }
         public byte Function { get; set; }
 
-        public ModbusMessage(string messageHexString, byte address, byte function)
-        {
-            Data = HexHelper.DecodeHexString(messageHexString);
-            Address = address;
-            Function = function;
-        }
+        public bool IsBroadcast
+        { get { return Address == 0; } }
 
         public ModbusMessage(byte[] messageData, byte address, byte function)
         {
@@ -29,11 +25,12 @@ namespace SerialPortCommunicator.Modbus
             Function = function;
         }
 
+        public ModbusMessage(string messageHexString, byte address, byte function)
+            : this(HexHelper.DecodeHexString(messageHexString), address, function)
+        { }
+
         public ModbusMessage(byte address, byte function)
-        {
-            Data = new byte[0];
-            Address = address;
-            Function = function;
-        }
+            : this(new byte[0], address, function)
+        { }
     }
 }
