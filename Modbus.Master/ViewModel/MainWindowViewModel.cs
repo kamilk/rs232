@@ -21,7 +21,7 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
 
         #endregion
 
-        #region Properties for data binding
+        #region Properties
 
         public byte? NewSlaveAddress
         {
@@ -37,6 +37,8 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
 
         public ICollectionView Slaves { get; private set; }
 
+        public ICollectionView PortNames { get; private set; }
+
         #endregion
 
         #region Constructors
@@ -47,6 +49,9 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
 
             _slaves = new ObservableCollection<SlaveControlViewModel>();
             Slaves = CollectionViewSource.GetDefaultView(_slaves);
+
+            PortNames = CollectionViewSource.GetDefaultView(SerialPort.GetPortNames());
+            PortNames.MoveCurrentToFirst();
         }
 
         #endregion
@@ -55,20 +60,28 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
 
         private void AddSlave()
         {
+            if (NewSlaveAddress == null)
+                return;
+
+            OpenPortIfClosed();
+
+            if (!_slaves.Any(slave => slave.Address == NewSlaveAddress))
+                _slaves.Add(new SlaveControlViewModel((byte)NewSlaveAddress));
+        }
+
+        private void OpenPortIfClosed()
+        {
             if (!MasterManager.Instance.IsPortOpen)
             {
                 MasterManager.Instance.OpenPort(new ModbusConnectionParameters()
                 {
-                    PortName = "COM7",
+                    PortName = PortNames.CurrentItem as string,
                     BaudRate = 9600,
                     Handshake = Handshake.RequestToSend,
                     Mode = ModbusMode.Ascii,
                     ParityAndStopBits = ModbusParityAndStopBits.E1
                 });
             }
-
-            if (!_slaves.Any(slave => slave.Address == NewSlaveAddress))
-                _slaves.Add(new SlaveControlViewModel((byte)NewSlaveAddress));
         }
 
         #endregion
