@@ -85,10 +85,10 @@ namespace SerialPortCommunicator.Modbus.Slave.Model
         private void OnMessageReceived(object sender, DataReceivedEventArgs<ModbusMessage> e)
         {
             ModbusMessage message = e.Message;
-            if (message.Address != Address)
+            if (message.Address != Address && !message.IsBroadcast)
                 return;
 
-            if (message.Function == ReadFunctionCode)
+            if (message.Function == ReadFunctionCode && !message.IsBroadcast)
                 OnReadRequestReceived(message);
             else if (message.Function == WriteFunctionCode)
                 OnWriteRequestReceived(message);

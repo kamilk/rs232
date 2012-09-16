@@ -7,6 +7,8 @@ using System.Windows.Input;
 using System.IO.Ports;
 using SerialPortCommunicator.Modbus.Master.Model;
 using SerialPortCommunicator.WpfHelpers;
+using System.Collections.ObjectModel;
+using System.Windows.Data;
 
 namespace SerialPortCommunicator.Modbus.Master.ViewModel
 {
@@ -14,25 +16,26 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
     {
         #region Fields
 
-        private int? newSlaveAddress;
+        private byte? _newSlaveAddress;
+        private ObservableCollection<SlaveControlViewModel> _slaves;
 
         #endregion
 
         #region Properties for data binding
 
-        public int? NewSlaveAddress
+        public byte? NewSlaveAddress
         {
-            get { return newSlaveAddress; }
+            get { return _newSlaveAddress; }
             set
             {
-                newSlaveAddress = value;
+                _newSlaveAddress = value;
                 NotifyPropertyChanged("NewSlaveAddress");
             }
         }
 
         public ICommand AddSlaveCommand { get; private set; }
 
-        public SlaveControlViewModel Slave { get; private set; }
+        public ICollectionView Slaves { get; private set; }
 
         #endregion
 
@@ -41,7 +44,9 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
         public MainWindowViewModel()
         {
             AddSlaveCommand = new DelegateCommand(AddSlave);
-            Slave = new SlaveControlViewModel(1);
+
+            _slaves = new ObservableCollection<SlaveControlViewModel>();
+            Slaves = CollectionViewSource.GetDefaultView(_slaves);
         }
 
         #endregion
@@ -61,6 +66,9 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
                     ParityAndStopBits = ModbusParityAndStopBits.E1
                 });
             }
+
+            if (!_slaves.Any(slave => slave.Address == NewSlaveAddress))
+                _slaves.Add(new SlaveControlViewModel((byte)NewSlaveAddress));
         }
 
         #endregion
