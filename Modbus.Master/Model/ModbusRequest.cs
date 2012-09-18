@@ -20,6 +20,7 @@ namespace SerialPortCommunicator.Modbus.Master.Model
         public byte SlaveAddress { get; private set; }
         public short RegisterNumber { get; private set; }
         public Action<ModbusRequest, ModbusMessage> ResponseHandler { get; set; }
+        public int AttemptsLeft { get; private set; }
 
         #endregion
 
@@ -36,6 +37,7 @@ namespace SerialPortCommunicator.Modbus.Master.Model
             Message = message;
             SlaveAddress = slaveAddress;
             RegisterNumber = register;
+            AttemptsLeft = 3;
         }
 
         #endregion
@@ -44,17 +46,28 @@ namespace SerialPortCommunicator.Modbus.Master.Model
 
         public void StartTimer()
         {
+            StopTimer();
             _timer = new Timer(OnTimeout, null, 5000, Timeout.Infinite);
         }
 
         public void StopTimer()
         {
-            _timer.Dispose();
-            _timer = null;
+            if (_timer != null)
+            {
+                _timer.Dispose();
+                _timer = null;
+            }
+        }
+
+        public void DecrementAttemptsLeft()
+        {
+            if (AttemptsLeft > 0)
+                AttemptsLeft--;
         }
 
         private void OnTimeout(object state)
         {
+            StopTimer();
             if (TimeoutEvent != null)
                 TimeoutEvent(this, new EventArgs());
         }

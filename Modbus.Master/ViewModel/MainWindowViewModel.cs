@@ -68,7 +68,8 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
 
             ParityAndStopBits = ModbusParityAndStopBits.E1;
 
-            MasterManager.Instance.RequestTimeout += new EventHandler<ModbusEventArgs>(OnRequestTimeout);
+            MasterManager.Instance.RequestTimeoutEvent += new EventHandler<RequestTimeoutEventArgs>(OnRequestTimeout);
+            MasterManager.Instance.RequestFailedEvent += new EventHandler<ModbusEventArgs>(OnRequestFailed);
         }
 
         #endregion
@@ -101,10 +102,20 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
             }
         }
 
-        void OnRequestTimeout(object sender, ModbusEventArgs e)
+        void OnRequestTimeout(object sender, RequestTimeoutEventArgs e)
         {
             ErrorMessages += string.Format(
-                "A request sent to slave {0}, register {1} has timed out.\n", 
+                "A request sent to slave {0}, register {1} has timed out. Attempting retry. Attempts left: {2}.\n\n", 
+                e.SlaveAddress, 
+                e.RegisterNumber,
+                e.AttemptsLeft);
+
+        }
+
+        void OnRequestFailed(object sender, ModbusEventArgs e)
+        {
+            ErrorMessages += string.Format(
+                "A request sent to slave {0}, register {1} has failed.\n\n", 
                 e.SlaveAddress, 
                 e.RegisterNumber);
         }
