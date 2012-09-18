@@ -11,6 +11,7 @@ namespace SerialPortCommunicator.Modbus.Master.Model
         #region Fields
 
         public Timer _timer;
+        public int _timeout;
 
         #endregion
 
@@ -32,12 +33,13 @@ namespace SerialPortCommunicator.Modbus.Master.Model
 
         #region Constructors
 
-        public ModbusRequest(ModbusMessage message, byte slaveAddress, short register)
+        public ModbusRequest(ModbusMessage message, byte slaveAddress, short register, int attempts = 3, int timeout = 5000)
         {
             Message = message;
             SlaveAddress = slaveAddress;
             RegisterNumber = register;
-            AttemptsLeft = 3;
+            AttemptsLeft = attempts - 1;
+            _timeout = timeout;
         }
 
         #endregion
@@ -47,7 +49,7 @@ namespace SerialPortCommunicator.Modbus.Master.Model
         public void StartTimer()
         {
             StopTimer();
-            _timer = new Timer(OnTimeout, null, 5000, Timeout.Infinite);
+            _timer = new Timer(OnTimeout, null, _timeout, Timeout.Infinite);
         }
 
         public void StopTimer()

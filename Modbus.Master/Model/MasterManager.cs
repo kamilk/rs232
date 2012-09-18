@@ -11,26 +11,55 @@ namespace SerialPortCommunicator.Modbus.Master.Model
 {
     class MasterManager : IDisposable
     {
+        #region Constants
+
         private const int WriteFunctionCode = 0x06;
         private const int ReadFunctionCode = 0x03;
+
+        #endregion
+
+        #region Fields
 
         private ModbusCommunicationManager _modbusManager;
         private Dictionary<int, ModbusRequest> _sentRequests = new Dictionary<int, ModbusRequest>();
 
-        public event EventHandler<ModbusDataReadEventArgs> DataReadEvent;
-        public event EventHandler<RequestTimeoutEventArgs> RequestTimeoutEvent;
-        public event EventHandler<ModbusEventArgs> RequestFailedEvent;
+        #endregion
+
+        #region Properties
+
+        public int NumberOfAttempts { get; set; }
+
+        public int RequestTimeout { get; set; }
 
         public bool IsPortOpen
         {
             get { return _modbusManager.IsPortOpen; }
         }
 
+        #endregion
+
+        #region Events
+
+        public event EventHandler<ModbusDataReadEventArgs> DataReadEvent;
+        public event EventHandler<RequestTimeoutEventArgs> RequestTimeoutEvent;
+        public event EventHandler<ModbusEventArgs> RequestFailedEvent;
+
+        #endregion
+
+        #region Constructors
+
         public MasterManager()
         {
+            NumberOfAttempts = 3;
+            RequestTimeout = 5000;
+
             _modbusManager = new ModbusCommunicationManager();
             _modbusManager.MessageReceived += OnMessageReceived;
         }
+
+        #endregion
+
+        #region Public methods
 
         public void OpenPort(ModbusConnectionParameters parameters)
         {
@@ -79,6 +108,10 @@ namespace SerialPortCommunicator.Modbus.Master.Model
             _modbusManager.SendMessage(message);
             request.StartTimer();
         }
+
+        #endregion
+
+        #region Private methods
 
         private void OnMessageReceived(object sender, DataReceivedEventArgs<ModbusMessage> e)
         {
@@ -132,12 +165,16 @@ namespace SerialPortCommunicator.Modbus.Master.Model
 
         private ModbusRequest AddSentRequest(byte slaveAddress, short register, ModbusMessage message, Action<ModbusRequest, ModbusMessage> ResponseHandler)
         {
-            ModbusRequest request = new ModbusRequest(message, slaveAddress, register);
+            ModbusRequest request = new ModbusRequest(message, slaveAddress, register, NumberOfAttempts, RequestTimeout);
             request.TimeoutEvent += new EventHandler(OnRequestTimeout);
             request.ResponseHandler = ResponseHandler;
             _sentRequests.Add(slaveAddress, request);
             return request;
         }
+
+        #endregion
+
+        #region Static properties and fields
 
         private static MasterManager _instance;
         public static MasterManager Instance
@@ -149,5 +186,7 @@ namespace SerialPortCommunicator.Modbus.Master.Model
                 return _instance;
             }
         }
+
+        #endregion
     }
 }

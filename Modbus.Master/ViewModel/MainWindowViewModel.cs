@@ -52,6 +52,22 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
             }
         }
 
+        public double Timeout
+        {
+            get { return (double)MasterManager.Instance.RequestTimeout / 1000.0; }
+            set 
+            {
+                MasterManager.Instance.RequestTimeout = (int)(value * 1000.0);
+                NotifyPropertyChanged("Timeout");
+            }
+        }
+
+        public int NumberOfAttempts
+        {
+            get { return MasterManager.Instance.NumberOfAttempts; }
+            set { MasterManager.Instance.NumberOfAttempts = value; }
+        }
+
         #endregion
 
         #region Constructors

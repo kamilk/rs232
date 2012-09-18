@@ -7,13 +7,13 @@
             <Grid>
                 <Label Content="Adres:" Height="28" HorizontalAlignment="Left" Margin="142,6,0,0" Name="label1" VerticalAlignment="Top" />
                 <TextBox Text="{Binding Path=NewSlaveAddress}" Height="23" HorizontalAlignment="Left" Margin="191,8,0,0" Name="textBox1" VerticalAlignment="Top" Width="42" />
-                <Button Content="Dodaj" Command="{Binding Path=AddSlaveCommand}" Height="23" HorizontalAlignment="Left" Margin="6,74,0,0" Name="button1" VerticalAlignment="Top" Width="75" />
+                <Button Content="Dodaj" Command="{Binding Path=AddSlaveCommand}" Height="23" HorizontalAlignment="Left" Margin="6,70,0,0" Name="button1" VerticalAlignment="Top" Width="75" />
                 <ComboBox ItemsSource="{Binding PortNames}" Height="23" HorizontalAlignment="Left" Margin="47,8,0,0" Name="comboBox1" VerticalAlignment="Top" Width="89" IsSynchronizedWithCurrentItem="True" />
                 <Label Content="Port:" Height="28" HorizontalAlignment="Left" Margin="6,6,0,0" Name="label3" VerticalAlignment="Top" />
                 <my1:ParityAndStopBitsControl Value="{Binding Path=ParityAndStopBits, Mode=OneWayToSource}"  Height="27" HorizontalAlignment="Left" Margin="6,37,0,0" Name="parityAndStopBitsControl1" VerticalAlignment="Top" Width="248" />
             </Grid>
         </GroupBox>
-        <ScrollViewer Margin="0,146,0,0">
+        <ScrollViewer Margin="0,212,0,0">
             <ItemsControl ItemsSource="{Binding Path=Slaves}" Name="itemsControl1">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -22,6 +22,15 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-        <TextBox Text="{Binding Path=ErrorMessages}"  Height="128" HorizontalAlignment="Right" Margin="0,12,12,0" Name="textBox2" VerticalAlignment="Top" Width="178" TextWrapping="Wrap" IsEnabled="True" VerticalScrollBarVisibility="Visible" IsReadOnly="True" />
+        <TextBox Text="{Binding Path=ErrorMessages}"  Height="128" Margin="289,12,0,0" Name="textBox2" VerticalAlignment="Top" TextWrapping="Wrap" IsEnabled="True" VerticalScrollBarVisibility="Visible" IsReadOnly="True" />
+        <GroupBox Header="Ustawienia" Height="60" Margin="12,146,12,0" Name="groupBox2" VerticalAlignment="Top">
+            <Grid>
+                <Label Content="Czas na odpowiedź:" Height="28" HorizontalAlignment="Left" Margin="6,6,0,0" Name="label2" VerticalAlignment="Top" />
+                <Slider Value="{Binding Path=Timeout}"  Height="23" Margin="127,9,189,0" Name="slider1" VerticalAlignment="Top" IsSnapToTickEnabled="True" TickFrequency="0.1" />
+                <Label Content="{Binding Path=Timeout}" Height="28" HorizontalAlignment="Right" Margin="0,6,155,0" Name="label5" VerticalAlignment="Top" />
+                <Label Content="Liczba prób:" Height="28" HorizontalAlignment="Right" Margin="0,6,59,0" Name="label4" VerticalAlignment="Top" />
+                <TextBox Text="{Binding Path=NumberOfAttempts}"  Height="23" HorizontalAlignment="Right" Margin="0,8,6,0" Name="textBox3" VerticalAlignment="Top" Width="47" />
+            </Grid>
+        </GroupBox>
     </Grid>
 </Window>
