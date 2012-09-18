@@ -131,13 +131,14 @@ namespace SerialPortCommunicator.Modbus.Master.Model
             var request = (ModbusRequest)sender;
             if (request.AttemptsLeft > 0)
             {
+                request.DecrementAttemptsLeft();
+
                 if (RequestTimeoutEvent != null)
                 {
                     RequestTimeoutEvent(this, new RequestTimeoutEventArgs(
                         request.SlaveAddress, request.RegisterNumber, request.AttemptsLeft));
                 }
 
-                request.DecrementAttemptsLeft();
                 _modbusManager.SendMessage(request.Message);
                 request.StartTimer();
             }
