@@ -22,5 +22,6 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
+        <TextBox Text="{Binding Path=ErrorMessages}"  Height="128" HorizontalAlignment="Right" Margin="0,12,12,0" Name="textBox2" VerticalAlignment="Top" Width="178" TextWrapping="Wrap" IsEnabled="False" VerticalScrollBarVisibility="Visible" />
     </Grid>
 </Window>

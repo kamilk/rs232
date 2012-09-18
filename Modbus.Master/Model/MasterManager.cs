@@ -18,6 +18,7 @@ namespace SerialPortCommunicator.Modbus.Master.Model
         private Dictionary<int, ModbusRequest> _sentRequests = new Dictionary<int, ModbusRequest>();
 
         public event EventHandler<ModbusDataReadEventArgs> DataReadEvent;
+        public event EventHandler<ModbusEventArgs> RequestTimeout;
 
         public bool IsPortOpen
         {
@@ -93,7 +94,10 @@ namespace SerialPortCommunicator.Modbus.Master.Model
 
         private void OnRequestTimeout(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var request = (ModbusRequest)sender;
+            _sentRequests.Remove(request.SlaveAddress);
+            if (RequestTimeout != null)
+                RequestTimeout(this, new ModbusEventArgs(request.SlaveAddress, request.RegisterNumber));
         }
 
         private void OnResponseToReadRequestReceived(ModbusRequest request, ModbusMessage message)

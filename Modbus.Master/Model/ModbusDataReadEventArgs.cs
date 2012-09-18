@@ -5,16 +5,13 @@ using System.Text;
 
 namespace SerialPortCommunicator.Modbus.Master.Model
 {
-    class ModbusDataReadEventArgs : EventArgs
+    class ModbusDataReadEventArgs : ModbusEventArgs
     {
-        public byte SlaveAddress { get; private set; }
-        public short RegisterNumber { get; private set; }
         public string ReadData { get; private set; }
 
         public ModbusDataReadEventArgs(byte slaveAddress, short register, string data)
+            : base(slaveAddress, register)
         {
-            SlaveAddress = slaveAddress;
-            RegisterNumber = register;
             ReadData = data; 
         }
     }

@@ -57,6 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="Model\ModbusDataReadEventArgs.cs" />
     <Compile Include="Model\MasterManager.cs" />
+    <Compile Include="Model\ModbusEventArgs.cs" />
     <Compile Include="Model\ModbusRequest.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\SlaveControlViewModel.cs" />

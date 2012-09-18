@@ -18,6 +18,7 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
 
         private byte? _newSlaveAddress;
         private ObservableCollection<SlaveControlViewModel> _slaves;
+        private string _errorMessages;
 
         #endregion
 
@@ -41,6 +42,16 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
 
         public ModbusParityAndStopBits ParityAndStopBits { get; set; }
 
+        public string ErrorMessages
+        {
+            get { return _errorMessages; }
+            set
+            {
+                _errorMessages = value;
+                NotifyPropertyChanged("ErrorMessages");
+            }
+        }
+
         #endregion
 
         #region Constructors
@@ -56,6 +67,8 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
             PortNames.MoveCurrentToFirst();
 
             ParityAndStopBits = ModbusParityAndStopBits.E1;
+
+            MasterManager.Instance.RequestTimeout += new EventHandler<ModbusEventArgs>(OnRequestTimeout);
         }
 
         #endregion
@@ -86,6 +99,14 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
                     ParityAndStopBits = ParityAndStopBits
                 });
             }
+        }
+
+        void OnRequestTimeout(object sender, ModbusEventArgs e)
+        {
+            ErrorMessages += string.Format(
+                "A request sent to slave {0}, register {1} has timed out.\n", 
+                e.SlaveAddress, 
+                e.RegisterNumber);
         }
 
         #endregion
