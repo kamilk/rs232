@@ -56,6 +56,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\MasterManager.cs" />
+    <Compile Include="Model\ModbusRequest.cs" />
     <Compile Include="Model\ReadRequestData.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\SlaveControlViewModel.cs" />

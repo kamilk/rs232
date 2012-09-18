@@ -14,28 +14,29 @@ namespace SerialPortCommunicator.Modbus.Master.Model
         private const int WriteFunctionCode = 0x06;
         private const int ReadFunctionCode = 0x03;
 
-        private ModbusCommunicationManager modbusManager;
-        private List<ReadRequestData> readRequests = new List<ReadRequestData>();
+        private ModbusCommunicationManager _modbusManager;
+        private List<ReadRequestData> _readRequests = new List<ReadRequestData>();
+        private Dictionary<int, ModbusRequest> _sentRequests = new Dictionary<int, ModbusRequest>();
 
         public bool IsPortOpen
         {
-            get { return modbusManager.IsPortOpen; }
+            get { return _modbusManager.IsPortOpen; }
         }
 
         public MasterManager()
         {
-            modbusManager = new ModbusCommunicationManager();
-            modbusManager.MessageReceived += OnMessageReceived;
+            _modbusManager = new ModbusCommunicationManager();
+            _modbusManager.MessageReceived += OnMessageReceived;
         }
 
         public void OpenPort(ModbusConnectionParameters parameters)
         {
-            modbusManager.OpenPort(parameters);
+            _modbusManager.OpenPort(parameters);
         }
 
         public void ClosePort()
         {
-            modbusManager.ClosePort();
+            _modbusManager.ClosePort();
         }
 
         public void Dispose()
@@ -52,7 +53,13 @@ namespace SerialPortCommunicator.Modbus.Master.Model
                 writer.Write(new UTF8Encoding().GetBytes(value));
                 writer.Flush();
                 byte[] data = stream.ToArray();
-                modbusManager.SendMessage(new ModbusMessage(data, slaveAddress, WriteFunctionCode));
+
+                ModbusMessage message = new ModbusMessage(data, slaveAddress, WriteFunctionCode);
+                ModbusRequest request = AddSentRequest(slaveAddress, message, OnResponseToWriteRequestReceived);
+
+                _modbusManager.SendMessage(message);
+
+                request.StartTimer();
             }
         }
 
@@ -61,37 +68,70 @@ namespace SerialPortCommunicator.Modbus.Master.Model
             if (GetReadRequestData(slaveAddress) != null)
                 return;
 
-            readRequests.Add(new ReadRequestData() 
-            { 
-                Address = slaveAddress, 
-                Register = register, 
-                OnSuccessCallback = onSuccessCallback 
+            _readRequests.Add(new ReadRequestData()
+            {
+                Address = slaveAddress,
+                Register = register,
+                OnSuccessCallback = onSuccessCallback
             });
 
             var data = new byte[2];
             ArrayHelper.WriteShortToByteArray(data, register, 0);
-            modbusManager.SendMessage(new ModbusMessage(data, slaveAddress, ReadFunctionCode));
+            ModbusMessage message = new ModbusMessage(data, slaveAddress, ReadFunctionCode);
+
+            ModbusRequest request = AddSentRequest(slaveAddress, message, OnResponseToReadRequestReceived);
+            _modbusManager.SendMessage(message);
+            request.StartTimer();
         }
 
         private void OnMessageReceived(object sender, DataReceivedEventArgs<ModbusMessage> e)
         {
-            ModbusMessage message = e.Message;
-            if (message.Function == ReadFunctionCode && message.Data.Length >= 3)
+            int slaveAddress = e.Message.Address;
+            ModbusRequest request;
+            if (_sentRequests.TryGetValue(slaveAddress, out request))
+            {
+                request.StopTimer();
+                request.ResponseHandler(e.Message);
+                request.TimeoutEvent -= OnRequestTimeout;
+                _sentRequests.Remove(slaveAddress);
+            }
+        }
+
+        private ReadRequestData? GetReadRequestData(byte slaveAddress)
+        {
+            return _readRequests.Where(request => request.Address == slaveAddress).Cast<ReadRequestData?>()
+                .FirstOrDefault();
+        }
+
+        void OnRequestTimeout(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        void OnResponseToReadRequestReceived(ModbusMessage message)
+        {
+            if (message.Function == ReadFunctionCode)
             {
                 ReadRequestData? readRequest = GetReadRequestData(message.Address);
                 if (readRequest != null)
                 {
                     string readValue = new UTF8Encoding().GetString(message.Data);
                     readRequest.Value.OnSuccessCallback(readValue);
-                    readRequests.Remove(readRequest.Value);
+                    _readRequests.Remove(readRequest.Value);
                 }
             }
         }
 
-        private ReadRequestData? GetReadRequestData(byte slaveAddress)
+        void OnResponseToWriteRequestReceived(ModbusMessage message)
+        { }
+
+        private ModbusRequest AddSentRequest(byte slaveAddress, ModbusMessage message, Action<ModbusMessage> ResponseHandler)
         {
-            return readRequests.Where(request => request.Address == slaveAddress).Cast<ReadRequestData?>()
-                .FirstOrDefault();
+            ModbusRequest request = new ModbusRequest(message, slaveAddress);
+            request.TimeoutEvent += new EventHandler(OnRequestTimeout);
+            request.ResponseHandler = ResponseHandler;
+            _sentRequests.Add(slaveAddress, request);
+            return request;
         }
 
         private static MasterManager _instance;
