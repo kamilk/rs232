@@ -8,7 +8,7 @@ using SerialPortCommunicator.Modbus.CommonView;
 
 namespace SerialPortCommunicator.Modbus.Master.ViewModel
 {
-    class SlaveRegisterViewModel : NotifyPropertyChangedBase
+    class SlaveRegisterViewModel : NotifyPropertyChangedBase, IDisposable
     {
         #region Fields
 
@@ -62,11 +62,28 @@ namespace SerialPortCommunicator.Modbus.Master.ViewModel
             _slaveAddress = slaveAddress;
             Number = number;
             Value = string.Empty;
+
+            MasterManager.Instance.DataReadEvent += new EventHandler<ModbusDataReadEventArgs>(OnDataRead);
         }
 
         public void ReadFromSlave()
         {
             MasterManager.Instance.BeginReadFromSlave(_slaveAddress, Number, result => Value = result);
+        }
+
+        #endregion
+
+        #region Methods
+
+        public void Dispose()
+        {
+            MasterManager.Instance.DataReadEvent -= OnDataRead;
+        }
+
+        private void OnDataRead(object sender, ModbusDataReadEventArgs e)
+        {
+            if (e.SlaveAddress == _slaveAddress && e.RegisterNumber == Number)
+                Value = e.ReadData;
         }
 
         #endregion

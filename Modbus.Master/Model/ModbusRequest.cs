@@ -8,15 +8,17 @@ namespace SerialPortCommunicator.Modbus.Master.Model
     class ModbusRequest
     {
         public ModbusMessage Message { get; private set; }
-        public int SlaveAddress { get; private set; }
-        public Action<ModbusMessage> ResponseHandler { get; set; }
+        public byte SlaveAddress { get; private set; }
+        public short RegisterNumber { get; private set; }
+        public Action<ModbusRequest, ModbusMessage> ResponseHandler { get; set; }
 
         public event EventHandler TimeoutEvent;
 
-        public ModbusRequest(ModbusMessage message, int slaveAddress)
+        public ModbusRequest(ModbusMessage message, byte slaveAddress, short register)
         {
             Message = message;
             SlaveAddress = slaveAddress;
+            RegisterNumber = register;
         }
 
         public void StartTimer()
